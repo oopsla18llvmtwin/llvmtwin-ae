@@ -1,0 +1,71 @@
+From f236a73f825aeb68e7cd5250ef996fde511bb565 Mon Sep 17 00:00:00 2001
+From: aqjune <aqjune@gmail.com>
+Date: Mon, 28 Aug 2017 08:19:40 +0900
+Subject: [PATCH 1/2] Disallow inttoptr(ptrtoint)->bitcast
+
+---
+ lib/IR/Instructions.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/IR/Instructions.cpp b/lib/IR/Instructions.cpp
+index 2c49564e328..9f749106df8 100644
+--- a/lib/IR/Instructions.cpp
++++ b/lib/IR/Instructions.cpp
+@@ -2402,7 +2402,7 @@ unsigned CastInst::isEliminableCastPair(
+     { 99,99,99, 0, 0,99,99, 0, 0,99,99, 4, 0}, // SIToFP         |
+     { 99,99,99, 0, 0,99,99, 0, 0,99,99, 4, 0}, // FPTrunc        |
+     { 99,99,99, 2, 2,99,99,10, 2,99,99, 4, 0}, // FPExt          |
+-    {  1, 0, 0,99,99, 0, 0,99,99,99, 7, 3, 0}, // PtrToInt       |
++    {  1, 0, 0,99,99, 0, 0,99,99,99, 0, 3, 0}, // PtrToInt       |
+     { 99,99,99,99,99,99,99,99,99,11,99,15, 0}, // IntToPtr       |
+     {  5, 5, 5, 6, 6, 5, 5, 6, 6,16, 5, 1,14}, // BitCast        |
+     {  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,13,12}, // AddrSpaceCast -+
+-- 
+2.17.0
+
+
+From 9a7e1f028c64aad1ba7c672f4747b31e0f458cdd Mon Sep 17 00:00:00 2001
+From: aqjune <aqjune@gmail.com>
+Date: Sat, 28 Oct 2017 06:13:25 +0900
+Subject: [PATCH 2/2] Disable constant inttoptr(ptrtoint(p)) -> p folding
+
+---
+ lib/Analysis/ConstantFolding.cpp | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
+
+diff --git a/lib/Analysis/ConstantFolding.cpp b/lib/Analysis/ConstantFolding.cpp
+index e88b8f14d54..f2020467078 100644
+--- a/lib/Analysis/ConstantFolding.cpp
++++ b/lib/Analysis/ConstantFolding.cpp
+@@ -1296,17 +1296,17 @@ Constant *llvm::ConstantFoldCastOperand(unsigned Opcode, Constant *C,
+     // This requires knowing the width of a pointer, so it can't be done in
+     // ConstantExpr::getCast.
+     if (auto *CE = dyn_cast<ConstantExpr>(C)) {
+-      if (CE->getOpcode() == Instruction::PtrToInt) {
+-        Constant *SrcPtr = CE->getOperand(0);
+-        unsigned SrcPtrSize = DL.getPointerTypeSizeInBits(SrcPtr->getType());
+-        unsigned MidIntSize = CE->getType()->getScalarSizeInBits();
+-
+-        if (MidIntSize >= SrcPtrSize) {
+-          unsigned SrcAS = SrcPtr->getType()->getPointerAddressSpace();
+-          if (SrcAS == DestTy->getPointerAddressSpace())
+-            return FoldBitCast(CE->getOperand(0), DestTy, DL);
+-        }
+-      }
++      //if (CE->getOpcode() == Instruction::PtrToInt) {
++      //  Constant *SrcPtr = CE->getOperand(0);
++      //  unsigned SrcPtrSize = DL.getPointerTypeSizeInBits(SrcPtr->getType());
++      //  unsigned MidIntSize = CE->getType()->getScalarSizeInBits();
++
++      //  if (MidIntSize >= SrcPtrSize) {
++      //    unsigned SrcAS = SrcPtr->getType()->getPointerAddressSpace();
++      //    if (SrcAS == DestTy->getPointerAddressSpace())
++      //      return FoldBitCast(CE->getOperand(0), DestTy, DL);
++      //  }
++      //}
+     }
+ 
+     return ConstantExpr::getCast(Opcode, C, DestTy);
+-- 
+2.17.0
+

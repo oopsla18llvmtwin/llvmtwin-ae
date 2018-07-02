@@ -1,0 +1,966 @@
+runcpu v5825 started at 2017-11-01 07:07:59 on "freeze3"
+runcpu is: /mnt/freezedisk/speccpu2017-intptr/bin/harness/runcpu
+runcpu: runcpu --config linux64-amd64-clang-base-5.0-o3-release.cfg --noreportable --rebuild --iterations 3 557.xz_r
+toolset: linux-x86_64
+
+Locating benchmarks...found 47 benchmarks in 53 benchsets.
+Reading config file '/mnt/freezedisk/speccpu2017-intptr/config/linux64-amd64-clang-base-5.0-o3-release.cfg'
+
+1 configuration selected:
+
+ Action    Run Mode   Workload     Report Type      Benchmarks
+--------   --------   --------   ----------------   ---------------------------
+validate   rate       refrate    SPECrate2017_int   557.xz_r                   
+-------------------------------------------------------------------------------
+
+Setting up environment for running 557.xz_r...
+Starting runcpu for 557.xz_r...
+Running "specperl /mnt/freezedisk/speccpu2017-intptr/bin/sysinfo" to gather system information.
+sysinfo: r5797 of 2017-06-14 (96c45e4568ad54c135fd618bcc091c0f)
+sysinfo: Getting system information for Linux...
+sysinfo: ...getting CPU info
+sysinfo: ...getting info from numactl
+sysinfo: ...getting memory info
+sysinfo: ...getting OS info
+sysinfo: ...getting disk info
+sysinfo: ...trying to get DIMM info from dmidecode
+Read 112 info lines from the sysinfo program.
+Retrieving flags file (/mnt/freezedisk/speccpu2017-intptr/config/flags/gcc.xml)...
+Retrieving flags file (/mnt/freezedisk/speccpu2017-intptr/config/flags/clang.xml)...
+Verbosity = 5
+Action    = validate
+Tune      = base
+Label     = mytest-m64
+Size      = refrate
+benchmarks= 557.xz_r
+outputs   = txt,html,cfg,pdf,csv
+username  = sflab
+Environment settings:
+LD_LIBRARY_PATH = "/mnt/freezedisk/llvm-intptr-base-5.0-release/lib"
+LIBRARY_PATH = "/mnt/freezedisk/llvm-intptr-base-5.0-release/lib"
+PATH = "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin:%{ENV_PATH}"
+
+Benchmarks selected: 557.xz_r
+When checking executables (/mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/557.xz_r/exe/xz_r_base.mytest-m64), no checksums were
+  found in the config file.  They will be installed after build.
+When checking executables (/mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/557.xz_r/exe/xz_r_base.mytest-m64), no checksums were
+  found in the config file.  They will be installed after build.
+Compiling Binaries
+------------------------------------------------------------------------
+  Building 557.xz_r base mytest-m64: (build_base_mytest-m64.0000) [2017-11-01 07:08:02]
+Wrote to makefile '/mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/557.xz_r/build/build_base_mytest-m64.0000/Makefile.deps':
+# End dependencies
+# These are the build dependencies
+$(addsuffix $(OBJ), $(basename common/tuklib_cpucores.c)): common/tuklib_cpucores.c common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_cpucores.h config.h
+$(addsuffix $(OBJ), $(basename common/tuklib_exit.c)): common/tuklib_exit.c common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_exit.h common/tuklib_gettext.h common/tuklib_progname.h config.h
+$(addsuffix $(OBJ), $(basename common/tuklib_mbstr_fw.c)): common/tuklib_mbstr_fw.c common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_mbstr.h config.h
+$(addsuffix $(OBJ), $(basename common/tuklib_mbstr_width.c)): common/tuklib_mbstr_width.c common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_mbstr.h config.h
+$(addsuffix $(OBJ), $(basename common/tuklib_open_stdxxx.c)): common/tuklib_open_stdxxx.c common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_open_stdxxx.h config.h
+$(addsuffix $(OBJ), $(basename common/tuklib_physmem.c)): common/tuklib_physmem.c common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_physmem.h config.h
+$(addsuffix $(OBJ), $(basename common/tuklib_progname.c)): common/tuklib_progname.c common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_progname.h config.h
+$(addsuffix $(OBJ), $(basename liblzma/check/check.c)): liblzma/check/check.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/check/check.h liblzma/common/common.h
+$(addsuffix $(OBJ), $(basename liblzma/check/crc32_fast.c)): liblzma/check/crc32_fast.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/check/check.h liblzma/check/crc_macros.h liblzma/common/common.h
+$(addsuffix $(OBJ), $(basename liblzma/check/crc32_small.c)): liblzma/check/crc32_small.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/check/check.h liblzma/common/common.h
+$(addsuffix $(OBJ), $(basename liblzma/check/crc32_table.c)): liblzma/check/crc32_table.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/check/crc32_table_le.h liblzma/common/common.h
+$(addsuffix $(OBJ), $(basename liblzma/check/crc64_fast.c)): liblzma/check/crc64_fast.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/check/check.h liblzma/check/crc_macros.h liblzma/common/common.h
+$(addsuffix $(OBJ), $(basename liblzma/check/crc64_small.c)): liblzma/check/crc64_small.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/check/check.h liblzma/common/common.h
+$(addsuffix $(OBJ), $(basename liblzma/check/crc64_table.c)): liblzma/check/crc64_table.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/check/crc64_table_le.h liblzma/common/common.h
+$(addsuffix $(OBJ), $(basename liblzma/check/sha256.c)): liblzma/check/sha256.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/check/check.h liblzma/common/common.h
+$(addsuffix $(OBJ), $(basename liblzma/common/alone_decoder.c)): liblzma/common/alone_decoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/alone_decoder.h liblzma/common/common.h liblzma/lz/lz_decoder.h liblzma/lzma/lzma_decoder.h
+$(addsuffix $(OBJ), $(basename liblzma/common/alone_encoder.c)): liblzma/common/alone_encoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/lzma/lzma_encoder.h
+$(addsuffix $(OBJ), $(basename liblzma/common/auto_decoder.c)): liblzma/common/auto_decoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/alone_decoder.h liblzma/common/common.h liblzma/common/stream_decoder.h
+$(addsuffix $(OBJ), $(basename liblzma/common/block_buffer_decoder.c)): liblzma/common/block_buffer_decoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/block_decoder.h liblzma/common/common.h
+$(addsuffix $(OBJ), $(basename liblzma/common/block_buffer_encoder.c)): liblzma/common/block_buffer_encoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/check/check.h liblzma/common/block_encoder.h liblzma/common/common.h liblzma/common/filter_encoder.h liblzma/lzma/lzma2_encoder.h
+$(addsuffix $(OBJ), $(basename liblzma/common/block_decoder.c)): liblzma/common/block_decoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/check/check.h liblzma/common/block_decoder.h liblzma/common/common.h liblzma/common/filter_decoder.h
+$(addsuffix $(OBJ), $(basename liblzma/common/block_encoder.c)): liblzma/common/block_encoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/check/check.h liblzma/common/block_encoder.h liblzma/common/common.h liblzma/common/filter_encoder.h
+$(addsuffix $(OBJ), $(basename liblzma/common/block_header_decoder.c)): liblzma/common/block_header_decoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/check/check.h liblzma/common/common.h
+$(addsuffix $(OBJ), $(basename liblzma/common/block_header_encoder.c)): liblzma/common/block_header_encoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/check/check.h liblzma/common/common.h
+$(addsuffix $(OBJ), $(basename liblzma/common/block_util.c)): liblzma/common/block_util.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/common/index.h
+$(addsuffix $(OBJ), $(basename liblzma/common/common.c)): liblzma/common/common.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h
+$(addsuffix $(OBJ), $(basename liblzma/common/easy_buffer_encoder.c)): liblzma/common/easy_buffer_encoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/common/easy_preset.h
+$(addsuffix $(OBJ), $(basename liblzma/common/easy_decoder_memusage.c)): liblzma/common/easy_decoder_memusage.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/common/easy_preset.h
+$(addsuffix $(OBJ), $(basename liblzma/common/easy_encoder.c)): liblzma/common/easy_encoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/common/easy_preset.h liblzma/common/stream_encoder.h
+$(addsuffix $(OBJ), $(basename liblzma/common/easy_encoder_memusage.c)): liblzma/common/easy_encoder_memusage.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/common/easy_preset.h
+$(addsuffix $(OBJ), $(basename liblzma/common/easy_preset.c)): liblzma/common/easy_preset.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/common/easy_preset.h
+$(addsuffix $(OBJ), $(basename liblzma/common/filter_buffer_decoder.c)): liblzma/common/filter_buffer_decoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/common/filter_decoder.h
+$(addsuffix $(OBJ), $(basename liblzma/common/filter_buffer_encoder.c)): liblzma/common/filter_buffer_encoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/common/filter_encoder.h
+$(addsuffix $(OBJ), $(basename liblzma/common/filter_common.c)): liblzma/common/filter_common.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/common/filter_common.h
+$(addsuffix $(OBJ), $(basename liblzma/common/filter_decoder.c)): liblzma/common/filter_decoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/common/filter_common.h liblzma/common/filter_decoder.h liblzma/delta/delta_common.h liblzma/delta/delta_decoder.h liblzma/lzma/lzma2_decoder.h liblzma/lzma/lzma_decoder.h liblzma/simple/simple_coder.h liblzma/simple/simple_decoder.h
+$(addsuffix $(OBJ), $(basename liblzma/common/filter_encoder.c)): liblzma/common/filter_encoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/common/filter_common.h liblzma/common/filter_encoder.h liblzma/delta/delta_common.h liblzma/delta/delta_encoder.h liblzma/lzma/lzma2_encoder.h liblzma/lzma/lzma_encoder.h liblzma/simple/simple_coder.h liblzma/simple/simple_encoder.h
+$(addsuffix $(OBJ), $(basename liblzma/common/filter_flags_decoder.c)): liblzma/common/filter_flags_decoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/common/filter_decoder.h
+$(addsuffix $(OBJ), $(basename liblzma/common/filter_flags_encoder.c)): liblzma/common/filter_flags_encoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/common/filter_encoder.h
+$(addsuffix $(OBJ), $(basename liblzma/common/hardware_physmem.c)): liblzma/common/hardware_physmem.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h common/tuklib_physmem.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h
+$(addsuffix $(OBJ), $(basename liblzma/common/index.c)): liblzma/common/index.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/common/index.h liblzma/common/stream_flags_common.h
+$(addsuffix $(OBJ), $(basename liblzma/common/index_decoder.c)): liblzma/common/index_decoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/check/check.h liblzma/common/common.h liblzma/common/index.h
+$(addsuffix $(OBJ), $(basename liblzma/common/index_encoder.c)): liblzma/common/index_encoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/check/check.h liblzma/common/common.h liblzma/common/index.h liblzma/common/index_encoder.h
+$(addsuffix $(OBJ), $(basename liblzma/common/index_hash.c)): liblzma/common/index_hash.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/check/check.h liblzma/common/common.h liblzma/common/index.h
+$(addsuffix $(OBJ), $(basename liblzma/common/stream_buffer_decoder.c)): liblzma/common/stream_buffer_decoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/common/stream_decoder.h
+$(addsuffix $(OBJ), $(basename liblzma/common/stream_buffer_encoder.c)): liblzma/common/stream_buffer_encoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/common/index.h
+$(addsuffix $(OBJ), $(basename liblzma/common/stream_decoder.c)): liblzma/common/stream_decoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/block_decoder.h liblzma/common/common.h liblzma/common/stream_decoder.h
+$(addsuffix $(OBJ), $(basename liblzma/common/stream_encoder.c)): liblzma/common/stream_encoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/block_encoder.h liblzma/common/common.h liblzma/common/index_encoder.h liblzma/common/stream_encoder.h
+$(addsuffix $(OBJ), $(basename liblzma/common/stream_flags_common.c)): liblzma/common/stream_flags_common.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/common/stream_flags_common.h
+$(addsuffix $(OBJ), $(basename liblzma/common/stream_flags_decoder.c)): liblzma/common/stream_flags_decoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/common/stream_flags_common.h
+$(addsuffix $(OBJ), $(basename liblzma/common/stream_flags_encoder.c)): liblzma/common/stream_flags_encoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/common/stream_flags_common.h
+$(addsuffix $(OBJ), $(basename liblzma/common/vli_decoder.c)): liblzma/common/vli_decoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h
+$(addsuffix $(OBJ), $(basename liblzma/common/vli_encoder.c)): liblzma/common/vli_encoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h
+$(addsuffix $(OBJ), $(basename liblzma/common/vli_size.c)): liblzma/common/vli_size.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h
+$(addsuffix $(OBJ), $(basename liblzma/delta/delta_common.c)): liblzma/delta/delta_common.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/delta/delta_common.h liblzma/delta/delta_private.h
+$(addsuffix $(OBJ), $(basename liblzma/delta/delta_decoder.c)): liblzma/delta/delta_decoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/delta/delta_common.h liblzma/delta/delta_decoder.h liblzma/delta/delta_private.h
+$(addsuffix $(OBJ), $(basename liblzma/delta/delta_encoder.c)): liblzma/delta/delta_encoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/delta/delta_common.h liblzma/delta/delta_encoder.h liblzma/delta/delta_private.h
+$(addsuffix $(OBJ), $(basename liblzma/lz/lz_decoder.c)): liblzma/lz/lz_decoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/lz/lz_decoder.h
+$(addsuffix $(OBJ), $(basename liblzma/lz/lz_encoder.c)): liblzma/lz/lz_encoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/check/check.h liblzma/common/common.h liblzma/lz/lz_encoder.h liblzma/lz/lz_encoder_hash.h
+$(addsuffix $(OBJ), $(basename liblzma/lz/lz_encoder_mf.c)): liblzma/lz/lz_encoder_mf.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/check/check.h liblzma/common/common.h liblzma/lz/lz_encoder.h liblzma/lz/lz_encoder_hash.h
+$(addsuffix $(OBJ), $(basename liblzma/lzma/fastpos_table.c)): liblzma/lzma/fastpos_table.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/lzma/fastpos.h
+$(addsuffix $(OBJ), $(basename liblzma/lzma/fastpos_tablegen.c)): liblzma/lzma/fastpos_tablegen.c liblzma/lzma/fastpos.h
+$(addsuffix $(OBJ), $(basename liblzma/lzma/lzma2_decoder.c)): liblzma/lzma/lzma2_decoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/lz/lz_decoder.h liblzma/lzma/lzma2_decoder.h liblzma/lzma/lzma_decoder.h
+$(addsuffix $(OBJ), $(basename liblzma/lzma/lzma2_encoder.c)): liblzma/lzma/lzma2_encoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/lz/lz_encoder.h liblzma/lzma/fastpos.h liblzma/lzma/lzma2_encoder.h liblzma/lzma/lzma_encoder.h
+$(addsuffix $(OBJ), $(basename liblzma/lzma/lzma_decoder.c)): liblzma/lzma/lzma_decoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/lz/lz_decoder.h liblzma/lzma/lzma_common.h liblzma/lzma/lzma_decoder.h liblzma/rangecoder/range_common.h liblzma/rangecoder/range_decoder.h
+$(addsuffix $(OBJ), $(basename liblzma/lzma/lzma_encoder.c)): liblzma/lzma/lzma_encoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/lz/lz_encoder.h liblzma/lzma/fastpos.h liblzma/lzma/lzma2_encoder.h liblzma/lzma/lzma_common.h liblzma/lzma/lzma_encoder.h liblzma/lzma/lzma_encoder_private.h liblzma/rangecoder/price.h liblzma/rangecoder/range_common.h liblzma/rangecoder/range_encoder.h
+$(addsuffix $(OBJ), $(basename liblzma/lzma/lzma_encoder_optimum_fast.c)): liblzma/lzma/lzma_encoder_optimum_fast.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/lz/lz_encoder.h liblzma/lzma/lzma_common.h liblzma/lzma/lzma_encoder.h liblzma/lzma/lzma_encoder_private.h liblzma/rangecoder/price.h liblzma/rangecoder/range_common.h liblzma/rangecoder/range_encoder.h
+$(addsuffix $(OBJ), $(basename liblzma/lzma/lzma_encoder_optimum_normal.c)): liblzma/lzma/lzma_encoder_optimum_normal.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/lz/lz_encoder.h liblzma/lzma/fastpos.h liblzma/lzma/lzma_common.h liblzma/lzma/lzma_encoder.h liblzma/lzma/lzma_encoder_private.h liblzma/rangecoder/price.h liblzma/rangecoder/range_common.h liblzma/rangecoder/range_encoder.h
+$(addsuffix $(OBJ), $(basename liblzma/lzma/lzma_encoder_presets.c)): liblzma/lzma/lzma_encoder_presets.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h
+$(addsuffix $(OBJ), $(basename liblzma/rangecoder/price_table.c)): liblzma/rangecoder/price_table.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/rangecoder/price.h liblzma/rangecoder/range_common.h liblzma/rangecoder/range_encoder.h
+$(addsuffix $(OBJ), $(basename liblzma/rangecoder/price_tablegen.c)): liblzma/rangecoder/price_tablegen.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/rangecoder/price.h liblzma/rangecoder/range_common.h
+$(addsuffix $(OBJ), $(basename liblzma/simple/arm.c)): liblzma/simple/arm.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/simple/simple_coder.h liblzma/simple/simple_private.h
+$(addsuffix $(OBJ), $(basename liblzma/simple/armthumb.c)): liblzma/simple/armthumb.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/simple/simple_coder.h liblzma/simple/simple_private.h
+$(addsuffix $(OBJ), $(basename liblzma/simple/ia64.c)): liblzma/simple/ia64.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/simple/simple_coder.h liblzma/simple/simple_private.h
+$(addsuffix $(OBJ), $(basename liblzma/simple/powerpc.c)): liblzma/simple/powerpc.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/simple/simple_coder.h liblzma/simple/simple_private.h
+$(addsuffix $(OBJ), $(basename liblzma/simple/simple_coder.c)): liblzma/simple/simple_coder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/simple/simple_coder.h liblzma/simple/simple_private.h
+$(addsuffix $(OBJ), $(basename liblzma/simple/simple_decoder.c)): liblzma/simple/simple_decoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/simple/simple_coder.h liblzma/simple/simple_decoder.h
+$(addsuffix $(OBJ), $(basename liblzma/simple/simple_encoder.c)): liblzma/simple/simple_encoder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/simple/simple_coder.h liblzma/simple/simple_encoder.h
+$(addsuffix $(OBJ), $(basename liblzma/simple/sparc.c)): liblzma/simple/sparc.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/simple/simple_coder.h liblzma/simple/simple_private.h
+$(addsuffix $(OBJ), $(basename liblzma/simple/x86.c)): liblzma/simple/x86.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_integer.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h liblzma/common/common.h liblzma/simple/simple_coder.h liblzma/simple/simple_private.h
+$(addsuffix $(OBJ), $(basename pxz.c)): pxz.c liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h spec_mem_io/spec_mem_io.h
+$(addsuffix $(OBJ), $(basename sha-2/sha512.c)): sha-2/sha512.c sha-2/sha512.h
+$(addsuffix $(OBJ), $(basename spec.c)): spec.c liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h spec_mem_io/spec_mem_io.h
+$(addsuffix $(OBJ), $(basename spec_mem_io/spec_mem_io.c)): spec_mem_io/spec_mem_io.c liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h sha-2/sha512.h spec_mem_io/spec_mem_io.h
+$(addsuffix $(OBJ), $(basename spec_xz.c)): spec_xz.c liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h spec_mem_io/spec_mem_io.h
+$(addsuffix $(OBJ), $(basename xz/args.c)): xz/args.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_exit.h common/tuklib_gettext.h common/tuklib_mbstr.h common/tuklib_progname.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h spec_mem_io/spec_mem_io.h xz/args.h xz/coder.h xz/file_io.h xz/hardware.h xz/list.h xz/main.h xz/message.h xz/options.h xz/private.h xz/signals.h xz/util.h
+$(addsuffix $(OBJ), $(basename xz/coder.c)): xz/coder.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_exit.h common/tuklib_gettext.h common/tuklib_mbstr.h common/tuklib_progname.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h spec_mem_io/spec_mem_io.h xz/args.h xz/coder.h xz/file_io.h xz/hardware.h xz/list.h xz/main.h xz/message.h xz/options.h xz/private.h xz/signals.h xz/util.h
+$(addsuffix $(OBJ), $(basename xz/file_io.c)): xz/file_io.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_exit.h common/tuklib_gettext.h common/tuklib_mbstr.h common/tuklib_open_stdxxx.h common/tuklib_progname.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h spec_mem_io/spec_mem_io.h xz/args.h xz/coder.h xz/file_io.h xz/hardware.h xz/list.h xz/main.h xz/message.h xz/options.h xz/private.h xz/signals.h xz/util.h
+$(addsuffix $(OBJ), $(basename xz/hardware.c)): xz/hardware.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_cpucores.h common/tuklib_exit.h common/tuklib_gettext.h common/tuklib_mbstr.h common/tuklib_progname.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h spec_mem_io/spec_mem_io.h xz/args.h xz/coder.h xz/file_io.h xz/hardware.h xz/list.h xz/main.h xz/message.h xz/options.h xz/private.h xz/signals.h xz/util.h
+$(addsuffix $(OBJ), $(basename xz/list.c)): xz/list.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_exit.h common/tuklib_gettext.h common/tuklib_integer.h common/tuklib_mbstr.h common/tuklib_progname.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h spec_mem_io/spec_mem_io.h xz/args.h xz/coder.h xz/file_io.h xz/hardware.h xz/list.h xz/main.h xz/message.h xz/options.h xz/private.h xz/signals.h xz/util.h
+$(addsuffix $(OBJ), $(basename xz/main.c)): xz/main.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_exit.h common/tuklib_gettext.h common/tuklib_mbstr.h common/tuklib_progname.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h spec_mem_io/spec_mem_io.h xz/args.h xz/coder.h xz/file_io.h xz/hardware.h xz/list.h xz/main.h xz/message.h xz/options.h xz/private.h xz/signals.h xz/util.h
+$(addsuffix $(OBJ), $(basename xz/message.c)): xz/message.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_exit.h common/tuklib_gettext.h common/tuklib_mbstr.h common/tuklib_progname.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h spec_mem_io/spec_mem_io.h xz/args.h xz/coder.h xz/file_io.h xz/hardware.h xz/list.h xz/main.h xz/message.h xz/options.h xz/private.h xz/signals.h xz/util.h
+$(addsuffix $(OBJ), $(basename xz/options.c)): xz/options.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_exit.h common/tuklib_gettext.h common/tuklib_mbstr.h common/tuklib_progname.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h spec_mem_io/spec_mem_io.h xz/args.h xz/coder.h xz/file_io.h xz/hardware.h xz/list.h xz/main.h xz/message.h xz/options.h xz/private.h xz/signals.h xz/util.h
+$(addsuffix $(OBJ), $(basename xz/util.c)): xz/util.c common/mythread.h common/sysdefs.h common/tuklib_common.h common/tuklib_config.h common/tuklib_exit.h common/tuklib_gettext.h common/tuklib_mbstr.h common/tuklib_progname.h config.h liblzma/api/lzma.h liblzma/api/lzma/base.h liblzma/api/lzma/bcj.h liblzma/api/lzma/block.h liblzma/api/lzma/check.h liblzma/api/lzma/container.h liblzma/api/lzma/delta.h liblzma/api/lzma/filter.h liblzma/api/lzma/hardware.h liblzma/api/lzma/index.h liblzma/api/lzma/index_hash.h liblzma/api/lzma/lzma.h liblzma/api/lzma/stream_flags.h liblzma/api/lzma/version.h liblzma/api/lzma/vli.h spec_mem_io/spec_mem_io.h xz/args.h xz/coder.h xz/file_io.h xz/hardware.h xz/list.h xz/main.h xz/message.h xz/options.h xz/private.h xz/signals.h xz/util.h
+Wrote to makefile '/mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/557.xz_r/build/build_base_mytest-m64.0000/Makefile.spec':
+TUNE=base
+LABEL=mytest-m64
+NUMBER=557
+NAME=xz_r
+SOURCES= spec.c spec_xz.c pxz.c common/tuklib_physmem.c \
+	 liblzma/common/common.c liblzma/common/block_util.c \
+	 liblzma/common/easy_preset.c liblzma/common/filter_common.c \
+	 liblzma/common/hardware_physmem.c liblzma/common/index.c \
+	 liblzma/common/stream_flags_common.c liblzma/common/vli_size.c \
+	 liblzma/common/alone_encoder.c liblzma/common/block_buffer_encoder.c \
+	 liblzma/common/block_encoder.c liblzma/common/block_header_encoder.c \
+	 liblzma/common/easy_buffer_encoder.c liblzma/common/easy_encoder.c \
+	 liblzma/common/easy_encoder_memusage.c \
+	 liblzma/common/filter_buffer_encoder.c liblzma/common/filter_encoder.c \
+	 liblzma/common/filter_flags_encoder.c liblzma/common/index_encoder.c \
+	 liblzma/common/stream_buffer_encoder.c liblzma/common/stream_encoder.c \
+	 liblzma/common/stream_flags_encoder.c liblzma/common/vli_encoder.c \
+	 liblzma/common/alone_decoder.c liblzma/common/auto_decoder.c \
+	 liblzma/common/block_buffer_decoder.c liblzma/common/block_decoder.c \
+	 liblzma/common/block_header_decoder.c \
+	 liblzma/common/easy_decoder_memusage.c \
+	 liblzma/common/filter_buffer_decoder.c liblzma/common/filter_decoder.c \
+	 liblzma/common/filter_flags_decoder.c liblzma/common/index_decoder.c \
+	 liblzma/common/index_hash.c liblzma/common/stream_buffer_decoder.c \
+	 liblzma/common/stream_decoder.c liblzma/common/stream_flags_decoder.c \
+	 liblzma/common/vli_decoder.c liblzma/check/check.c \
+	 liblzma/check/crc32_table.c liblzma/check/crc32_fast.c \
+	 liblzma/check/crc64_table.c liblzma/check/crc64_fast.c \
+	 liblzma/check/sha256.c liblzma/lz/lz_encoder.c \
+	 liblzma/lz/lz_encoder_mf.c liblzma/lz/lz_decoder.c \
+	 liblzma/lzma/lzma_encoder.c liblzma/lzma/lzma_encoder_presets.c \
+	 liblzma/lzma/lzma_encoder_optimum_fast.c \
+	 liblzma/lzma/lzma_encoder_optimum_normal.c liblzma/lzma/fastpos_table.c \
+	 liblzma/lzma/lzma_decoder.c liblzma/lzma/lzma2_encoder.c \
+	 liblzma/lzma/lzma2_decoder.c liblzma/rangecoder/price_table.c \
+	 liblzma/delta/delta_common.c liblzma/delta/delta_encoder.c \
+	 liblzma/delta/delta_decoder.c liblzma/simple/simple_coder.c \
+	 liblzma/simple/simple_encoder.c liblzma/simple/simple_decoder.c \
+	 liblzma/simple/x86.c liblzma/simple/powerpc.c liblzma/simple/ia64.c \
+	 liblzma/simple/arm.c liblzma/simple/armthumb.c liblzma/simple/sparc.c \
+	 xz/args.c xz/coder.c xz/file_io.c xz/hardware.c xz/list.c xz/main.c \
+	 xz/message.c xz/options.c xz/signals.c xz/util.c \
+	 common/tuklib_open_stdxxx.c common/tuklib_progname.c \
+	 common/tuklib_exit.c common/tuklib_cpucores.c \
+	 common/tuklib_mbstr_width.c common/tuklib_mbstr_fw.c \
+	 spec_mem_io/spec_mem_io.c sha-2/sha512.c
+EXEBASE=xz_r
+NEED_MATH=
+BENCHLANG=C
+BASE_DIR         = /mnt/freezedisk
+BENCH_FLAGS      = -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder
+CC               = $(LLVM_BIN_PATH)/clang -m64
+CC_VERSION_OPTION = -v
+CLD              = $(LLVM_BIN_PATH)/clang -m64
+COPTIMIZE        = -O3 -mavx
+CXX              = $(LLVM_BIN_PATH)/clang++ -m64
+CXXOPTIMIZE      = -O3 -mavx
+CXX_VERSION_OPTION = -v
+DRAGONEGG_PATH   = /mnt/freezedisk/llvm-intptr-base-5.0-release/dragonegg
+DRAGONEGG_SPECS  = /mnt/freezedisk/llvm-intptr-base-5.0-release/dragonegg/integrated-as.specs
+EXTRA_FFLAGS     = 
+EXTRA_FLIBS      = -lgfortran -lm
+EXTRA_PORTABILITY = -DSPEC_LP64
+FC               = $(FORTRAN_COMP) -m64
+FC_VERSION_OPTION = -v
+FLD              = $(LLVM_BIN_PATH)/clang -m64
+FOPTIMIZE        = -O3 -mavx -funroll-loops
+FORTRAN_COMP     = $(GFORTRAN_DIR)/gfortran
+GFORTRAN_DIR     = /usr/bin
+LDCFLAGS         = -z muldefs
+LDOPTIMIZE       = -z muldefs
+LLVM_BIN_PATH    = /mnt/freezedisk/llvm-intptr-base-5.0-release/bin
+LLVM_GCC_DIR     = /mnt/freezedisk/llvm-intptr-base-5.0-release/gcc-4.8.2
+LLVM_INCLUDE_PATH = /mnt/freezedisk/llvm-intptr-base-5.0-release/include
+LLVM_LIB_PATH    = /mnt/freezedisk/llvm-intptr-base-5.0-release/lib
+LLVM_PATH        = /mnt/freezedisk/llvm-intptr-base-5.0-release
+LLVM_ROOT_PATH   = /mnt/freezedisk/llvm-intptr-base-5.0-release
+OPENMP_DIR       = /mnt/freezedisk/lib/libomp_oss/exports
+OS               = unix
+absolutely_no_locking = 0
+abstol           = 
+action           = validate
+allow_label_override = 0
+backup_config    = 1
+baseexe          = xz_r
+basepeak         = 0
+benchdir         = benchspec
+benchmark        = 557.xz_r
+binary           = 
+bindir           = exe
+builddir         = build
+bundleaction     = 
+bundlename       = 
+calctol          = 0
+changedhash      = 0
+check_version    = 0
+clean_between_builds = no
+command_add_redirect = 0
+commanderrfile   = speccmds.err
+commandexe       = xz_r_base.mytest-m64
+commandfile      = speccmds.cmd
+commandoutfile   = speccmds.out
+commandstdoutfile = speccmds.stdout
+comparedir       = compare
+compareerrfile   = compare.err
+comparefile      = compare.cmd
+compareoutfile   = compare.out
+comparestdoutfile = compare.stdout
+compile_error    = 0
+compwhite        = 
+configdir        = config
+configfile       = linux64-amd64-clang-base-5.0-o3-release.cfg
+configpath       = /mnt/freezedisk/speccpu2017-intptr/config/linux64-amd64-clang-base-5.0-o3-release.cfg
+copies           = 1
+current_range    = 
+datadir          = data
+default_size     = ref
+default_submit   = $command
+delay            = 0
+deletebinaries   = 0
+deletework       = 0
+dependent_workloads = 0
+device           = 
+difflines        = 10
+dirprot          = 511
+discard_power_samples = 0
+enable_monitor   = 1
+endian           = 12345678
+env_vars         = 0
+expand_notes     = 0
+expid            = 
+exthash_bits     = 256
+failflags        = 0
+fake             = 0
+feedback         = 1
+flag_url_base    = https://www.spec.org/auto/cpu2017/Docs/benchmarks/flags/
+floatcompare     = 
+force_monitor    = 0
+from_runcpu      = 2
+fw_bios          = 
+hostname         = freeze3
+http_proxy       = 
+http_timeout     = 30
+hw_avail         = 
+hw_cpu_max_mhz   = 
+hw_cpu_name      = Intel Core i7-7700
+hw_cpu_nominal_mhz = 
+hw_disk          = 939 GB  add more disk info here
+hw_memory001     = 7.507 GB fixme: If using DDR3, format is:
+hw_memory002     = 'N GB (M x N GB nRxn PCn-nnnnnR-n, ECC)'
+hw_model         = 
+hw_nchips        = 1
+hw_ncores        = 
+hw_ncpuorder     = 
+hw_nthreadspercore = 
+hw_ocache        = 
+hw_other         = 
+hw_pcache        = 
+hw_scache        = 
+hw_tcache        = 
+hw_vendor        = My Corporation
+idle_current_range = 
+idledelay        = 10
+idleduration     = 60
+ignore_errors    = 1
+ignore_sigint    = 0
+ignorecase       = 
+info_wrap_columns = 50
+inputdir         = input
+inputgenerrfile  = inputgen.err
+inputgenfile     = inputgen.cmd
+inputgenoutfile  = inputgen.out
+inputgenstdoutfile = inputgen.stdout
+iteration        = -1
+iterations       = 3
+keeptmp          = 0
+label            = mytest-m64
+license_num      = nnn (Your SPEC license number)
+line_width       = 1020
+link_input_files = 1
+locking          = 1
+log              = CPU2017
+log_line_width   = 1020
+log_timestamp    = 0
+logfile          = /mnt/freezedisk/speccpu2017-intptr/tmp/CPU2017.009/templogs/preenv.intrate.009.0
+logname          = /mnt/freezedisk/speccpu2017-intptr/tmp/CPU2017.009/templogs/preenv.intrate.009.0
+lognum           = 009.0
+mail_reports     = all
+mailcompress     = 0
+mailmethod       = smtp
+mailport         = 25
+mailserver       = 127.0.0.1
+mailto           = 
+make             = specmake
+make_no_clobber  = 0
+makefile_template = Makefile.YYYtArGeTYYYspec
+makeflags        = --jobs=8
+max_average_uncertainty = 1
+max_hum_limit    = 0
+max_report_runs  = 3
+max_unknown_uncertainty = 1
+mean_anyway      = 1
+meter_connect_timeout = 30
+meter_errors_default = 5
+meter_errors_percentage = 5
+min_report_runs  = 2
+min_temp_limit   = 20
+minimize_builddirs = 0
+minimize_rundirs = 0
+name             = xz_r
+nansupport       = 
+need_math        = 
+no_input_handler = close
+no_monitor       = 
+noratios         = 0
+note_preenv      = 1
+notes_plat_sysinfo_000 =  Sysinfo program /mnt/freezedisk/speccpu2017-intptr/bin/sysinfo
+notes_plat_sysinfo_005 =  Rev: r5797 of 2017-06-14 96c45e4568ad54c135fd618bcc091c0f
+notes_plat_sysinfo_010 =  running on freeze3 Wed Nov  1 07:08:01 2017
+notes_plat_sysinfo_015 = 
+notes_plat_sysinfo_020 =  SUT (System Under Test) info as seen by some common utilities.
+notes_plat_sysinfo_025 =  For more information on this section, see
+notes_plat_sysinfo_030 =     https://www.spec.org/cpu2017/Docs/config.html\#sysinfo
+notes_plat_sysinfo_035 = 
+notes_plat_sysinfo_040 =  From /proc/cpuinfo
+notes_plat_sysinfo_045 =     model name : Intel(R) Core(TM) i7-7700 CPU @ 3.60GHz
+notes_plat_sysinfo_050 =        1  "physical id"s (chips)
+notes_plat_sysinfo_055 =        4 "processors"
+notes_plat_sysinfo_060 =     cores, siblings (Caution: counting these is hw and system dependent. The following
+notes_plat_sysinfo_065 =     excerpts from /proc/cpuinfo might not be reliable.  Use with caution.)
+notes_plat_sysinfo_070 =        cpu cores : 4
+notes_plat_sysinfo_075 =        siblings  : 4
+notes_plat_sysinfo_080 =        physical 0: cores 0 1 2 3
+notes_plat_sysinfo_085 = 
+notes_plat_sysinfo_090 =  From lscpu:
+notes_plat_sysinfo_095 =       Architecture:          x86_64
+notes_plat_sysinfo_100 =       CPU op-mode(s):        32-bit, 64-bit
+notes_plat_sysinfo_105 =       Byte Order:            Little Endian
+notes_plat_sysinfo_110 =       CPU(s):                4
+notes_plat_sysinfo_115 =       On-line CPU(s) list:   0-3
+notes_plat_sysinfo_120 =       Thread(s) per core:    1
+notes_plat_sysinfo_125 =       Core(s) per socket:    4
+notes_plat_sysinfo_130 =       Socket(s):             1
+notes_plat_sysinfo_135 =       NUMA node(s):          1
+notes_plat_sysinfo_140 =       Vendor ID:             GenuineIntel
+notes_plat_sysinfo_145 =       CPU family:            6
+notes_plat_sysinfo_150 =       Model:                 158
+notes_plat_sysinfo_155 =       Model name:            Intel(R) Core(TM) i7-7700 CPU @ 3.60GHz
+notes_plat_sysinfo_160 =       Stepping:              9
+notes_plat_sysinfo_165 =       CPU MHz:               3555.281
+notes_plat_sysinfo_170 =       CPU max MHz:           4200.0000
+notes_plat_sysinfo_175 =       CPU min MHz:           800.0000
+notes_plat_sysinfo_180 =       BogoMIPS:              7199.62
+notes_plat_sysinfo_185 =       Virtualization:        VT-x
+notes_plat_sysinfo_190 =       L1d cache:             32K
+notes_plat_sysinfo_195 =       L1i cache:             32K
+notes_plat_sysinfo_200 =       L2 cache:              256K
+notes_plat_sysinfo_205 =       L3 cache:              8192K
+notes_plat_sysinfo_210 =       NUMA node0 CPU(s):     0-3
+notes_plat_sysinfo_215 =       Flags:                 fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov
+notes_plat_sysinfo_220 =       pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp
+notes_plat_sysinfo_225 =       lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc
+notes_plat_sysinfo_230 =       aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg
+notes_plat_sysinfo_235 =       fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes
+notes_plat_sysinfo_240 =       xsave avx f16c rdrand lahf_lm abm 3dnowprefetch epb intel_pt tpr_shadow vnmi
+notes_plat_sysinfo_245 =       flexpriority ept vpid fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm
+notes_plat_sysinfo_250 =       mpx rdseed adx smap clflushopt xsaveopt xsavec xgetbv1 dtherm arat pln pts hwp
+notes_plat_sysinfo_255 =       hwp_notify hwp_act_window hwp_epp
+notes_plat_sysinfo_260 = 
+notes_plat_sysinfo_265 =  /proc/cpuinfo cache data
+notes_plat_sysinfo_270 =     cache size : 8192 KB
+notes_plat_sysinfo_275 = 
+notes_plat_sysinfo_280 =  From numactl --hardware  WARNING: a numactl 'node' might or might not correspond to a
+notes_plat_sysinfo_285 =  physical chip.
+notes_plat_sysinfo_290 =    available: 1 nodes (0)
+notes_plat_sysinfo_295 =    node 0 cpus: 0 1 2 3
+notes_plat_sysinfo_300 =    node 0 size: 7687 MB
+notes_plat_sysinfo_305 =    node 0 free: 7232 MB
+notes_plat_sysinfo_310 =    node distances:
+notes_plat_sysinfo_315 =    node   0
+notes_plat_sysinfo_320 =      0:  10
+notes_plat_sysinfo_325 = 
+notes_plat_sysinfo_330 =  From /proc/meminfo
+notes_plat_sysinfo_335 =     MemTotal:        7872084 kB
+notes_plat_sysinfo_340 =     HugePages_Total:       0
+notes_plat_sysinfo_345 =     Hugepagesize:       2048 kB
+notes_plat_sysinfo_350 = 
+notes_plat_sysinfo_355 =  /usr/bin/lsb_release -d
+notes_plat_sysinfo_360 =     Ubuntu 16.04.3 LTS
+notes_plat_sysinfo_365 = 
+notes_plat_sysinfo_370 =  From /etc/*release* /etc/*version*
+notes_plat_sysinfo_375 =     debian_version: stretch/sid
+notes_plat_sysinfo_380 =     os-release:
+notes_plat_sysinfo_385 =        NAME="Ubuntu"
+notes_plat_sysinfo_390 =        VERSION="16.04.3 LTS (Xenial Xerus)"
+notes_plat_sysinfo_395 =        ID=ubuntu
+notes_plat_sysinfo_400 =        ID_LIKE=debian
+notes_plat_sysinfo_405 =        PRETTY_NAME="Ubuntu 16.04.3 LTS"
+notes_plat_sysinfo_410 =        VERSION_ID="16.04"
+notes_plat_sysinfo_415 =        HOME_URL="http://www.ubuntu.com/"
+notes_plat_sysinfo_420 =        SUPPORT_URL="http://help.ubuntu.com/"
+notes_plat_sysinfo_425 = 
+notes_plat_sysinfo_430 =  uname -a:
+notes_plat_sysinfo_435 =     Linux freeze3 4.4.0-97-generic \#120-Ubuntu SMP Tue Sep 19 17:28:18 UTC 2017 x86_64
+notes_plat_sysinfo_440 =     x86_64 x86_64 GNU/Linux
+notes_plat_sysinfo_445 = 
+notes_plat_sysinfo_450 =  run-level 3 Oct 29 18:30
+notes_plat_sysinfo_455 = 
+notes_plat_sysinfo_460 =  SPEC is set to: /mnt/freezedisk/speccpu2017-intptr
+notes_plat_sysinfo_465 =     Filesystem     Type  Size  Used Avail Use% Mounted on
+notes_plat_sysinfo_470 =     /dev/sdb1      ext4  939G  716G  176G  81% /mnt/freezedisk
+notes_plat_sysinfo_475 = 
+notes_plat_sysinfo_480 =  Additional information from dmidecode follows.  WARNING: Use caution when you interpret
+notes_plat_sysinfo_485 =  this section. The 'dmidecode' program reads system data which is "intended to allow
+notes_plat_sysinfo_490 =  hardware to be accurately determined", but the intent may not be met, as there are
+notes_plat_sysinfo_495 =  frequent changes to hardware, firmware, and the "DMTF SMBIOS" standard.
+notes_plat_sysinfo_500 = 
+notes_plat_sysinfo_505 =  (End of data from sysinfo program)
+notes_wrap_columns = 0
+notes_wrap_indent =   
+num              = 557
+obiwan           = 
+os_exe_ext       = 
+output_format    = txt,html,cfg,pdf,csv
+output_root      = 
+outputdir        = output
+parallel_test    = 0
+parallel_test_submit = 0
+parallel_test_workloads = 
+path             = /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/557.xz_r
+plain_train      = 1
+platform         = 
+power            = 0
+preENV_LD_LIBRARY_PATH = /mnt/freezedisk/llvm-intptr-base-5.0-release/lib
+preENV_LIBRARY_PATH = /mnt/freezedisk/llvm-intptr-base-5.0-release/lib
+preENV_PATH      = /mnt/freezedisk/llvm-intptr-base-5.0-release/bin:%{ENV_PATH}
+preenv           = 0
+prefix           = 
+prepared_by      = sflab  (is never output, only tags rawfile)
+ranks            = 1
+rawhash_bits     = 256
+rebuild          = 1
+reftime          = reftime
+reltol           = 
+reportable       = 0
+resultdir        = result
+review           = 0
+run              = all
+runcpu           = /mnt/freezedisk/speccpu2017-intptr/bin/harness/runcpu --configfile linux64-amd64-clang-base-5.0-o3-release.cfg --noreportable --rebuild --iterations 3 --noreportable --nopower --runmode rate --tune base --size refrate 557.xz_r --nopreenv --note-preenv --logfile /mnt/freezedisk/speccpu2017-intptr/tmp/CPU2017.009/templogs/preenv.intrate.009.0 --lognum 009.0 --from_runcpu 2
+rundir           = run
+runmode          = rate
+safe_eval        = 1
+save_build_files = 
+section_specifier_fatal = 1
+setprocgroup     = 1
+setup_error      = 0
+sigint           = 2
+size             = refrate
+size_class       = ref
+skipabstol       = 
+skipobiwan       = 
+skipreltol       = 
+skiptol          = 
+smarttune        = base
+specdiff         = specdiff
+specrun          = specinvoke
+srcalt           = 
+srcdir           = src
+srcsource        = /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/557.xz_r/src
+stagger          = 10
+strict_rundir_verify = 1
+submit_default   = echo "$command" > run.sh ; $BIND bash run.sh
+sw_avail         = 
+sw_base_ptrsize  = 64-bit
+sw_compiler001   = C/C++: Version 3.9.0 of Clang, the
+sw_compiler002   = LLVM Compiler Infrastructure
+sw_compiler003   = Fortran: Version 4.8.2 of GCC, the
+sw_compiler004   = GNU Compiler Collection
+sw_compiler005   = DragonEgg: Version 3.5.2, the
+sw_compiler006   = LLVM Compiler Infrastructure
+sw_file          = ext4
+sw_os001         = Ubuntu 16.04.3 LTS
+sw_os002         = 4.4.0-97-generic
+sw_other         = 
+sw_peak_ptrsize  = 64-bit
+sw_state         = Run level 3 (add definition here)
+sysinfo_hash_bits = 256
+sysinfo_program  = specperl /mnt/freezedisk/speccpu2017-intptr/bin/sysinfo
+sysinfo_program_hash = sysinfo:SHA:ecd2bef08f316af97f5a7768b641e2a3307c1b4b68efb5a57fa76367d790d233
+table            = 1
+teeout           = 0
+test_date        = Nov-2017
+test_sponsor     = My Corporation
+tester           = My Corporation
+threads          = 1
+top              = /mnt/freezedisk/speccpu2017-intptr
+train_single_thread = 0
+train_with       = train
+tune             = base
+uid              = 1000
+unbuffer         = 1
+uncertainty_exception = 5
+update           = 0
+update_url       = http://www.spec.org/auto/cpu2017/updates/
+use_submit_for_compare = 0
+use_submit_for_speed = 0
+username         = sflab
+verbose          = 5
+verify_binaries  = 1
+version          = 0.906000
+version_url      = http://www.spec.org/auto/cpu2017/current_version
+voltage_range    = 
+worklist         = list
+OUTPUT_RMFILES   = IMG_2560.cr2-40-4.out input.combined-40-8.out
+  Compile for '557.xz_r' started at: 2017-11-01 07:08:02 (1509534482)
+Issuing make.clean command 'specmake --output-sync --jobs=8 clean'
+Start make.clean command: 2017-11-01 07:08:02 (1509534482.81106)
+rm -rf *.o  IMG_2560.cr2-40-4.out input.combined-40-8.out
+find . \( -name \*.o -o -name '*.fppized.f*' -o -name '*.i' -o -name '*.mod' \) -print | xargs rm -rf
+rm -rf xz_r
+rm -rf xz_r.exe
+rm -rf core
+Stop make.clean command: 2017-11-01 07:08:03 (1509534483.03702)
+Elapsed time for make.clean command: 00:00:00 (0.225958108901978)
+Issuing make command 'specmake --output-sync --jobs=8 build'
+Start make command: 2017-11-01 07:08:03 (1509534483.03765)
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o pxz.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  pxz.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o common/tuklib_physmem.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  common/tuklib_physmem.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/hardware_physmem.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/hardware_physmem.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/block_util.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/block_util.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/easy_preset.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/easy_preset.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/filter_common.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/filter_common.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o spec_xz.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  spec_xz.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/common.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/common.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o spec.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  spec.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/stream_flags_common.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/stream_flags_common.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/vli_size.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/vli_size.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/alone_encoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/alone_encoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/easy_encoder_memusage.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/easy_encoder_memusage.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/block_header_encoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/block_header_encoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/block_buffer_encoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/block_buffer_encoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/easy_buffer_encoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/easy_buffer_encoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/easy_encoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/easy_encoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/block_encoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/block_encoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/filter_buffer_encoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/filter_buffer_encoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/filter_flags_encoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/filter_flags_encoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/filter_encoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/filter_encoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/stream_buffer_encoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/stream_buffer_encoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/index.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/index.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/index_encoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/index_encoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/stream_encoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/stream_encoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/stream_flags_encoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/stream_flags_encoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/vli_encoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/vli_encoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/auto_decoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/auto_decoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/block_buffer_decoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/block_buffer_decoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/alone_decoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/alone_decoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/block_header_decoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/block_header_decoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/block_decoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/block_decoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/easy_decoder_memusage.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/easy_decoder_memusage.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/filter_buffer_decoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/filter_buffer_decoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/filter_flags_decoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/filter_flags_decoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/filter_decoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/filter_decoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/check/check.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/check/check.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/stream_buffer_decoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/stream_buffer_decoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/stream_decoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/stream_decoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/stream_flags_decoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/stream_flags_decoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/vli_decoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/vli_decoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/check/crc32_table.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/check/crc32_table.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/index_decoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/index_decoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/common/index_hash.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/common/index_hash.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/check/crc32_fast.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/check/crc32_fast.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/check/crc64_table.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/check/crc64_table.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/check/crc64_fast.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/check/crc64_fast.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/lz/lz_encoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/lz/lz_encoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/lzma/lzma_encoder_presets.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/lzma/lzma_encoder_presets.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/lz/lz_decoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/lz/lz_decoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/lzma/fastpos_table.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/lzma/fastpos_table.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/lzma/lzma_encoder_optimum_fast.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/lzma/lzma_encoder_optimum_fast.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/lzma/lzma2_decoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/lzma/lzma2_decoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/lzma/lzma2_encoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/lzma/lzma2_encoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/rangecoder/price_table.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/rangecoder/price_table.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/delta/delta_common.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/delta/delta_common.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/check/sha256.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/check/sha256.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/delta/delta_encoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/delta/delta_encoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/lzma/lzma_encoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/lzma/lzma_encoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/delta/delta_decoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/delta/delta_decoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/lz/lz_encoder_mf.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/lz/lz_encoder_mf.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/simple/simple_coder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/simple/simple_coder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/simple/simple_encoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/simple/simple_encoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/simple/simple_decoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/simple/simple_decoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/simple/x86.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/simple/x86.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/simple/powerpc.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/simple/powerpc.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/simple/ia64.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/simple/ia64.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/lzma/lzma_encoder_optimum_normal.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/lzma/lzma_encoder_optimum_normal.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/simple/arm.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/simple/arm.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/simple/armthumb.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/simple/armthumb.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/simple/sparc.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/simple/sparc.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o xz/args.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  xz/args.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o xz/hardware.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  xz/hardware.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o xz/file_io.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  xz/file_io.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o xz/coder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  xz/coder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o xz/signals.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  xz/signals.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o xz/main.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  xz/main.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o xz/message.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  xz/message.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o common/tuklib_open_stdxxx.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  common/tuklib_open_stdxxx.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o xz/options.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  xz/options.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o common/tuklib_progname.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  common/tuklib_progname.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o common/tuklib_exit.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  common/tuklib_exit.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o xz/util.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  xz/util.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o common/tuklib_cpucores.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  common/tuklib_cpucores.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o common/tuklib_mbstr_fw.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  common/tuklib_mbstr_fw.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o common/tuklib_mbstr_width.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  common/tuklib_mbstr_width.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o xz/list.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  xz/list.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o liblzma/lzma/lzma_decoder.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  liblzma/lzma/lzma_decoder.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o spec_mem_io/spec_mem_io.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  spec_mem_io/spec_mem_io.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o sha-2/sha512.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  sha-2/sha512.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64  -z muldefs     -O3 -mavx   -z muldefs      spec.o spec_xz.o pxz.o common/tuklib_physmem.o liblzma/common/common.o liblzma/common/block_util.o liblzma/common/easy_preset.o liblzma/common/filter_common.o liblzma/common/hardware_physmem.o liblzma/common/index.o liblzma/common/stream_flags_common.o liblzma/common/vli_size.o liblzma/common/alone_encoder.o liblzma/common/block_buffer_encoder.o liblzma/common/block_encoder.o liblzma/common/block_header_encoder.o liblzma/common/easy_buffer_encoder.o liblzma/common/easy_encoder.o liblzma/common/easy_encoder_memusage.o liblzma/common/filter_buffer_encoder.o liblzma/common/filter_encoder.o liblzma/common/filter_flags_encoder.o liblzma/common/index_encoder.o liblzma/common/stream_buffer_encoder.o liblzma/common/stream_encoder.o liblzma/common/stream_flags_encoder.o liblzma/common/vli_encoder.o liblzma/common/alone_decoder.o liblzma/common/auto_decoder.o liblzma/common/block_buffer_decoder.o liblzma/common/b
+lock_decoder.o liblzma/common/block_header_decoder.o liblzma/common/easy_decoder_memusage.o liblzma/common/filter_buffer_decoder.o liblzma/common/filter_decoder.o liblzma/common/filter_flags_decoder.o liblzma/common/index_decoder.o liblzma/common/index_hash.o liblzma/common/stream_buffer_decoder.o liblzma/common/stream_decoder.o liblzma/common/stream_flags_decoder.o liblzma/common/vli_decoder.o liblzma/check/check.o liblzma/check/crc32_table.o liblzma/check/crc32_fast.o liblzma/check/crc64_table.o liblzma/check/crc64_fast.o liblzma/check/sha256.o liblzma/lz/lz_encoder.o liblzma/lz/lz_encoder_mf.o liblzma/lz/lz_decoder.o liblzma/lzma/lzma_encoder.o liblzma/lzma/lzma_encoder_presets.o liblzma/lzma/lzma_encoder_optimum_fast.o liblzma/lzma/lzma_encoder_optimum_normal.o liblzma/lzma/fastpos_table.o liblzma/lzma/lzma_decoder.o liblzma/lzma/lzma2_encoder.o liblzma/lzma/lzma2_decoder.o liblzma/rangecoder/price_table.o liblzma/delta/delta_common.o liblzma/delta/delta_encoder.o liblzma/delta/delta_decoder.o liblzma
+/simple/simple_coder.o liblzma/simple/simple_encoder.o liblzma/simple/simple_decoder.o liblzma/simple/x86.o liblzma/simple/powerpc.o liblzma/simple/ia64.o liblzma/simple/arm.o liblzma/simple/armthumb.o liblzma/simple/sparc.o xz/args.o xz/coder.o xz/file_io.o xz/hardware.o xz/list.o xz/main.o xz/message.o xz/options.o xz/signals.o xz/util.o common/tuklib_open_stdxxx.o common/tuklib_progname.o common/tuklib_exit.o common/tuklib_cpucores.o common/tuklib_mbstr_width.o common/tuklib_mbstr_fw.o spec_mem_io/spec_mem_io.o sha-2/sha512.o                      -o xz_r  
+Stop make command: 2017-11-01 07:08:05 (1509534485.12764)
+Elapsed time for make command: 00:00:02 (2.08999085426331)
+Issuing options command 'specmake --output-sync --jobs=8 options'
+Start options command: 2017-11-01 07:08:05 (1509534485.12826)
+COMP: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o options.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  <source>"
+C: CC="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64"
+C: COBJOPT="-c -o options"
+P: CPUFLAGS="-DSPEC -DNDEBUG"
+P: BENCH_FLAGS="-DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder"
+P: BENCH_CFLAGS=""
+O: OPTIMIZE=""
+O: COPTIMIZE="-O3 -mavx"
+P: PORTABILITY=""
+P: CPORTABILITY=""
+O: EXTRA_CFLAGS=""
+O: EXTRA_OPTIMIZE=""
+O: EXTRA_COPTIMIZE=""
+P: EXTRA_PORTABILITY="-DSPEC_LP64"
+P: EXTRA_CPORTABILITY=""
+LINK: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64  -z muldefs     -O3 -mavx   -z muldefs      <objects>            -o options  "
+C: LD="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64"
+O: LDCFLAGS="-z muldefs"
+O: COPTIMIZE="-O3 -mavx"
+O: LDOPTIMIZE="-z muldefs"
+C: LDOUT="-o options"
+Stop options command: 2017-11-01 07:08:05 (1509534485.3035)
+Elapsed time for options command: 00:00:00 (0.175234079360962)
+Issuing compiler-version command 'specmake --output-sync --jobs=8 compiler-version'
+Start compiler-version command: 2017-11-01 07:08:05 (1509534485.30428)
+ CC_VERSION_OPTION:
+clang version 6.0.0 (https://github.com/aqjune/clang-intptr.git b099f9b86954800bcbdee427fc703eb8a30389da) (https://github.com/aqjune/llvm-intptr.git d3762c4675cbe5178acef79f01c813bcbfc58cf5)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: /mnt/freezedisk/llvm-intptr-base-5.0-release/bin
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6.0.0
+Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Candidate multilib: .;@m64
+Selected multilib: .;@m64
+clang-6.0: warning: argument unused during compilation: '-D SPEC' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D NDEBUG' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_AUTO_BYTEORDER=0x12345678' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D HAVE_CONFIG_H=1' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_MEM_IO' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_XZ' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_AUTO_SUPPRESS_OPENMP' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I .' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I spec_mem_io' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I sha-2' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I common' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I liblzma/api' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I liblzma/lzma' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I liblzma/common' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I liblzma/check' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I liblzma/simple' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I liblzma/delta' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I liblzma/lz' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I liblzma/rangecoder' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-O3' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-mavx' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_LP64' [-Wunused-command-line-argument]
+Stop compiler-version command: 2017-11-01 07:08:05 (1509534485.46771)
+Elapsed time for compiler-version command: 00:00:00 (0.163429021835327)
+  Compile for '557.xz_r' ended at: 2017-11-01 07:08:05 (1509534485)
+  Elapsed compile for '557.xz_r': 00:00:03 (3)
+COMP: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o options.o -DSPEC -DNDEBUG -DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder   -O3 -mavx              -DSPEC_LP64  <source>"
+C: CC="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64"
+C: COBJOPT="-c -o options"
+P: CPUFLAGS="-DSPEC -DNDEBUG"
+P: BENCH_FLAGS="-DSPEC_AUTO_BYTEORDER=0x12345678 -DHAVE_CONFIG_H=1 -DSPEC_MEM_IO -DSPEC_XZ -DSPEC_AUTO_SUPPRESS_OPENMP -I. -Ispec_mem_io -Isha-2 -Icommon -Iliblzma/api -Iliblzma/lzma -Iliblzma/common -Iliblzma/check -Iliblzma/simple -Iliblzma/delta -Iliblzma/lz -Iliblzma/rangecoder"
+P: BENCH_CFLAGS=""
+O: OPTIMIZE=""
+O: COPTIMIZE="-O3 -mavx"
+P: PORTABILITY=""
+P: CPORTABILITY=""
+O: EXTRA_CFLAGS=""
+O: EXTRA_OPTIMIZE=""
+O: EXTRA_COPTIMIZE=""
+P: EXTRA_PORTABILITY="-DSPEC_LP64"
+P: EXTRA_CPORTABILITY=""
+LINK: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64  -z muldefs     -O3 -mavx   -z muldefs      <objects>            -o options  "
+C: LD="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64"
+O: LDCFLAGS="-z muldefs"
+O: COPTIMIZE="-O3 -mavx"
+O: LDOPTIMIZE="-z muldefs"
+C: LDOUT="-o options"
+ CC_VERSION_OPTION:
+clang version 6.0.0 (https://github.com/aqjune/clang-intptr.git b099f9b86954800bcbdee427fc703eb8a30389da) (https://github.com/aqjune/llvm-intptr.git d3762c4675cbe5178acef79f01c813bcbfc58cf5)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: /mnt/freezedisk/llvm-intptr-base-5.0-release/bin
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6.0.0
+Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Candidate multilib: .;@m64
+Selected multilib: .;@m64
+clang-6.0: warning: argument unused during compilation: '-D SPEC' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D NDEBUG' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_AUTO_BYTEORDER=0x12345678' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D HAVE_CONFIG_H=1' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_MEM_IO' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_XZ' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_AUTO_SUPPRESS_OPENMP' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I .' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I spec_mem_io' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I sha-2' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I common' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I liblzma/api' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I liblzma/lzma' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I liblzma/common' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I liblzma/check' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I liblzma/simple' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I liblzma/delta' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I liblzma/lz' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I liblzma/rangecoder' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-O3' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-mavx' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_LP64' [-Wunused-command-line-argument]
+
+Build successes for intrate: 557.xz_r(base)
+Build errors for intrate: None
+
+Setting Up Run Directories
+  Setting up 557.xz_r refrate (ref) base mytest-m64 (1 copy): run_base_refrate_mytest-m64.0000
+-----------------------------------
+Running Benchmarks
+-----------------------------------
+  Running (#1) 557.xz_r refrate (ref) base mytest-m64 (1 copy) [2017-11-01 07:08:06]
+OpenMP environment variables removed: None
+OpenMP environment variables in effect:
+	OMP_NUM_THREADS	=> '1'
+	OMP_THREAD_LIMIT	=> '1'
+Pre-run environment changes:
+	'OMP_NUM_THREADS' added: (value now '1')
+	'OMP_THREAD_LIMIT' added: (value now '1')
+Commands to run (specinvoke command file):
+    -N C
+    -b numactl -m 0 --physcpubind=0
+    -C /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/557.xz_r/run/run_base_refrate_mytest-m64.0000
+    -o cld.tar-160-6.out -e cld.tar-160-6.err echo "../run_base_refrate_mytest-m64.0000/xz_r_base.mytest-m64 cld.tar.xz 160 19cf30ae51eddcbefda78dd06014b4b96281456e078ca7c13e1c0c9e6aaea8dff3efb4ad6b0456697718cede6bd5454852652806a657bb56e07d61128434b474 59796407 61004416 6" > run.sh ; $BIND bash run.sh (timed)
+    -o cpu2006docs.tar-250-6e.out -e cpu2006docs.tar-250-6e.err echo "../run_base_refrate_mytest-m64.0000/xz_r_base.mytest-m64 cpu2006docs.tar.xz 250 055ce243071129412e9dd0b3b69a21654033a9b723d874b2015c774fac1553d9713be561ca86f74e4f16f22e664fc17a79f30caa5ad2c04fbc447549c2810fae 23047774 23513385 6e" > run.sh ; $BIND bash run.sh (timed)
+    -o input.combined-250-7.out -e input.combined-250-7.err echo "../run_base_refrate_mytest-m64.0000/xz_r_base.mytest-m64 input.combined.xz 250 a841f68f38572a49d86226b7ff5baeb31bd19dc637a922a972b2e6d1257a890f6a544ecab967c313e370478c74f760eb229d4eef8a8d2836d233d3e9dd1430bf 40401484 41217675 7" > run.sh ; $BIND bash run.sh (timed)
+Specinvoke: /mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/557.xz_r/run/run_base_refrate_mytest-m64.0000 -f speccmds.cmd -q -e speccmds.err -o speccmds.stdout
+Issuing command '/mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/557.xz_r/run/run_base_refrate_mytest-m64.0000 -f speccmds.cmd -q -e speccmds.err -o speccmds.stdout'
+Start command: 2017-11-01 07:08:06 (1509534486.25351)
+Stop command: 2017-11-01 07:13:39 (1509534819.20483)
+Elapsed time for command: 00:05:32 (332.951320886612)
+Workload elapsed time (copy 0 workload 1) = 113.391671 seconds
+Workload elapsed time (copy 0 workload 2) = 120.785489 seconds
+Workload elapsed time (copy 0 workload 3) = 98.62021 seconds
+Copy 0 of 557.xz_r (base refrate) run 1 finished at 2017-11-01 07:13:39.  Total elapsed time: 332.79737
+OpenMP environment variables removed: None
+OpenMP environment variables in effect:
+	OMP_NUM_THREADS	=> '1'
+	OMP_THREAD_LIMIT	=> '1'
+Pre-run environment changes:
+	'OMP_NUM_THREADS' added: (value now '1')
+	'OMP_THREAD_LIMIT' added: (value now '1')
+comparing 'cld.tar-160-6.out' with 
+comparing 'cpu2006docs.tar-250-6e.out' with 
+comparing 'input.combined-250-7.out' with 
+Specinvoke: /mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/557.xz_r/run/run_base_refrate_mytest-m64.0000 -f compare.cmd -E -e compare.err -o compare.stdout
+Issuing command '/mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/557.xz_r/run/run_base_refrate_mytest-m64.0000 -f compare.cmd -E -e compare.err -o compare.stdout'
+Start command: 2017-11-01 07:13:39 (1509534819.23433)
+Stop command: 2017-11-01 07:13:39 (1509534819.69307)
+Elapsed time for command: 00:00:00 (0.458730936050415)
+Benchmark Times:
+  Run Start:    2017-11-01 07:08:06 (1509534486)
+  Rate Start:   2017-11-01 07:08:06 (1509534486.25581)
+  Rate End:     2017-11-01 07:13:39 (1509534819.05321)
+  Run Stop:     2017-11-01 07:13:39 (1509534819)
+  Run Elapsed:  00:05:33 (333)
+  Run Reported: 00:05:32 (332 797404766 332.797405)
+ Success 557.xz_r base refrate ratio=3.25, runtime=332.797405, copies=1, threads=1, power=0.00W, temp=0.00 degC, humidity=0.00%
+-----------------------------------
+  Running (#2) 557.xz_r refrate (ref) base mytest-m64 (1 copy) [2017-11-01 07:13:39]
+OpenMP environment variables removed: None
+OpenMP environment variables in effect:
+	OMP_NUM_THREADS	=> '1'
+	OMP_THREAD_LIMIT	=> '1'
+Pre-run environment changes:
+	'OMP_NUM_THREADS' added: (value now '1')
+	'OMP_THREAD_LIMIT' added: (value now '1')
+Commands to run (specinvoke command file):
+    -N C
+    -b numactl -m 0 --physcpubind=0
+    -C /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/557.xz_r/run/run_base_refrate_mytest-m64.0000
+    -o cld.tar-160-6.out -e cld.tar-160-6.err echo "../run_base_refrate_mytest-m64.0000/xz_r_base.mytest-m64 cld.tar.xz 160 19cf30ae51eddcbefda78dd06014b4b96281456e078ca7c13e1c0c9e6aaea8dff3efb4ad6b0456697718cede6bd5454852652806a657bb56e07d61128434b474 59796407 61004416 6" > run.sh ; $BIND bash run.sh (timed)
+    -o cpu2006docs.tar-250-6e.out -e cpu2006docs.tar-250-6e.err echo "../run_base_refrate_mytest-m64.0000/xz_r_base.mytest-m64 cpu2006docs.tar.xz 250 055ce243071129412e9dd0b3b69a21654033a9b723d874b2015c774fac1553d9713be561ca86f74e4f16f22e664fc17a79f30caa5ad2c04fbc447549c2810fae 23047774 23513385 6e" > run.sh ; $BIND bash run.sh (timed)
+    -o input.combined-250-7.out -e input.combined-250-7.err echo "../run_base_refrate_mytest-m64.0000/xz_r_base.mytest-m64 input.combined.xz 250 a841f68f38572a49d86226b7ff5baeb31bd19dc637a922a972b2e6d1257a890f6a544ecab967c313e370478c74f760eb229d4eef8a8d2836d233d3e9dd1430bf 40401484 41217675 7" > run.sh ; $BIND bash run.sh (timed)
+Specinvoke: /mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/557.xz_r/run/run_base_refrate_mytest-m64.0000 -f speccmds.cmd -q -e speccmds.err -o speccmds.stdout
+Issuing command '/mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/557.xz_r/run/run_base_refrate_mytest-m64.0000 -f speccmds.cmd -q -e speccmds.err -o speccmds.stdout'
+Start command: 2017-11-01 07:13:39 (1509534819.79308)
+Stop command: 2017-11-01 07:19:12 (1509535152.60456)
+Elapsed time for command: 00:05:32 (332.811475992203)
+Workload elapsed time (copy 0 workload 1) = 113.371002 seconds
+Workload elapsed time (copy 0 workload 2) = 120.706695 seconds
+Workload elapsed time (copy 0 workload 3) = 98.579818 seconds
+Copy 0 of 557.xz_r (base refrate) run 2 finished at 2017-11-01 07:19:12.  Total elapsed time: 332.657515
+OpenMP environment variables removed: None
+OpenMP environment variables in effect:
+	OMP_NUM_THREADS	=> '1'
+	OMP_THREAD_LIMIT	=> '1'
+Pre-run environment changes:
+	'OMP_NUM_THREADS' added: (value now '1')
+	'OMP_THREAD_LIMIT' added: (value now '1')
+comparing 'cld.tar-160-6.out' with 
+comparing 'cpu2006docs.tar-250-6e.out' with 
+comparing 'input.combined-250-7.out' with 
+Specinvoke: /mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/557.xz_r/run/run_base_refrate_mytest-m64.0000 -f compare.cmd -E -e compare.err -o compare.stdout
+Issuing command '/mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/557.xz_r/run/run_base_refrate_mytest-m64.0000 -f compare.cmd -E -e compare.err -o compare.stdout'
+Start command: 2017-11-01 07:19:12 (1509535152.63187)
+Stop command: 2017-11-01 07:19:13 (1509535153.08478)
+Elapsed time for command: 00:00:00 (0.452906847000122)
+Benchmark Times:
+  Run Start:    2017-11-01 07:13:39 (1509534819)
+  Rate Start:   2017-11-01 07:13:39 (1509534819.79537)
+  Rate End:     2017-11-01 07:19:12 (1509535152.45295)
+  Run Stop:     2017-11-01 07:19:12 (1509535152)
+  Run Elapsed:  00:05:33 (333)
+  Run Reported: 00:05:32 (332 657577037 332.657577)
+ Success 557.xz_r base refrate ratio=3.25, runtime=332.657577, copies=1, threads=1, power=0.00W, temp=0.00 degC, humidity=0.00%
+-----------------------------------
+  Running (#3) 557.xz_r refrate (ref) base mytest-m64 (1 copy) [2017-11-01 07:19:13]
+OpenMP environment variables removed: None
+OpenMP environment variables in effect:
+	OMP_NUM_THREADS	=> '1'
+	OMP_THREAD_LIMIT	=> '1'
+Pre-run environment changes:
+	'OMP_NUM_THREADS' added: (value now '1')
+	'OMP_THREAD_LIMIT' added: (value now '1')
+Commands to run (specinvoke command file):
+    -N C
+    -b numactl -m 0 --physcpubind=0
+    -C /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/557.xz_r/run/run_base_refrate_mytest-m64.0000
+    -o cld.tar-160-6.out -e cld.tar-160-6.err echo "../run_base_refrate_mytest-m64.0000/xz_r_base.mytest-m64 cld.tar.xz 160 19cf30ae51eddcbefda78dd06014b4b96281456e078ca7c13e1c0c9e6aaea8dff3efb4ad6b0456697718cede6bd5454852652806a657bb56e07d61128434b474 59796407 61004416 6" > run.sh ; $BIND bash run.sh (timed)
+    -o cpu2006docs.tar-250-6e.out -e cpu2006docs.tar-250-6e.err echo "../run_base_refrate_mytest-m64.0000/xz_r_base.mytest-m64 cpu2006docs.tar.xz 250 055ce243071129412e9dd0b3b69a21654033a9b723d874b2015c774fac1553d9713be561ca86f74e4f16f22e664fc17a79f30caa5ad2c04fbc447549c2810fae 23047774 23513385 6e" > run.sh ; $BIND bash run.sh (timed)
+    -o input.combined-250-7.out -e input.combined-250-7.err echo "../run_base_refrate_mytest-m64.0000/xz_r_base.mytest-m64 input.combined.xz 250 a841f68f38572a49d86226b7ff5baeb31bd19dc637a922a972b2e6d1257a890f6a544ecab967c313e370478c74f760eb229d4eef8a8d2836d233d3e9dd1430bf 40401484 41217675 7" > run.sh ; $BIND bash run.sh (timed)
+Specinvoke: /mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/557.xz_r/run/run_base_refrate_mytest-m64.0000 -f speccmds.cmd -q -e speccmds.err -o speccmds.stdout
+Issuing command '/mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/557.xz_r/run/run_base_refrate_mytest-m64.0000 -f speccmds.cmd -q -e speccmds.err -o speccmds.stdout'
+Start command: 2017-11-01 07:19:13 (1509535153.18459)
+Stop command: 2017-11-01 07:24:46 (1509535486.10326)
+Elapsed time for command: 00:05:32 (332.918671131134)
+Workload elapsed time (copy 0 workload 1) = 113.369813 seconds
+Workload elapsed time (copy 0 workload 2) = 120.762585 seconds
+Workload elapsed time (copy 0 workload 3) = 98.632287 seconds
+Copy 0 of 557.xz_r (base refrate) run 3 finished at 2017-11-01 07:24:45.  Total elapsed time: 332.764685
+OpenMP environment variables removed: None
+OpenMP environment variables in effect:
+	OMP_NUM_THREADS	=> '1'
+	OMP_THREAD_LIMIT	=> '1'
+Pre-run environment changes:
+	'OMP_NUM_THREADS' added: (value now '1')
+	'OMP_THREAD_LIMIT' added: (value now '1')
+comparing 'cld.tar-160-6.out' with 
+comparing 'cpu2006docs.tar-250-6e.out' with 
+comparing 'input.combined-250-7.out' with 
+Specinvoke: /mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/557.xz_r/run/run_base_refrate_mytest-m64.0000 -f compare.cmd -E -e compare.err -o compare.stdout
+Issuing command '/mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/557.xz_r/run/run_base_refrate_mytest-m64.0000 -f compare.cmd -E -e compare.err -o compare.stdout'
+Start command: 2017-11-01 07:24:46 (1509535486.13058)
+Stop command: 2017-11-01 07:24:46 (1509535486.58246)
+Elapsed time for command: 00:00:00 (0.451886892318726)
+Benchmark Times:
+  Run Start:    2017-11-01 07:19:13 (1509535153)
+  Rate Start:   2017-11-01 07:19:13 (1509535153.18691)
+  Rate End:     2017-11-01 07:24:45 (1509535485.95164)
+  Run Stop:     2017-11-01 07:24:46 (1509535486)
+  Run Elapsed:  00:05:33 (333)
+  Run Reported: 00:05:32 (332 764737844 332.764738)
+ Success 557.xz_r base refrate ratio=3.25, runtime=332.764738, copies=1, threads=1, power=0.00W, temp=0.00 degC, humidity=0.00%
+Success: 3x557.xz_r
+Producing Raw Reports
+ label: mytest-m64
+  workload: refrate (ref)
+   benchset: intspeed
+   benchset: intrate
+   metric: SPECrate2017_int_base
+    format: raw -> /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.009.intrate.refrate.rsf
+Parsing flags for 557.xz_r base: done
+Doing flag reduction: done
+    format: flags -> /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.009.intrate.refrate.flags.html
+    format: cfg -> /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.009.intrate.refrate.cfg, /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.009.intrate.refrate.orig.cfg
+    format: CSV -> /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.009.intrate.refrate.csv
+    format: PDF -> 
+A line in your General Notes section is too long!
+
+/mnt/freezedisk/speccpu2017-intptr/result/CPU2017.009.intrate.refrate.pdf
+    format: HTML -> /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.009.intrate.refrate.html
+    format: Text -> /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.009.intrate.refrate.txt
+   benchset: fpspeed
+   benchset: fprate
+runcpu finished at 2017-11-01 07:24:49; 1008 total seconds elapsed
+Info: file_tail(23281): file '/mnt/freezedisk/speccpu2017-intptr/tmp/CPU2017.009/templogs/preenv.intrate.009.0.debug' was removed and will no longer be followed.  No action is required.
+The log for this run is in /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.009.log
+
+runcpu finished at 2017-11-01 07:24:49; 1009 total seconds elapsed

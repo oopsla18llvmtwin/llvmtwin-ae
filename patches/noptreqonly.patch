@@ -1,0 +1,63 @@
+From 889192266a372fb6967fcbcc0afb811323bea590 Mon Sep 17 00:00:00 2001
+From: aqjune <aqjune@gmail.com>
+Date: Sat, 12 Aug 2017 23:51:18 +0900
+Subject: [PATCH 1/2] Disable GVN for pointer comparison
+
+---
+ lib/Transforms/Scalar/GVN.cpp | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/lib/Transforms/Scalar/GVN.cpp b/lib/Transforms/Scalar/GVN.cpp
+index 593aad74bd1..2ffb2329eeb 100644
+--- a/lib/Transforms/Scalar/GVN.cpp
++++ b/lib/Transforms/Scalar/GVN.cpp
+@@ -1767,8 +1767,9 @@ bool GVN::propagateEquality(Value *LHS, Value *RHS, const BasicBlockEdge &Root,
+ 
+       // If "A == B" is known true, or "A != B" is known false, then replace
+       // A with B everywhere in the scope.
+-      if ((isKnownTrue && Cmp->getPredicate() == CmpInst::ICMP_EQ) ||
+-          (isKnownFalse && Cmp->getPredicate() == CmpInst::ICMP_NE))
++      if (!Op0->getType()->isPtrOrPtrVectorTy() &&
++          ((isKnownTrue && Cmp->getPredicate() == CmpInst::ICMP_EQ) ||
++          (isKnownFalse && Cmp->getPredicate() == CmpInst::ICMP_NE)))
+         Worklist.push_back(std::make_pair(Op0, Op1));
+ 
+       // Handle the floating point versions of equality comparisons too.
+-- 
+2.17.0
+
+
+From 61c550d89cff45329d8d615c9e9c9af9aad73426 Mon Sep 17 00:00:00 2001
+From: aqjune <aqjune@gmail.com>
+Date: Sat, 9 Sep 2017 19:00:21 +0900
+Subject: [PATCH 2/2] Disable folding 'select (icmp pred ptr1 ptr2) ptr1 ptr2'
+
+---
+ lib/Analysis/InstructionSimplify.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/lib/Analysis/InstructionSimplify.cpp b/lib/Analysis/InstructionSimplify.cpp
+index 05afc4f5501..0f355951e3c 100644
+--- a/lib/Analysis/InstructionSimplify.cpp
++++ b/lib/Analysis/InstructionSimplify.cpp
+@@ -3545,7 +3545,7 @@ static Value *simplifySelectWithICmpCond(Value *CondVal, Value *TrueVal,
+   // If we have an equality comparison, then we know the value in one of the
+   // arms of the select. See if substituting this value into the arm and
+   // simplifying the result yields the same value as the other arm.
+-  if (Pred == ICmpInst::ICMP_EQ) {
++  if (Pred == ICmpInst::ICMP_EQ && !CmpLHS->getType()->isPtrOrPtrVectorTy()) {
+     if (SimplifyWithOpReplaced(FalseVal, CmpLHS, CmpRHS, Q, MaxRecurse) ==
+             TrueVal ||
+         SimplifyWithOpReplaced(FalseVal, CmpRHS, CmpLHS, Q, MaxRecurse) ==
+@@ -3556,7 +3556,7 @@ static Value *simplifySelectWithICmpCond(Value *CondVal, Value *TrueVal,
+         SimplifyWithOpReplaced(TrueVal, CmpRHS, CmpLHS, Q, MaxRecurse) ==
+             FalseVal)
+       return FalseVal;
+-  } else if (Pred == ICmpInst::ICMP_NE) {
++  } else if (Pred == ICmpInst::ICMP_NE && !CmpLHS->getType()->isPtrOrPtrVectorTy()) {
+     if (SimplifyWithOpReplaced(TrueVal, CmpLHS, CmpRHS, Q, MaxRecurse) ==
+             FalseVal ||
+         SimplifyWithOpReplaced(TrueVal, CmpRHS, CmpLHS, Q, MaxRecurse) ==
+-- 
+2.17.0
+

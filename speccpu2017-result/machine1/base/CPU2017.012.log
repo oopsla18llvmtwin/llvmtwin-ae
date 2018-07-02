@@ -1,0 +1,1453 @@
+runcpu v5825 started at 2017-11-01 21:07:28 on "freeze4"
+runcpu is: /mnt/freezedisk/speccpu2017-intptr/bin/harness/runcpu
+runcpu: runcpu --config linux64-amd64-clang-base-5.0-o3-release.cfg --noreportable --rebuild --iterations 3 511.povray_r
+toolset: linux-x86_64
+
+Locating benchmarks...found 47 benchmarks in 53 benchsets.
+Reading config file '/mnt/freezedisk/speccpu2017-intptr/config/linux64-amd64-clang-base-5.0-o3-release.cfg'
+
+1 configuration selected:
+
+ Action    Run Mode   Workload     Report Type     Benchmarks
+--------   --------   --------   ---------------   ----------------------------
+validate   rate       refrate    SPECrate2017_fp   511.povray_r                
+-------------------------------------------------------------------------------
+
+Setting up environment for running 511.povray_r...
+Starting runcpu for 511.povray_r...
+Running "specperl /mnt/freezedisk/speccpu2017-intptr/bin/sysinfo" to gather system information.
+sysinfo: r5797 of 2017-06-14 (96c45e4568ad54c135fd618bcc091c0f)
+sysinfo: Getting system information for Linux...
+sysinfo: ...getting CPU info
+sysinfo: ...getting info from numactl
+sysinfo: ...getting memory info
+sysinfo: ...getting OS info
+sysinfo: ...getting disk info
+sysinfo: ...trying to get DIMM info from dmidecode
+Retrieving flags file (/mnt/freezedisk/speccpu2017-intptr/config/flags/gcc.xml)...
+Retrieving flags file (/mnt/freezedisk/speccpu2017-intptr/config/flags/clang.xml)...
+Verbosity = 5
+Action    = validate
+Tune      = base
+Label     = mytest-m64
+Size      = refrate
+benchmarks= 511.povray_r
+outputs   = txt,html,cfg,pdf,csv
+username  = sflab
+Environment settings:
+LD_LIBRARY_PATH = "/mnt/freezedisk/llvm-intptr-base-5.0-release/lib"
+LIBRARY_PATH = "/mnt/freezedisk/llvm-intptr-base-5.0-release/lib"
+PATH = "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin:%{ENV_PATH}"
+
+Benchmarks selected: 511.povray_r
+When checking executables (/mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/511.povray_r/exe/imagevalidate_511_base.mytest-m64,/mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/511.povray_r/exe/povray_r_base.mytest-m64), no checksums were
+  found in the config file.  They will be installed after build.
+When checking executables (/mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/511.povray_r/exe/imagevalidate_511_base.mytest-m64,/mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/511.povray_r/exe/povray_r_base.mytest-m64), no checksums were
+  found in the config file.  They will be installed after build.
+Compiling Binaries
+------------------------------------------------------------------------
+  Building 511.povray_r base mytest-m64: (build_base_mytest-m64.0000) [2017-11-01 21:07:30]
+Wrote to makefile '/mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/511.povray_r/build/build_base_mytest-m64.0000/Makefile.imagevalidate_511.deps':
+# End dependencies
+# These are the build dependencies
+Wrote to makefile '/mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/511.povray_r/build/build_base_mytest-m64.0000/Makefile.povray_r.deps':
+# End dependencies
+# These are the build dependencies
+Wrote to makefile '/mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/511.povray_r/build/build_base_mytest-m64.0000/Makefile.imagevalidate_511.spec':
+TUNE=base
+LABEL=mytest-m64
+NUMBER=511
+NAME=povray_r
+SOURCES= image_validator/ImageValidator.c
+EXEBASE=imagevalidate_511
+NEED_MATH=yes
+BENCHLANG=CXX C
+BASE_DIR         = /mnt/freezedisk
+BENCH_FLAGS      = -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP
+CC               = $(LLVM_BIN_PATH)/clang -m64
+CC_VERSION_OPTION = -v
+CLD              = $(LLVM_BIN_PATH)/clang -m64
+COPTIMIZE        = -O3 -mavx
+CXX              = $(LLVM_BIN_PATH)/clang++ -m64
+CXXOPTIMIZE      = -O3 -mavx
+CXX_VERSION_OPTION = -v
+DRAGONEGG_PATH   = /mnt/freezedisk/llvm-intptr-base-5.0-release/dragonegg
+DRAGONEGG_SPECS  = /mnt/freezedisk/llvm-intptr-base-5.0-release/dragonegg/integrated-as.specs
+EXTRA_FFLAGS     = 
+EXTRA_FLIBS      = -lgfortran -lm
+EXTRA_PORTABILITY = -DSPEC_LP64
+FC               = $(FORTRAN_COMP) -m64
+FC_VERSION_OPTION = -v
+FLD              = $(LLVM_BIN_PATH)/clang -m64
+FOPTIMIZE        = -O3 -mavx -funroll-loops
+FORTRAN_COMP     = $(GFORTRAN_DIR)/gfortran
+GFORTRAN_DIR     = /usr/bin
+LDOPTIMIZE       = -z muldefs
+LLVM_BIN_PATH    = /mnt/freezedisk/llvm-intptr-base-5.0-release/bin
+LLVM_GCC_DIR     = /mnt/freezedisk/llvm-intptr-base-5.0-release/gcc-4.8.2
+LLVM_INCLUDE_PATH = /mnt/freezedisk/llvm-intptr-base-5.0-release/include
+LLVM_LIB_PATH    = /mnt/freezedisk/llvm-intptr-base-5.0-release/lib
+LLVM_PATH        = /mnt/freezedisk/llvm-intptr-base-5.0-release
+LLVM_ROOT_PATH   = /mnt/freezedisk/llvm-intptr-base-5.0-release
+OPENMP_DIR       = /mnt/freezedisk/lib/libomp_oss/exports
+OS               = unix
+absolutely_no_locking = 0
+abstol           = 
+action           = validate
+allow_label_override = 0
+backup_config    = 1
+baseexe          = povray_r
+basepeak         = 0
+benchdir         = benchspec
+benchmark        = 511.povray_r
+binary           = 
+bindir           = exe
+builddir         = build
+bundleaction     = 
+bundlename       = 
+calctol          = 1
+changedhash      = 0
+check_version    = 0
+clean_between_builds = no
+command_add_redirect = 0
+commanderrfile   = speccmds.err
+commandexe       = povray_r_base.mytest-m64
+commandfile      = speccmds.cmd
+commandoutfile   = speccmds.out
+commandstdoutfile = speccmds.stdout
+comparedir       = compare
+compareerrfile   = compare.err
+comparefile      = compare.cmd
+compareoutfile   = compare.out
+comparestdoutfile = compare.stdout
+compile_error    = 0
+compwhite        = 
+configdir        = config
+configfile       = linux64-amd64-clang-base-5.0-o3-release.cfg
+configpath       = /mnt/freezedisk/speccpu2017-intptr/config/linux64-amd64-clang-base-5.0-o3-release.cfg
+copies           = 1
+current_range    = 
+datadir          = data
+default_size     = ref
+default_submit   = $command
+delay            = 0
+deletebinaries   = 0
+deletework       = 0
+dependent_workloads = 0
+device           = 
+difflines        = 10
+dirprot          = 511
+discard_power_samples = 0
+enable_monitor   = 1
+endian           = 12345678
+env_vars         = 0
+expand_notes     = 0
+expid            = 
+exthash_bits     = 256
+failflags        = 0
+fake             = 0
+feedback         = 1
+flag_url_base    = https://www.spec.org/auto/cpu2017/Docs/benchmarks/flags/
+floatcompare     = 
+force_monitor    = 0
+from_runcpu      = 2
+fw_bios          = 
+hostname         = freeze4
+http_proxy       = 
+http_timeout     = 30
+hw_avail         = 
+hw_cpu_max_mhz   = 
+hw_cpu_name      = Intel Core i3-6100
+hw_cpu_nominal_mhz = 
+hw_disk          = 230 GB  add more disk info here
+hw_memory001     = 7.497 GB fixme: If using DDR3, format is:
+hw_memory002     = 'N GB (M x N GB nRxn PCn-nnnnnR-n, ECC)'
+hw_model         = 
+hw_nchips        = 1
+hw_ncores        = 
+hw_ncpuorder     = 
+hw_nthreadspercore = 
+hw_ocache        = 
+hw_other         = 
+hw_pcache        = 
+hw_scache        = 
+hw_tcache        = 
+hw_vendor        = My Corporation
+idle_current_range = 
+idledelay        = 10
+idleduration     = 60
+ignore_errors    = 1
+ignore_sigint    = 0
+ignorecase       = 
+info_wrap_columns = 50
+inputdir         = input
+inputgenerrfile  = inputgen.err
+inputgenfile     = inputgen.cmd
+inputgenoutfile  = inputgen.out
+inputgenstdoutfile = inputgen.stdout
+iteration        = -1
+iterations       = 3
+keeptmp          = 0
+label            = mytest-m64
+license_num      = nnn (Your SPEC license number)
+line_width       = 1020
+link_input_files = 1
+locking          = 1
+log              = CPU2017
+log_line_width   = 1020
+log_timestamp    = 0
+logfile          = /mnt/freezedisk/speccpu2017-intptr/tmp/CPU2017.012/templogs/preenv.fprate.012.0
+logname          = /mnt/freezedisk/speccpu2017-intptr/tmp/CPU2017.012/templogs/preenv.fprate.012.0
+lognum           = 012.0
+mail_reports     = all
+mailcompress     = 0
+mailmethod       = smtp
+mailport         = 25
+mailserver       = 127.0.0.1
+mailto           = 
+make             = specmake
+make_no_clobber  = 0
+makefile_template = Makefile.YYYtArGeTYYYspec
+makeflags        = --jobs=8
+max_average_uncertainty = 1
+max_hum_limit    = 0
+max_report_runs  = 3
+max_unknown_uncertainty = 1
+mean_anyway      = 1
+meter_connect_timeout = 30
+meter_errors_default = 5
+meter_errors_percentage = 5
+min_report_runs  = 2
+min_temp_limit   = 20
+minimize_builddirs = 0
+minimize_rundirs = 0
+name             = povray_r
+nansupport       = 
+need_math        = yes
+no_input_handler = close
+no_monitor       = 
+noratios         = 0
+note_preenv      = 1
+notes_plat_sysinfo_000 =  Sysinfo program /mnt/freezedisk/speccpu2017-intptr/bin/sysinfo
+notes_plat_sysinfo_005 =  Rev: r5797 of 2017-06-14 96c45e4568ad54c135fd618bcc091c0f
+notes_plat_sysinfo_010 =  running on freeze4 Wed Nov  1 21:07:30 2017
+notes_plat_sysinfo_015 = 
+notes_plat_sysinfo_020 =  SUT (System Under Test) info as seen by some common utilities.
+notes_plat_sysinfo_025 =  For more information on this section, see
+notes_plat_sysinfo_030 =     https://www.spec.org/cpu2017/Docs/config.html\#sysinfo
+notes_plat_sysinfo_035 = 
+notes_plat_sysinfo_040 =  From /proc/cpuinfo
+notes_plat_sysinfo_045 =     model name : Intel(R) Core(TM) i3-6100 CPU @ 3.70GHz
+notes_plat_sysinfo_050 =        1  "physical id"s (chips)
+notes_plat_sysinfo_055 =        2 "processors"
+notes_plat_sysinfo_060 =     cores, siblings (Caution: counting these is hw and system dependent. The following
+notes_plat_sysinfo_065 =     excerpts from /proc/cpuinfo might not be reliable.  Use with caution.)
+notes_plat_sysinfo_070 =        cpu cores : 2
+notes_plat_sysinfo_075 =        siblings  : 2
+notes_plat_sysinfo_080 =        physical 0: cores 0 1
+notes_plat_sysinfo_085 = 
+notes_plat_sysinfo_090 =  From lscpu:
+notes_plat_sysinfo_095 =       Architecture:          x86_64
+notes_plat_sysinfo_100 =       CPU op-mode(s):        32-bit, 64-bit
+notes_plat_sysinfo_105 =       Byte Order:            Little Endian
+notes_plat_sysinfo_110 =       CPU(s):                2
+notes_plat_sysinfo_115 =       On-line CPU(s) list:   0,1
+notes_plat_sysinfo_120 =       Thread(s) per core:    1
+notes_plat_sysinfo_125 =       Core(s) per socket:    2
+notes_plat_sysinfo_130 =       Socket(s):             1
+notes_plat_sysinfo_135 =       NUMA node(s):          1
+notes_plat_sysinfo_140 =       Vendor ID:             GenuineIntel
+notes_plat_sysinfo_145 =       CPU family:            6
+notes_plat_sysinfo_150 =       Model:                 94
+notes_plat_sysinfo_155 =       Model name:            Intel(R) Core(TM) i3-6100 CPU @ 3.70GHz
+notes_plat_sysinfo_160 =       Stepping:              3
+notes_plat_sysinfo_165 =       CPU MHz:               3700.289
+notes_plat_sysinfo_170 =       CPU max MHz:           3700.0000
+notes_plat_sysinfo_175 =       CPU min MHz:           800.0000
+notes_plat_sysinfo_180 =       BogoMIPS:              7392.16
+notes_plat_sysinfo_185 =       Virtualization:        VT-x
+notes_plat_sysinfo_190 =       L1d cache:             32K
+notes_plat_sysinfo_195 =       L1i cache:             32K
+notes_plat_sysinfo_200 =       L2 cache:              256K
+notes_plat_sysinfo_205 =       L3 cache:              3072K
+notes_plat_sysinfo_210 =       NUMA node0 CPU(s):     0,1
+notes_plat_sysinfo_215 =       Flags:                 fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov
+notes_plat_sysinfo_220 =       pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp
+notes_plat_sysinfo_225 =       lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc
+notes_plat_sysinfo_230 =       aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma
+notes_plat_sysinfo_235 =       cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave
+notes_plat_sysinfo_240 =       avx f16c rdrand lahf_lm abm 3dnowprefetch epb intel_pt tpr_shadow vnmi flexpriority
+notes_plat_sysinfo_245 =       ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx rdseed adx smap
+notes_plat_sysinfo_250 =       clflushopt xsaveopt xsavec xgetbv1 dtherm arat pln pts hwp hwp_notify hwp_act_window
+notes_plat_sysinfo_255 =       hwp_epp
+notes_plat_sysinfo_260 = 
+notes_plat_sysinfo_265 =  /proc/cpuinfo cache data
+notes_plat_sysinfo_270 =     cache size : 3072 KB
+notes_plat_sysinfo_275 = 
+notes_plat_sysinfo_280 =  From numactl --hardware  WARNING: a numactl 'node' might or might not correspond to a
+notes_plat_sysinfo_285 =  physical chip.
+notes_plat_sysinfo_290 =    available: 1 nodes (0)
+notes_plat_sysinfo_295 =    node 0 cpus: 0 1
+notes_plat_sysinfo_300 =    node 0 size: 7676 MB
+notes_plat_sysinfo_305 =    node 0 free: 7241 MB
+notes_plat_sysinfo_310 =    node distances:
+notes_plat_sysinfo_315 =    node   0
+notes_plat_sysinfo_320 =      0:  10
+notes_plat_sysinfo_325 = 
+notes_plat_sysinfo_330 =  From /proc/meminfo
+notes_plat_sysinfo_335 =     MemTotal:        7860684 kB
+notes_plat_sysinfo_340 =     HugePages_Total:       0
+notes_plat_sysinfo_345 =     Hugepagesize:       2048 kB
+notes_plat_sysinfo_350 = 
+notes_plat_sysinfo_355 =  /usr/bin/lsb_release -d
+notes_plat_sysinfo_360 =     Ubuntu 16.04.3 LTS
+notes_plat_sysinfo_365 = 
+notes_plat_sysinfo_370 =  From /etc/*release* /etc/*version*
+notes_plat_sysinfo_375 =     debian_version: stretch/sid
+notes_plat_sysinfo_380 =     os-release:
+notes_plat_sysinfo_385 =        NAME="Ubuntu"
+notes_plat_sysinfo_390 =        VERSION="16.04.3 LTS (Xenial Xerus)"
+notes_plat_sysinfo_395 =        ID=ubuntu
+notes_plat_sysinfo_400 =        ID_LIKE=debian
+notes_plat_sysinfo_405 =        PRETTY_NAME="Ubuntu 16.04.3 LTS"
+notes_plat_sysinfo_410 =        VERSION_ID="16.04"
+notes_plat_sysinfo_415 =        HOME_URL="http://www.ubuntu.com/"
+notes_plat_sysinfo_420 =        SUPPORT_URL="http://help.ubuntu.com/"
+notes_plat_sysinfo_425 = 
+notes_plat_sysinfo_430 =  uname -a:
+notes_plat_sysinfo_435 =     Linux freeze4 4.4.0-97-generic \#120-Ubuntu SMP Tue Sep 19 17:28:18 UTC 2017 x86_64
+notes_plat_sysinfo_440 =     x86_64 x86_64 GNU/Linux
+notes_plat_sysinfo_445 = 
+notes_plat_sysinfo_450 =  run-level 3 Oct 30 07:30
+notes_plat_sysinfo_455 = 
+notes_plat_sysinfo_460 =  SPEC is set to: /mnt/freezedisk/speccpu2017-intptr
+notes_plat_sysinfo_465 =     Filesystem     Type  Size  Used Avail Use% Mounted on
+notes_plat_sysinfo_470 =     /dev/sda1      ext4  230G   56G  162G  26% /mnt/freezedisk
+notes_plat_sysinfo_475 = 
+notes_plat_sysinfo_480 =  Additional information from dmidecode follows.  WARNING: Use caution when you interpret
+notes_plat_sysinfo_485 =  this section. The 'dmidecode' program reads system data which is "intended to allow
+notes_plat_sysinfo_490 =  hardware to be accurately determined", but the intent may not be met, as there are
+notes_plat_sysinfo_495 =  frequent changes to hardware, firmware, and the "DMTF SMBIOS" standard.
+notes_plat_sysinfo_500 = 
+notes_plat_sysinfo_505 =  (End of data from sysinfo program)
+notes_wrap_columns = 0
+notes_wrap_indent =   
+num              = 511
+obiwan           = 
+os_exe_ext       = 
+output_format    = txt,html,cfg,pdf,csv
+output_root      = 
+outputdir        = output
+parallel_test    = 0
+parallel_test_submit = 0
+parallel_test_workloads = 
+path             = /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/511.povray_r
+plain_train      = 1
+platform         = 
+power            = 0
+preENV_LD_LIBRARY_PATH = /mnt/freezedisk/llvm-intptr-base-5.0-release/lib
+preENV_LIBRARY_PATH = /mnt/freezedisk/llvm-intptr-base-5.0-release/lib
+preENV_PATH      = /mnt/freezedisk/llvm-intptr-base-5.0-release/bin:%{ENV_PATH}
+preenv           = 0
+prefix           = 
+prepared_by      = sflab  (is never output, only tags rawfile)
+ranks            = 1
+rawhash_bits     = 256
+rebuild          = 1
+reftime          = reftime
+reltol           = 0.06
+reportable       = 0
+resultdir        = result
+review           = 0
+run              = all
+runcpu           = /mnt/freezedisk/speccpu2017-intptr/bin/harness/runcpu --configfile linux64-amd64-clang-base-5.0-o3-release.cfg --noreportable --rebuild --iterations 3 --noreportable --nopower --runmode rate --tune base --size refrate 511.povray_r --nopreenv --note-preenv --logfile /mnt/freezedisk/speccpu2017-intptr/tmp/CPU2017.012/templogs/preenv.fprate.012.0 --lognum 012.0 --from_runcpu 2
+rundir           = run
+runmode          = rate
+safe_eval        = 1
+save_build_files = 
+section_specifier_fatal = 1
+setprocgroup     = 1
+setup_error      = 0
+sigint           = 2
+size             = refrate
+size_class       = ref
+skipabstol       = 
+skipobiwan       = 
+skipreltol       = 
+skiptol          = 
+smarttune        = base
+specdiff         = specdiff
+specrun          = specinvoke
+srcalt           = 
+srcdir           = src
+srcsource        = /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/511.povray_r/src
+stagger          = 10
+strict_rundir_verify = 1
+submit_default   = echo "$command" > run.sh ; $BIND bash run.sh
+sw_avail         = 
+sw_base_ptrsize  = 64-bit
+sw_compiler001   = C/C++: Version 3.9.0 of Clang, the
+sw_compiler002   = LLVM Compiler Infrastructure
+sw_compiler003   = Fortran: Version 4.8.2 of GCC, the
+sw_compiler004   = GNU Compiler Collection
+sw_compiler005   = DragonEgg: Version 3.5.2, the
+sw_compiler006   = LLVM Compiler Infrastructure
+sw_file          = ext4
+sw_os001         = Ubuntu 16.04.3 LTS
+sw_os002         = 4.4.0-97-generic
+sw_other         = 
+sw_peak_ptrsize  = 64-bit
+sw_state         = Run level 3 (add definition here)
+sysinfo_hash_bits = 256
+sysinfo_program  = specperl /mnt/freezedisk/speccpu2017-intptr/bin/sysinfo
+sysinfo_program_hash = sysinfo:SHA:ecd2bef08f316af97f5a7768b641e2a3307c1b4b68efb5a57fa76367d790d233
+table            = 1
+teeout           = 0
+test_date        = Nov-2017
+test_sponsor     = My Corporation
+tester           = My Corporation
+threads          = 1
+top              = /mnt/freezedisk/speccpu2017-intptr
+train_single_thread = 0
+train_with       = train
+tune             = base
+uid              = 1000
+unbuffer         = 1
+uncertainty_exception = 5
+update           = 0
+update_url       = http://www.spec.org/auto/cpu2017/updates/
+use_submit_for_compare = 0
+use_submit_for_speed = 0
+username         = sflab
+verbose          = 5
+verify_binaries  = 1
+version          = 0.904000
+version_url      = http://www.spec.org/auto/cpu2017/current_version
+voltage_range    = 
+worklist         = list
+OUTPUT_RMFILES   = imagevalidate_SPEC-benchmark.tga.out
+Wrote to makefile '/mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/511.povray_r/build/build_base_mytest-m64.0000/Makefile.povray_r.spec':
+TUNE=base
+LABEL=mytest-m64
+NUMBER=511
+NAME=povray_r
+SOURCES= atmosph.cpp bbox.cpp bcyl.cpp benchmark.cpp bezier.cpp blob.cpp \
+	 boxes.cpp bsphere.cpp camera.cpp chi2.cpp colour.cpp colutils.cpp \
+	 cones.cpp csg.cpp discs.cpp express.cpp fncode.cpp fnintern.cpp \
+	 fnpovfpu.cpp fnsyntax.cpp fpmetric.cpp fractal.cpp function.cpp \
+	 hcmplx.cpp hfield.cpp histogra.cpp iff.cpp image.cpp interior.cpp \
+	 isosurf.cpp lathe.cpp lbuffer.cpp lightgrp.cpp lighting.cpp mathutil.cpp \
+	 matrices.cpp media.cpp mesh.cpp normal.cpp objects.cpp octree.cpp \
+	 optout.cpp parse.cpp parsestr.cpp parstxtr.cpp pattern.cpp pgm.cpp \
+	 photons.cpp pigment.cpp planes.cpp point.cpp poly.cpp polygon.cpp \
+	 polysolv.cpp povmsend.cpp povmsrec.cpp povray.cpp pov_mem.cpp \
+	 pov_util.cpp ppm.cpp prism.cpp quadrics.cpp quatern.cpp radiosit.cpp \
+	 rad_data.cpp ray.cpp rendctrl.cpp render.cpp renderio.cpp reswords.cpp \
+	 sor.cpp spheres.cpp sphsweep.cpp splines.cpp statspov.cpp super.cpp \
+	 targa.cpp texture.cpp tokenize.cpp torus.cpp triangle.cpp truetype.cpp \
+	 txttest.cpp userdisp.cpp userio.cpp vbuffer.cpp vlbuffer.cpp warps.cpp \
+	 base/fileinputoutput.cpp base/povms.cpp base/povmscpp.cpp \
+	 base/processoptions.cpp base/stringutilities.cpp base/textstream.cpp \
+	 base/textstreambuffer.cpp frontend/defaultplatformbase.cpp \
+	 frontend/defaultrenderfrontend.cpp frontend/messageoutput.cpp \
+	 frontend/processrenderoptions.cpp frontend/renderfrontend.cpp \
+	 spec_qsort/spec_qsort.c
+EXEBASE=povray_r
+NEED_MATH=yes
+BENCHLANG=CXX C
+BASE_DIR         = /mnt/freezedisk
+BENCH_FLAGS      = -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP
+CC               = $(LLVM_BIN_PATH)/clang -m64
+CC_VERSION_OPTION = -v
+CLD              = $(LLVM_BIN_PATH)/clang -m64
+COPTIMIZE        = -O3 -mavx
+CXX              = $(LLVM_BIN_PATH)/clang++ -m64
+CXXOPTIMIZE      = -O3 -mavx
+CXX_VERSION_OPTION = -v
+DRAGONEGG_PATH   = /mnt/freezedisk/llvm-intptr-base-5.0-release/dragonegg
+DRAGONEGG_SPECS  = /mnt/freezedisk/llvm-intptr-base-5.0-release/dragonegg/integrated-as.specs
+EXTRA_FFLAGS     = 
+EXTRA_FLIBS      = -lgfortran -lm
+EXTRA_PORTABILITY = -DSPEC_LP64
+FC               = $(FORTRAN_COMP) -m64
+FC_VERSION_OPTION = -v
+FLD              = $(LLVM_BIN_PATH)/clang -m64
+FOPTIMIZE        = -O3 -mavx -funroll-loops
+FORTRAN_COMP     = $(GFORTRAN_DIR)/gfortran
+GFORTRAN_DIR     = /usr/bin
+LDOPTIMIZE       = -z muldefs
+LLVM_BIN_PATH    = /mnt/freezedisk/llvm-intptr-base-5.0-release/bin
+LLVM_GCC_DIR     = /mnt/freezedisk/llvm-intptr-base-5.0-release/gcc-4.8.2
+LLVM_INCLUDE_PATH = /mnt/freezedisk/llvm-intptr-base-5.0-release/include
+LLVM_LIB_PATH    = /mnt/freezedisk/llvm-intptr-base-5.0-release/lib
+LLVM_PATH        = /mnt/freezedisk/llvm-intptr-base-5.0-release
+LLVM_ROOT_PATH   = /mnt/freezedisk/llvm-intptr-base-5.0-release
+OPENMP_DIR       = /mnt/freezedisk/lib/libomp_oss/exports
+OS               = unix
+absolutely_no_locking = 0
+abstol           = 
+action           = validate
+allow_label_override = 0
+backup_config    = 1
+baseexe          = povray_r
+basepeak         = 0
+benchdir         = benchspec
+benchmark        = 511.povray_r
+binary           = 
+bindir           = exe
+builddir         = build
+bundleaction     = 
+bundlename       = 
+calctol          = 1
+changedhash      = 0
+check_version    = 0
+clean_between_builds = no
+command_add_redirect = 0
+commanderrfile   = speccmds.err
+commandexe       = povray_r_base.mytest-m64
+commandfile      = speccmds.cmd
+commandoutfile   = speccmds.out
+commandstdoutfile = speccmds.stdout
+comparedir       = compare
+compareerrfile   = compare.err
+comparefile      = compare.cmd
+compareoutfile   = compare.out
+comparestdoutfile = compare.stdout
+compile_error    = 0
+compwhite        = 
+configdir        = config
+configfile       = linux64-amd64-clang-base-5.0-o3-release.cfg
+configpath       = /mnt/freezedisk/speccpu2017-intptr/config/linux64-amd64-clang-base-5.0-o3-release.cfg
+copies           = 1
+current_range    = 
+datadir          = data
+default_size     = ref
+default_submit   = $command
+delay            = 0
+deletebinaries   = 0
+deletework       = 0
+dependent_workloads = 0
+device           = 
+difflines        = 10
+dirprot          = 511
+discard_power_samples = 0
+enable_monitor   = 1
+endian           = 12345678
+env_vars         = 0
+expand_notes     = 0
+expid            = 
+exthash_bits     = 256
+failflags        = 0
+fake             = 0
+feedback         = 1
+flag_url_base    = https://www.spec.org/auto/cpu2017/Docs/benchmarks/flags/
+floatcompare     = 
+force_monitor    = 0
+from_runcpu      = 2
+fw_bios          = 
+hostname         = freeze4
+http_proxy       = 
+http_timeout     = 30
+hw_avail         = 
+hw_cpu_max_mhz   = 
+hw_cpu_name      = Intel Core i3-6100
+hw_cpu_nominal_mhz = 
+hw_disk          = 230 GB  add more disk info here
+hw_memory001     = 7.497 GB fixme: If using DDR3, format is:
+hw_memory002     = 'N GB (M x N GB nRxn PCn-nnnnnR-n, ECC)'
+hw_model         = 
+hw_nchips        = 1
+hw_ncores        = 
+hw_ncpuorder     = 
+hw_nthreadspercore = 
+hw_ocache        = 
+hw_other         = 
+hw_pcache        = 
+hw_scache        = 
+hw_tcache        = 
+hw_vendor        = My Corporation
+idle_current_range = 
+idledelay        = 10
+idleduration     = 60
+ignore_errors    = 1
+ignore_sigint    = 0
+ignorecase       = 
+info_wrap_columns = 50
+inputdir         = input
+inputgenerrfile  = inputgen.err
+inputgenfile     = inputgen.cmd
+inputgenoutfile  = inputgen.out
+inputgenstdoutfile = inputgen.stdout
+iteration        = -1
+iterations       = 3
+keeptmp          = 0
+label            = mytest-m64
+license_num      = nnn (Your SPEC license number)
+line_width       = 1020
+link_input_files = 1
+locking          = 1
+log              = CPU2017
+log_line_width   = 1020
+log_timestamp    = 0
+logfile          = /mnt/freezedisk/speccpu2017-intptr/tmp/CPU2017.012/templogs/preenv.fprate.012.0
+logname          = /mnt/freezedisk/speccpu2017-intptr/tmp/CPU2017.012/templogs/preenv.fprate.012.0
+lognum           = 012.0
+mail_reports     = all
+mailcompress     = 0
+mailmethod       = smtp
+mailport         = 25
+mailserver       = 127.0.0.1
+mailto           = 
+make             = specmake
+make_no_clobber  = 0
+makefile_template = Makefile.YYYtArGeTYYYspec
+makeflags        = --jobs=8
+max_average_uncertainty = 1
+max_hum_limit    = 0
+max_report_runs  = 3
+max_unknown_uncertainty = 1
+mean_anyway      = 1
+meter_connect_timeout = 30
+meter_errors_default = 5
+meter_errors_percentage = 5
+min_report_runs  = 2
+min_temp_limit   = 20
+minimize_builddirs = 0
+minimize_rundirs = 0
+name             = povray_r
+nansupport       = 
+need_math        = yes
+no_input_handler = close
+no_monitor       = 
+noratios         = 0
+note_preenv      = 1
+notes_plat_sysinfo_000 =  Sysinfo program /mnt/freezedisk/speccpu2017-intptr/bin/sysinfo
+notes_plat_sysinfo_005 =  Rev: r5797 of 2017-06-14 96c45e4568ad54c135fd618bcc091c0f
+notes_plat_sysinfo_010 =  running on freeze4 Wed Nov  1 21:07:30 2017
+notes_plat_sysinfo_015 = 
+notes_plat_sysinfo_020 =  SUT (System Under Test) info as seen by some common utilities.
+notes_plat_sysinfo_025 =  For more information on this section, see
+notes_plat_sysinfo_030 =     https://www.spec.org/cpu2017/Docs/config.html\#sysinfo
+notes_plat_sysinfo_035 = 
+notes_plat_sysinfo_040 =  From /proc/cpuinfo
+notes_plat_sysinfo_045 =     model name : Intel(R) Core(TM) i3-6100 CPU @ 3.70GHz
+notes_plat_sysinfo_050 =        1  "physical id"s (chips)
+notes_plat_sysinfo_055 =        2 "processors"
+notes_plat_sysinfo_060 =     cores, siblings (Caution: counting these is hw and system dependent. The following
+notes_plat_sysinfo_065 =     excerpts from /proc/cpuinfo might not be reliable.  Use with caution.)
+notes_plat_sysinfo_070 =        cpu cores : 2
+notes_plat_sysinfo_075 =        siblings  : 2
+notes_plat_sysinfo_080 =        physical 0: cores 0 1
+notes_plat_sysinfo_085 = 
+notes_plat_sysinfo_090 =  From lscpu:
+notes_plat_sysinfo_095 =       Architecture:          x86_64
+notes_plat_sysinfo_100 =       CPU op-mode(s):        32-bit, 64-bit
+notes_plat_sysinfo_105 =       Byte Order:            Little Endian
+notes_plat_sysinfo_110 =       CPU(s):                2
+notes_plat_sysinfo_115 =       On-line CPU(s) list:   0,1
+notes_plat_sysinfo_120 =       Thread(s) per core:    1
+notes_plat_sysinfo_125 =       Core(s) per socket:    2
+notes_plat_sysinfo_130 =       Socket(s):             1
+notes_plat_sysinfo_135 =       NUMA node(s):          1
+notes_plat_sysinfo_140 =       Vendor ID:             GenuineIntel
+notes_plat_sysinfo_145 =       CPU family:            6
+notes_plat_sysinfo_150 =       Model:                 94
+notes_plat_sysinfo_155 =       Model name:            Intel(R) Core(TM) i3-6100 CPU @ 3.70GHz
+notes_plat_sysinfo_160 =       Stepping:              3
+notes_plat_sysinfo_165 =       CPU MHz:               3700.289
+notes_plat_sysinfo_170 =       CPU max MHz:           3700.0000
+notes_plat_sysinfo_175 =       CPU min MHz:           800.0000
+notes_plat_sysinfo_180 =       BogoMIPS:              7392.16
+notes_plat_sysinfo_185 =       Virtualization:        VT-x
+notes_plat_sysinfo_190 =       L1d cache:             32K
+notes_plat_sysinfo_195 =       L1i cache:             32K
+notes_plat_sysinfo_200 =       L2 cache:              256K
+notes_plat_sysinfo_205 =       L3 cache:              3072K
+notes_plat_sysinfo_210 =       NUMA node0 CPU(s):     0,1
+notes_plat_sysinfo_215 =       Flags:                 fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov
+notes_plat_sysinfo_220 =       pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp
+notes_plat_sysinfo_225 =       lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc
+notes_plat_sysinfo_230 =       aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma
+notes_plat_sysinfo_235 =       cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave
+notes_plat_sysinfo_240 =       avx f16c rdrand lahf_lm abm 3dnowprefetch epb intel_pt tpr_shadow vnmi flexpriority
+notes_plat_sysinfo_245 =       ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx rdseed adx smap
+notes_plat_sysinfo_250 =       clflushopt xsaveopt xsavec xgetbv1 dtherm arat pln pts hwp hwp_notify hwp_act_window
+notes_plat_sysinfo_255 =       hwp_epp
+notes_plat_sysinfo_260 = 
+notes_plat_sysinfo_265 =  /proc/cpuinfo cache data
+notes_plat_sysinfo_270 =     cache size : 3072 KB
+notes_plat_sysinfo_275 = 
+notes_plat_sysinfo_280 =  From numactl --hardware  WARNING: a numactl 'node' might or might not correspond to a
+notes_plat_sysinfo_285 =  physical chip.
+notes_plat_sysinfo_290 =    available: 1 nodes (0)
+notes_plat_sysinfo_295 =    node 0 cpus: 0 1
+notes_plat_sysinfo_300 =    node 0 size: 7676 MB
+notes_plat_sysinfo_305 =    node 0 free: 7241 MB
+notes_plat_sysinfo_310 =    node distances:
+notes_plat_sysinfo_315 =    node   0
+notes_plat_sysinfo_320 =      0:  10
+notes_plat_sysinfo_325 = 
+notes_plat_sysinfo_330 =  From /proc/meminfo
+notes_plat_sysinfo_335 =     MemTotal:        7860684 kB
+notes_plat_sysinfo_340 =     HugePages_Total:       0
+notes_plat_sysinfo_345 =     Hugepagesize:       2048 kB
+notes_plat_sysinfo_350 = 
+notes_plat_sysinfo_355 =  /usr/bin/lsb_release -d
+notes_plat_sysinfo_360 =     Ubuntu 16.04.3 LTS
+notes_plat_sysinfo_365 = 
+notes_plat_sysinfo_370 =  From /etc/*release* /etc/*version*
+notes_plat_sysinfo_375 =     debian_version: stretch/sid
+notes_plat_sysinfo_380 =     os-release:
+notes_plat_sysinfo_385 =        NAME="Ubuntu"
+notes_plat_sysinfo_390 =        VERSION="16.04.3 LTS (Xenial Xerus)"
+notes_plat_sysinfo_395 =        ID=ubuntu
+notes_plat_sysinfo_400 =        ID_LIKE=debian
+notes_plat_sysinfo_405 =        PRETTY_NAME="Ubuntu 16.04.3 LTS"
+notes_plat_sysinfo_410 =        VERSION_ID="16.04"
+notes_plat_sysinfo_415 =        HOME_URL="http://www.ubuntu.com/"
+notes_plat_sysinfo_420 =        SUPPORT_URL="http://help.ubuntu.com/"
+notes_plat_sysinfo_425 = 
+notes_plat_sysinfo_430 =  uname -a:
+notes_plat_sysinfo_435 =     Linux freeze4 4.4.0-97-generic \#120-Ubuntu SMP Tue Sep 19 17:28:18 UTC 2017 x86_64
+notes_plat_sysinfo_440 =     x86_64 x86_64 GNU/Linux
+notes_plat_sysinfo_445 = 
+notes_plat_sysinfo_450 =  run-level 3 Oct 30 07:30
+notes_plat_sysinfo_455 = 
+notes_plat_sysinfo_460 =  SPEC is set to: /mnt/freezedisk/speccpu2017-intptr
+notes_plat_sysinfo_465 =     Filesystem     Type  Size  Used Avail Use% Mounted on
+notes_plat_sysinfo_470 =     /dev/sda1      ext4  230G   56G  162G  26% /mnt/freezedisk
+notes_plat_sysinfo_475 = 
+notes_plat_sysinfo_480 =  Additional information from dmidecode follows.  WARNING: Use caution when you interpret
+notes_plat_sysinfo_485 =  this section. The 'dmidecode' program reads system data which is "intended to allow
+notes_plat_sysinfo_490 =  hardware to be accurately determined", but the intent may not be met, as there are
+notes_plat_sysinfo_495 =  frequent changes to hardware, firmware, and the "DMTF SMBIOS" standard.
+notes_plat_sysinfo_500 = 
+notes_plat_sysinfo_505 =  (End of data from sysinfo program)
+notes_wrap_columns = 0
+notes_wrap_indent =   
+num              = 511
+obiwan           = 
+os_exe_ext       = 
+output_format    = txt,html,cfg,pdf,csv
+output_root      = 
+outputdir        = output
+parallel_test    = 0
+parallel_test_submit = 0
+parallel_test_workloads = 
+path             = /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/511.povray_r
+plain_train      = 1
+platform         = 
+power            = 0
+preENV_LD_LIBRARY_PATH = /mnt/freezedisk/llvm-intptr-base-5.0-release/lib
+preENV_LIBRARY_PATH = /mnt/freezedisk/llvm-intptr-base-5.0-release/lib
+preENV_PATH      = /mnt/freezedisk/llvm-intptr-base-5.0-release/bin:%{ENV_PATH}
+preenv           = 0
+prefix           = 
+prepared_by      = sflab  (is never output, only tags rawfile)
+ranks            = 1
+rawhash_bits     = 256
+rebuild          = 1
+reftime          = reftime
+reltol           = 0.06
+reportable       = 0
+resultdir        = result
+review           = 0
+run              = all
+runcpu           = /mnt/freezedisk/speccpu2017-intptr/bin/harness/runcpu --configfile linux64-amd64-clang-base-5.0-o3-release.cfg --noreportable --rebuild --iterations 3 --noreportable --nopower --runmode rate --tune base --size refrate 511.povray_r --nopreenv --note-preenv --logfile /mnt/freezedisk/speccpu2017-intptr/tmp/CPU2017.012/templogs/preenv.fprate.012.0 --lognum 012.0 --from_runcpu 2
+rundir           = run
+runmode          = rate
+safe_eval        = 1
+save_build_files = 
+section_specifier_fatal = 1
+setprocgroup     = 1
+setup_error      = 0
+sigint           = 2
+size             = refrate
+size_class       = ref
+skipabstol       = 
+skipobiwan       = 
+skipreltol       = 
+skiptol          = 
+smarttune        = base
+specdiff         = specdiff
+specrun          = specinvoke
+srcalt           = 
+srcdir           = src
+srcsource        = /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/511.povray_r/src
+stagger          = 10
+strict_rundir_verify = 1
+submit_default   = echo "$command" > run.sh ; $BIND bash run.sh
+sw_avail         = 
+sw_base_ptrsize  = 64-bit
+sw_compiler001   = C/C++: Version 3.9.0 of Clang, the
+sw_compiler002   = LLVM Compiler Infrastructure
+sw_compiler003   = Fortran: Version 4.8.2 of GCC, the
+sw_compiler004   = GNU Compiler Collection
+sw_compiler005   = DragonEgg: Version 3.5.2, the
+sw_compiler006   = LLVM Compiler Infrastructure
+sw_file          = ext4
+sw_os001         = Ubuntu 16.04.3 LTS
+sw_os002         = 4.4.0-97-generic
+sw_other         = 
+sw_peak_ptrsize  = 64-bit
+sw_state         = Run level 3 (add definition here)
+sysinfo_hash_bits = 256
+sysinfo_program  = specperl /mnt/freezedisk/speccpu2017-intptr/bin/sysinfo
+sysinfo_program_hash = sysinfo:SHA:ecd2bef08f316af97f5a7768b641e2a3307c1b4b68efb5a57fa76367d790d233
+table            = 1
+teeout           = 0
+test_date        = Nov-2017
+test_sponsor     = My Corporation
+tester           = My Corporation
+threads          = 1
+top              = /mnt/freezedisk/speccpu2017-intptr
+train_single_thread = 0
+train_with       = train
+tune             = base
+uid              = 1000
+unbuffer         = 1
+uncertainty_exception = 5
+update           = 0
+update_url       = http://www.spec.org/auto/cpu2017/updates/
+use_submit_for_compare = 0
+use_submit_for_speed = 0
+username         = sflab
+verbose          = 5
+verify_binaries  = 1
+version          = 0.904000
+version_url      = http://www.spec.org/auto/cpu2017/current_version
+voltage_range    = 
+worklist         = list
+OUTPUT_RMFILES   = imagevalidate_SPEC-benchmark.tga.out
+  Compile for '511.povray_r' started at: 2017-11-01 21:07:30 (1509538050)
+Issuing make.clean.imagevalidate_511 command 'specmake --output-sync --jobs=8 clean TARGET=imagevalidate_511'
+Start make.clean.imagevalidate_511 command: 2017-11-01 21:07:30 (1509538050.67419)
+Stop make.clean.imagevalidate_511 command: 2017-11-01 21:07:30 (1509538050.8362)
+Elapsed time for make.clean.imagevalidate_511 command: 00:00:00 (0.162007808685303)
+Issuing make.clean.povray_r command 'specmake --output-sync --jobs=8 clean TARGET=povray_r'
+Start make.clean.povray_r command: 2017-11-01 21:07:30 (1509538050.83694)
+Stop make.clean.povray_r command: 2017-11-01 21:07:30 (1509538050.99723)
+Elapsed time for make.clean.povray_r command: 00:00:00 (0.160290002822876)
+Issuing make.imagevalidate_511 command 'specmake --output-sync --jobs=8 build TARGET=imagevalidate_511'
+Start make.imagevalidate_511 command: 2017-11-01 21:07:30 (1509538050.99807)
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o image_validator/ImageValidator.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  image_validator/ImageValidator.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64       -O3 -mavx   -z muldefs      image_validator/ImageValidator.o                      -o imagevalidate_511  
+Stop make.imagevalidate_511 command: 2017-11-01 21:07:31 (1509538051.6734)
+Elapsed time for make.imagevalidate_511 command: 00:00:00 (0.675335884094238)
+Issuing options.imagevalidate_511 command 'specmake --output-sync --jobs=8 options TARGET=imagevalidate_511'
+Start options.imagevalidate_511 command: 2017-11-01 21:07:31 (1509538051.67414)
+COMP: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o options.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  <source>"
+C: CXXC="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64"
+C: CXXOBJOPT="-c -o options"
+P: CPUFLAGS="-DSPEC -DNDEBUG"
+P: BENCH_FLAGS="-Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP"
+P: BENCH_CXXFLAGS=""
+O: OPTIMIZE=""
+O: CXXOPTIMIZE="-O3 -mavx"
+P: PORTABILITY=""
+P: CXXPORTABILITY=""
+O: EXTRA_CXXFLAGS=""
+O: EXTRA_OPTIMIZE=""
+O: EXTRA_CXXOPTIMIZE=""
+P: EXTRA_PORTABILITY="-DSPEC_LP64"
+P: EXTRA_CXXPORTABILITY=""
+COMP: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o options.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  <source>"
+C: CC="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64"
+C: COBJOPT="-c -o options"
+P: CPUFLAGS="-DSPEC -DNDEBUG"
+P: BENCH_FLAGS="-Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP"
+P: BENCH_CFLAGS=""
+O: OPTIMIZE=""
+O: COPTIMIZE="-O3 -mavx"
+P: PORTABILITY=""
+P: CPORTABILITY=""
+O: EXTRA_CFLAGS=""
+O: EXTRA_OPTIMIZE=""
+O: EXTRA_COPTIMIZE=""
+P: EXTRA_PORTABILITY="-DSPEC_LP64"
+P: EXTRA_CPORTABILITY=""
+LINK: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64       -O3 -mavx   -z muldefs      <objects>            -o options  "
+C: LD="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64"
+O: CXXOPTIMIZE="-O3 -mavx"
+O: LDOPTIMIZE="-z muldefs"
+C: LDOUT="-o options"
+Stop options.imagevalidate_511 command: 2017-11-01 21:07:31 (1509538051.83229)
+Elapsed time for options.imagevalidate_511 command: 00:00:00 (0.158144950866699)
+Issuing compiler-version.imagevalidate_511 command 'specmake --output-sync --jobs=8 compiler-version TARGET=imagevalidate_511'
+Start compiler-version.imagevalidate_511 command: 2017-11-01 21:07:31 (1509538051.83321)
+ CXXC_VERSION_OPTION:
+ CC_VERSION_OPTION:
+clang version 6.0.0 (https://github.com/aqjune/clang-intptr.git b099f9b86954800bcbdee427fc703eb8a30389da) (https://github.com/aqjune/llvm-intptr.git d3762c4675cbe5178acef79f01c813bcbfc58cf5)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: /mnt/freezedisk/llvm-intptr-base-5.0-release/bin
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6.0.0
+Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Candidate multilib: .;@m64
+Selected multilib: .;@m64
+clang-6.0: warning: argument unused during compilation: '-D SPEC' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D NDEBUG' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I frontend' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I base' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I .' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I spec_qsort' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_AUTO_SUPPRESS_OPENMP' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-O3' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-mavx' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_LP64' [-Wunused-command-line-argument]
+clang version 6.0.0 (https://github.com/aqjune/clang-intptr.git b099f9b86954800bcbdee427fc703eb8a30389da) (https://github.com/aqjune/llvm-intptr.git d3762c4675cbe5178acef79f01c813bcbfc58cf5)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: /mnt/freezedisk/llvm-intptr-base-5.0-release/bin
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6.0.0
+Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Candidate multilib: .;@m64
+Selected multilib: .;@m64
+clang-6.0: warning: argument unused during compilation: '-D SPEC' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D NDEBUG' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I frontend' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I base' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I .' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I spec_qsort' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_AUTO_SUPPRESS_OPENMP' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-O3' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-mavx' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_LP64' [-Wunused-command-line-argument]
+Stop compiler-version.imagevalidate_511 command: 2017-11-01 21:07:32 (1509538052.00048)
+Elapsed time for compiler-version.imagevalidate_511 command: 00:00:00 (0.167264938354492)
+Issuing make.povray_r command 'specmake --output-sync --jobs=8 build TARGET=povray_r'
+Start make.povray_r command: 2017-11-01 21:07:32 (1509538052.0014)
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o benchmark.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  benchmark.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o camera.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  camera.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o boxes.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  boxes.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o bsphere.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  bsphere.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o bcyl.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  bcyl.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o atmosph.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  atmosph.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o bbox.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  bbox.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o chi2.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  chi2.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o colutils.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  colutils.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o colour.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  colour.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o cones.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  cones.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o discs.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  discs.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o bezier.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  bezier.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o csg.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  csg.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o blob.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  blob.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o fnsyntax.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  fnsyntax.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o function.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  function.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o fractal.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  fractal.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o fpmetric.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  fpmetric.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o histogra.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  histogra.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o fnintern.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  fnintern.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o interior.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  interior.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o hcmplx.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  hcmplx.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o iff.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  iff.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o image.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  image.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o hfield.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  hfield.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o fncode.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  fncode.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o lightgrp.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  lightgrp.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o isosurf.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  isosurf.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o mathutil.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  mathutil.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o lathe.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  lathe.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o express.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  express.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o lbuffer.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  lbuffer.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o matrices.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  matrices.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o objects.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  objects.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o normal.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  normal.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o optout.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  optout.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o octree.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  octree.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o mesh.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  mesh.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o media.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  media.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o parsestr.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  parsestr.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o pgm.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  pgm.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o pigment.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  pigment.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o planes.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  planes.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o point.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  point.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o photons.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  photons.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o fnpovfpu.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  fnpovfpu.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o polygon.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  polygon.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o poly.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  poly.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o parstxtr.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  parstxtr.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o lighting.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  lighting.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o pov_mem.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  pov_mem.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o pov_util.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  pov_util.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o povray.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  povray.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o povmsend.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  povmsend.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o povmsrec.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  povmsrec.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o polysolv.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  polysolv.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o ppm.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  ppm.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o pattern.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  pattern.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o rad_data.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  rad_data.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o quatern.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  quatern.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o ray.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  ray.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o quadrics.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  quadrics.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o radiosit.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  radiosit.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o reswords.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  reswords.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o renderio.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  renderio.cpp
+renderio.cpp:413:58: warning: the value of the size argument in 'strncat' is too large, might lead to a buffer overflow [-Wstrncat-size]
+  strncat (Actual_Output_Name,opts.Output_Numbered_Name, sizeof (Actual_Output_Name));
+                                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+renderio.cpp:413:58: note: change the argument to be the free space in the destination buffer minus the terminating null byte
+  strncat (Actual_Output_Name,opts.Output_Numbered_Name, sizeof (Actual_Output_Name));
+                                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                         sizeof(Actual_Output_Name) - strlen(Actual_Output_Name) - 1
+1 warning generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o rendctrl.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  rendctrl.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o prism.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  prism.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o statspov.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  statspov.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o spheres.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  spheres.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o sor.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  sor.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o splines.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  splines.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o super.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  super.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o torus.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  torus.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o render.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  render.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o targa.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  targa.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o texture.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  texture.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o sphsweep.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  sphsweep.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o txttest.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  txttest.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o userdisp.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  userdisp.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o triangle.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  triangle.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o vlbuffer.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  vlbuffer.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o userio.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  userio.cpp
+userio.cpp:493:13: warning: comparison of array 'opts.Shellouts' equal to a null pointer is always false [-Wtautological-pointer-compare]
+  if ( opts.Shellouts == NULL ) return(IGNORE_RET);
+       ~~~~~^~~~~~~~~    ~~~~
+1 warning generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o base/fileinputoutput.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  base/fileinputoutput.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o warps.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  warps.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o base/stringutilities.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  base/stringutilities.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o vbuffer.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  vbuffer.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o tokenize.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  tokenize.cpp
+tokenize.cpp:3630:13: warning: comparison of array 'opts.Header_File_Name' equal to a null pointer is always false [-Wtautological-pointer-compare]
+   if (opts.Header_File_Name == NULL)
+       ~~~~~^~~~~~~~~~~~~~~~    ~~~~
+1 warning generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o base/textstream.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  base/textstream.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o base/povmscpp.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  base/povmscpp.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o base/processoptions.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  base/processoptions.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o frontend/defaultplatformbase.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  frontend/defaultplatformbase.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o base/textstreambuffer.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  base/textstreambuffer.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o frontend/renderfrontend.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  frontend/renderfrontend.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o frontend/defaultrenderfrontend.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  frontend/defaultrenderfrontend.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o frontend/processrenderoptions.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  frontend/processrenderoptions.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o frontend/messageoutput.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  frontend/messageoutput.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o truetype.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  truetype.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o spec_qsort/spec_qsort.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  spec_qsort/spec_qsort.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o base/povms.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  base/povms.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o parse.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  parse.cpp
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64       -O3 -mavx   -z muldefs      atmosph.o bbox.o bcyl.o benchmark.o bezier.o blob.o boxes.o bsphere.o camera.o chi2.o colour.o colutils.o cones.o csg.o discs.o express.o fncode.o fnintern.o fnpovfpu.o fnsyntax.o fpmetric.o fractal.o function.o hcmplx.o hfield.o histogra.o iff.o image.o interior.o isosurf.o lathe.o lbuffer.o lightgrp.o lighting.o mathutil.o matrices.o media.o mesh.o normal.o objects.o octree.o optout.o parse.o parsestr.o parstxtr.o pattern.o pgm.o photons.o pigment.o planes.o point.o poly.o polygon.o polysolv.o povmsend.o povmsrec.o povray.o pov_mem.o pov_util.o ppm.o prism.o quadrics.o quatern.o radiosit.o rad_data.o ray.o rendctrl.o render.o renderio.o reswords.o sor.o spheres.o sphsweep.o splines.o statspov.o super.o targa.o texture.o tokenize.o torus.o triangle.o truetype.o txttest.o userdisp.o userio.o vbuffer.o vlbuffer.o warps.o base/fileinputoutput.o base/povms.o base/povmscpp.o base/processoptions.o base/stringutiliti
+es.o base/textstream.o base/textstreambuffer.o frontend/defaultplatformbase.o frontend/defaultrenderfrontend.o frontend/messageoutput.o frontend/processrenderoptions.o frontend/renderfrontend.o spec_qsort/spec_qsort.o                      -o povray_r  
+Stop make.povray_r command: 2017-11-01 21:07:42 (1509538062.53064)
+Elapsed time for make.povray_r command: 00:00:10 (10.5292310714722)
+Issuing options.povray_r command 'specmake --output-sync --jobs=8 options TARGET=povray_r'
+Start options.povray_r command: 2017-11-01 21:07:42 (1509538062.53136)
+COMP: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o options.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  <source>"
+C: CXXC="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64"
+C: CXXOBJOPT="-c -o options"
+P: CPUFLAGS="-DSPEC -DNDEBUG"
+P: BENCH_FLAGS="-Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP"
+P: BENCH_CXXFLAGS=""
+O: OPTIMIZE=""
+O: CXXOPTIMIZE="-O3 -mavx"
+P: PORTABILITY=""
+P: CXXPORTABILITY=""
+O: EXTRA_CXXFLAGS=""
+O: EXTRA_OPTIMIZE=""
+O: EXTRA_CXXOPTIMIZE=""
+P: EXTRA_PORTABILITY="-DSPEC_LP64"
+P: EXTRA_CXXPORTABILITY=""
+COMP: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o options.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  <source>"
+C: CC="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64"
+C: COBJOPT="-c -o options"
+P: CPUFLAGS="-DSPEC -DNDEBUG"
+P: BENCH_FLAGS="-Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP"
+P: BENCH_CFLAGS=""
+O: OPTIMIZE=""
+O: COPTIMIZE="-O3 -mavx"
+P: PORTABILITY=""
+P: CPORTABILITY=""
+O: EXTRA_CFLAGS=""
+O: EXTRA_OPTIMIZE=""
+O: EXTRA_COPTIMIZE=""
+P: EXTRA_PORTABILITY="-DSPEC_LP64"
+P: EXTRA_CPORTABILITY=""
+LINK: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64       -O3 -mavx   -z muldefs      <objects>            -o options  "
+C: LD="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64"
+O: CXXOPTIMIZE="-O3 -mavx"
+O: LDOPTIMIZE="-z muldefs"
+C: LDOUT="-o options"
+Stop options.povray_r command: 2017-11-01 21:07:42 (1509538062.68902)
+Elapsed time for options.povray_r command: 00:00:00 (0.157655954360962)
+Issuing compiler-version.povray_r command 'specmake --output-sync --jobs=8 compiler-version TARGET=povray_r'
+Start compiler-version.povray_r command: 2017-11-01 21:07:42 (1509538062.68988)
+ CXXC_VERSION_OPTION:
+ CC_VERSION_OPTION:
+clang version 6.0.0 (https://github.com/aqjune/clang-intptr.git b099f9b86954800bcbdee427fc703eb8a30389da) (https://github.com/aqjune/llvm-intptr.git d3762c4675cbe5178acef79f01c813bcbfc58cf5)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: /mnt/freezedisk/llvm-intptr-base-5.0-release/bin
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6.0.0
+Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Candidate multilib: .;@m64
+Selected multilib: .;@m64
+clang-6.0: warning: argument unused during compilation: '-D SPEC' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D NDEBUG' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I frontend' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I base' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I .' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I spec_qsort' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_AUTO_SUPPRESS_OPENMP' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-O3' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-mavx' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_LP64' [-Wunused-command-line-argument]
+clang version 6.0.0 (https://github.com/aqjune/clang-intptr.git b099f9b86954800bcbdee427fc703eb8a30389da) (https://github.com/aqjune/llvm-intptr.git d3762c4675cbe5178acef79f01c813bcbfc58cf5)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: /mnt/freezedisk/llvm-intptr-base-5.0-release/bin
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6.0.0
+Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Candidate multilib: .;@m64
+Selected multilib: .;@m64
+clang-6.0: warning: argument unused during compilation: '-D SPEC' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D NDEBUG' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I frontend' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I base' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I .' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I spec_qsort' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_AUTO_SUPPRESS_OPENMP' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-O3' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-mavx' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_LP64' [-Wunused-command-line-argument]
+Stop compiler-version.povray_r command: 2017-11-01 21:07:42 (1509538062.8557)
+Elapsed time for compiler-version.povray_r command: 00:00:00 (0.16582202911377)
+  Compile for '511.povray_r' ended at: 2017-11-01 21:07:42 (1509538062)
+  Elapsed compile for '511.povray_r': 00:00:12 (12)
+COMP: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o options.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  <source>"
+C: CXXC="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64"
+C: CXXOBJOPT="-c -o options"
+P: CPUFLAGS="-DSPEC -DNDEBUG"
+P: BENCH_FLAGS="-Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP"
+P: BENCH_CXXFLAGS=""
+O: OPTIMIZE=""
+O: CXXOPTIMIZE="-O3 -mavx"
+P: PORTABILITY=""
+P: CXXPORTABILITY=""
+O: EXTRA_CXXFLAGS=""
+O: EXTRA_OPTIMIZE=""
+O: EXTRA_CXXOPTIMIZE=""
+P: EXTRA_PORTABILITY="-DSPEC_LP64"
+P: EXTRA_CXXPORTABILITY=""
+COMP: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o options.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  <source>"
+C: CC="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64"
+C: COBJOPT="-c -o options"
+P: CPUFLAGS="-DSPEC -DNDEBUG"
+P: BENCH_FLAGS="-Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP"
+P: BENCH_CFLAGS=""
+O: OPTIMIZE=""
+O: COPTIMIZE="-O3 -mavx"
+P: PORTABILITY=""
+P: CPORTABILITY=""
+O: EXTRA_CFLAGS=""
+O: EXTRA_OPTIMIZE=""
+O: EXTRA_COPTIMIZE=""
+P: EXTRA_PORTABILITY="-DSPEC_LP64"
+P: EXTRA_CPORTABILITY=""
+LINK: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64       -O3 -mavx   -z muldefs      <objects>            -o options  "
+C: LD="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64"
+O: CXXOPTIMIZE="-O3 -mavx"
+O: LDOPTIMIZE="-z muldefs"
+C: LDOUT="-o options"
+ CXXC_VERSION_OPTION:
+ CC_VERSION_OPTION:
+clang version 6.0.0 (https://github.com/aqjune/clang-intptr.git b099f9b86954800bcbdee427fc703eb8a30389da) (https://github.com/aqjune/llvm-intptr.git d3762c4675cbe5178acef79f01c813bcbfc58cf5)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: /mnt/freezedisk/llvm-intptr-base-5.0-release/bin
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6.0.0
+Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Candidate multilib: .;@m64
+Selected multilib: .;@m64
+clang-6.0: warning: argument unused during compilation: '-D SPEC' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D NDEBUG' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I frontend' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I base' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I .' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I spec_qsort' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_AUTO_SUPPRESS_OPENMP' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-O3' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-mavx' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_LP64' [-Wunused-command-line-argument]
+clang version 6.0.0 (https://github.com/aqjune/clang-intptr.git b099f9b86954800bcbdee427fc703eb8a30389da) (https://github.com/aqjune/llvm-intptr.git d3762c4675cbe5178acef79f01c813bcbfc58cf5)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: /mnt/freezedisk/llvm-intptr-base-5.0-release/bin
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6.0.0
+Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Candidate multilib: .;@m64
+Selected multilib: .;@m64
+clang-6.0: warning: argument unused during compilation: '-D SPEC' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D NDEBUG' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I frontend' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I base' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I .' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I spec_qsort' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_AUTO_SUPPRESS_OPENMP' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-O3' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-mavx' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_LP64' [-Wunused-command-line-argument]
+COMP: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o options.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  <source>"
+C: CXXC="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64"
+C: CXXOBJOPT="-c -o options"
+P: CPUFLAGS="-DSPEC -DNDEBUG"
+P: BENCH_FLAGS="-Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP"
+P: BENCH_CXXFLAGS=""
+O: OPTIMIZE=""
+O: CXXOPTIMIZE="-O3 -mavx"
+P: PORTABILITY=""
+P: CXXPORTABILITY=""
+O: EXTRA_CXXFLAGS=""
+O: EXTRA_OPTIMIZE=""
+O: EXTRA_CXXOPTIMIZE=""
+P: EXTRA_PORTABILITY="-DSPEC_LP64"
+P: EXTRA_CXXPORTABILITY=""
+COMP: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o options.o -DSPEC -DNDEBUG -Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  <source>"
+C: CC="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64"
+C: COBJOPT="-c -o options"
+P: CPUFLAGS="-DSPEC -DNDEBUG"
+P: BENCH_FLAGS="-Ifrontend -Ibase -I. -Ispec_qsort -DSPEC_AUTO_SUPPRESS_OPENMP"
+P: BENCH_CFLAGS=""
+O: OPTIMIZE=""
+O: COPTIMIZE="-O3 -mavx"
+P: PORTABILITY=""
+P: CPORTABILITY=""
+O: EXTRA_CFLAGS=""
+O: EXTRA_OPTIMIZE=""
+O: EXTRA_COPTIMIZE=""
+P: EXTRA_PORTABILITY="-DSPEC_LP64"
+P: EXTRA_CPORTABILITY=""
+LINK: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64       -O3 -mavx   -z muldefs      <objects>            -o options  "
+C: LD="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64"
+O: CXXOPTIMIZE="-O3 -mavx"
+O: LDOPTIMIZE="-z muldefs"
+C: LDOUT="-o options"
+ CXXC_VERSION_OPTION:
+ CC_VERSION_OPTION:
+clang version 6.0.0 (https://github.com/aqjune/clang-intptr.git b099f9b86954800bcbdee427fc703eb8a30389da) (https://github.com/aqjune/llvm-intptr.git d3762c4675cbe5178acef79f01c813bcbfc58cf5)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: /mnt/freezedisk/llvm-intptr-base-5.0-release/bin
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6.0.0
+Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Candidate multilib: .;@m64
+Selected multilib: .;@m64
+clang-6.0: warning: argument unused during compilation: '-D SPEC' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D NDEBUG' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I frontend' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I base' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I .' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I spec_qsort' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_AUTO_SUPPRESS_OPENMP' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-O3' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-mavx' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_LP64' [-Wunused-command-line-argument]
+clang version 6.0.0 (https://github.com/aqjune/clang-intptr.git b099f9b86954800bcbdee427fc703eb8a30389da) (https://github.com/aqjune/llvm-intptr.git d3762c4675cbe5178acef79f01c813bcbfc58cf5)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: /mnt/freezedisk/llvm-intptr-base-5.0-release/bin
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6.0.0
+Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Candidate multilib: .;@m64
+Selected multilib: .;@m64
+clang-6.0: warning: argument unused during compilation: '-D SPEC' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D NDEBUG' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I frontend' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I base' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I .' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I spec_qsort' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_AUTO_SUPPRESS_OPENMP' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-O3' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-mavx' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_LP64' [-Wunused-command-line-argument]
+
+Build successes for fprate: 511.povray_r(base)
+Build errors for fprate: None
+
+Setting Up Run Directories
+  Setting up 511.povray_r refrate (ref) base mytest-m64 (1 copy): run_base_refrate_mytest-m64.0000
+-----------------------------------
+Running Benchmarks
+-----------------------------------
+  Running (#1) 511.povray_r refrate (ref) base mytest-m64 (1 copy) [2017-11-01 21:07:43]
+OpenMP environment variables removed: None
+OpenMP environment variables in effect:
+	OMP_NUM_THREADS	=> '1'
+	OMP_THREAD_LIMIT	=> '1'
+Pre-run environment changes:
+	'OMP_NUM_THREADS' added: (value now '1')
+	'OMP_THREAD_LIMIT' added: (value now '1')
+Commands to run (specinvoke command file):
+    -N C
+    -b numactl -m 0 --physcpubind=0
+    -C /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/511.povray_r/run/run_base_refrate_mytest-m64.0000
+    -o SPEC-benchmark-ref.stdout -e SPEC-benchmark-ref.stderr echo "../run_base_refrate_mytest-m64.0000/povray_r_base.mytest-m64 SPEC-benchmark-ref.ini" > run.sh ; $BIND bash run.sh (timed)
+Specinvoke: /mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/511.povray_r/run/run_base_refrate_mytest-m64.0000 -f speccmds.cmd -q -e speccmds.err -o speccmds.stdout
+Issuing command '/mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/511.povray_r/run/run_base_refrate_mytest-m64.0000 -f speccmds.cmd -q -e speccmds.err -o speccmds.stdout'
+Start command: 2017-11-01 21:07:43 (1509538063.71311)
+Stop command: 2017-11-01 21:14:04 (1509538444.01116)
+Elapsed time for command: 00:06:20 (380.298056840897)
+Workload elapsed time (copy 0 workload 1) = 380.143659 seconds
+Copy 0 of 511.povray_r (base refrate) run 1 finished at 2017-11-01 21:14:03.  Total elapsed time: 380.143659
+OpenMP environment variables removed: None
+OpenMP environment variables in effect:
+	OMP_NUM_THREADS	=> '1'
+	OMP_THREAD_LIMIT	=> '1'
+Pre-run environment changes:
+	'OMP_NUM_THREADS' added: (value now '1')
+	'OMP_THREAD_LIMIT' added: (value now '1')
+comparing 'imagevalidate_SPEC-benchmark.tga.out' with reltol=0.06
+Specinvoke: /mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/511.povray_r/run/run_base_refrate_mytest-m64.0000 -f compare.cmd -E -e compare.err -o compare.stdout
+Issuing command '/mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/511.povray_r/run/run_base_refrate_mytest-m64.0000 -f compare.cmd -E -e compare.err -o compare.stdout'
+Start command: 2017-11-01 21:14:04 (1509538444.04401)
+Stop command: 2017-11-01 21:14:05 (1509538445.04778)
+Elapsed time for command: 00:00:01 (1.00376796722412)
+Benchmark Times:
+  Run Start:    2017-11-01 21:07:43 (1509538063)
+  Rate Start:   2017-11-01 21:07:43 (1509538063.7159)
+  Rate End:     2017-11-01 21:14:03 (1509538443.85956)
+  Run Stop:     2017-11-01 21:14:04 (1509538444)
+  Run Elapsed:  00:06:21 (381)
+  Run Reported: 00:06:20 (380 143658876 380.143659)
+ Success 511.povray_r base refrate ratio=6.14, runtime=380.143659, copies=1, threads=1, power=0.00W, temp=0.00 degC, humidity=0.00%
+-----------------------------------
+  Running (#2) 511.povray_r refrate (ref) base mytest-m64 (1 copy) [2017-11-01 21:14:05]
+OpenMP environment variables removed: None
+OpenMP environment variables in effect:
+	OMP_NUM_THREADS	=> '1'
+	OMP_THREAD_LIMIT	=> '1'
+Pre-run environment changes:
+	'OMP_NUM_THREADS' added: (value now '1')
+	'OMP_THREAD_LIMIT' added: (value now '1')
+Commands to run (specinvoke command file):
+    -N C
+    -b numactl -m 0 --physcpubind=0
+    -C /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/511.povray_r/run/run_base_refrate_mytest-m64.0000
+    -o SPEC-benchmark-ref.stdout -e SPEC-benchmark-ref.stderr echo "../run_base_refrate_mytest-m64.0000/povray_r_base.mytest-m64 SPEC-benchmark-ref.ini" > run.sh ; $BIND bash run.sh (timed)
+Specinvoke: /mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/511.povray_r/run/run_base_refrate_mytest-m64.0000 -f speccmds.cmd -q -e speccmds.err -o speccmds.stdout
+Issuing command '/mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/511.povray_r/run/run_base_refrate_mytest-m64.0000 -f speccmds.cmd -q -e speccmds.err -o speccmds.stdout'
+Start command: 2017-11-01 21:14:05 (1509538445.12879)
+Stop command: 2017-11-01 21:20:26 (1509538827)
+Elapsed time for command: 00:06:21 (381.871206998825)
+Workload elapsed time (copy 0 workload 1) = 381.716732 seconds
+Copy 0 of 511.povray_r (base refrate) run 2 finished at 2017-11-01 21:20:26.  Total elapsed time: 381.716732
+OpenMP environment variables removed: None
+OpenMP environment variables in effect:
+	OMP_NUM_THREADS	=> '1'
+	OMP_THREAD_LIMIT	=> '1'
+Pre-run environment changes:
+	'OMP_NUM_THREADS' added: (value now '1')
+	'OMP_THREAD_LIMIT' added: (value now '1')
+comparing 'imagevalidate_SPEC-benchmark.tga.out' with reltol=0.06
+Specinvoke: /mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/511.povray_r/run/run_base_refrate_mytest-m64.0000 -f compare.cmd -E -e compare.err -o compare.stdout
+Issuing command '/mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/511.povray_r/run/run_base_refrate_mytest-m64.0000 -f compare.cmd -E -e compare.err -o compare.stdout'
+Start command: 2017-11-01 21:20:27 (1509538827.03089)
+Stop command: 2017-11-01 21:20:28 (1509538828.02811)
+Elapsed time for command: 00:00:00 (0.997219085693359)
+Benchmark Times:
+  Run Start:    2017-11-01 21:14:05 (1509538445)
+  Rate Start:   2017-11-01 21:14:05 (1509538445.1316)
+  Rate End:     2017-11-01 21:20:26 (1509538826.84833)
+  Run Stop:     2017-11-01 21:20:26 (1509538826)
+  Run Elapsed:  00:06:21 (381)
+  Run Reported: 00:06:21 (381 716732025 381.716732)
+ Success 511.povray_r base refrate ratio=6.12, runtime=381.716732, copies=1, threads=1, power=0.00W, temp=0.00 degC, humidity=0.00%
+-----------------------------------
+  Running (#3) 511.povray_r refrate (ref) base mytest-m64 (1 copy) [2017-11-01 21:20:28]
+OpenMP environment variables removed: None
+OpenMP environment variables in effect:
+	OMP_NUM_THREADS	=> '1'
+	OMP_THREAD_LIMIT	=> '1'
+Pre-run environment changes:
+	'OMP_NUM_THREADS' added: (value now '1')
+	'OMP_THREAD_LIMIT' added: (value now '1')
+Commands to run (specinvoke command file):
+    -N C
+    -b numactl -m 0 --physcpubind=0
+    -C /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/511.povray_r/run/run_base_refrate_mytest-m64.0000
+    -o SPEC-benchmark-ref.stdout -e SPEC-benchmark-ref.stderr echo "../run_base_refrate_mytest-m64.0000/povray_r_base.mytest-m64 SPEC-benchmark-ref.ini" > run.sh ; $BIND bash run.sh (timed)
+Specinvoke: /mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/511.povray_r/run/run_base_refrate_mytest-m64.0000 -f speccmds.cmd -q -e speccmds.err -o speccmds.stdout
+Issuing command '/mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/511.povray_r/run/run_base_refrate_mytest-m64.0000 -f speccmds.cmd -q -e speccmds.err -o speccmds.stdout'
+Start command: 2017-11-01 21:20:28 (1509538828.10924)
+Stop command: 2017-11-01 21:26:50 (1509539210.16874)
+Elapsed time for command: 00:06:22 (382.059502124786)
+Workload elapsed time (copy 0 workload 1) = 381.905039 seconds
+Copy 0 of 511.povray_r (base refrate) run 3 finished at 2017-11-01 21:26:50.  Total elapsed time: 381.905039
+OpenMP environment variables removed: None
+OpenMP environment variables in effect:
+	OMP_NUM_THREADS	=> '1'
+	OMP_THREAD_LIMIT	=> '1'
+Pre-run environment changes:
+	'OMP_NUM_THREADS' added: (value now '1')
+	'OMP_THREAD_LIMIT' added: (value now '1')
+comparing 'imagevalidate_SPEC-benchmark.tga.out' with reltol=0.06
+Specinvoke: /mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/511.povray_r/run/run_base_refrate_mytest-m64.0000 -f compare.cmd -E -e compare.err -o compare.stdout
+Issuing command '/mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/511.povray_r/run/run_base_refrate_mytest-m64.0000 -f compare.cmd -E -e compare.err -o compare.stdout'
+Start command: 2017-11-01 21:26:50 (1509539210.19951)
+Stop command: 2017-11-01 21:26:51 (1509539211.20016)
+Elapsed time for command: 00:00:01 (1.00065588951111)
+Benchmark Times:
+  Run Start:    2017-11-01 21:20:28 (1509538828)
+  Rate Start:   2017-11-01 21:20:28 (1509538828.11203)
+  Rate End:     2017-11-01 21:26:50 (1509539210.01707)
+  Run Stop:     2017-11-01 21:26:50 (1509539210)
+  Run Elapsed:  00:06:22 (382)
+  Run Reported: 00:06:21 (381 905039072 381.905039)
+ Success 511.povray_r base refrate ratio=6.11, runtime=381.905039, copies=1, threads=1, power=0.00W, temp=0.00 degC, humidity=0.00%
+Success: 3x511.povray_r
+Producing Raw Reports
+ label: mytest-m64
+  workload: refrate (ref)
+   benchset: intspeed
+   benchset: intrate
+   benchset: fpspeed
+   benchset: fprate
+   metric: SPECrate2017_fp_base
+    format: raw -> /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.012.fprate.refrate.rsf
+Parsing flags for 511.povray_r base: done
+Doing flag reduction: done
+    format: flags -> /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.012.fprate.refrate.flags.html
+    format: cfg -> /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.012.fprate.refrate.cfg, /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.012.fprate.refrate.orig.cfg
+    format: CSV -> /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.012.fprate.refrate.csv
+    format: PDF -> 
+A line in your General Notes section is too long!
+
+/mnt/freezedisk/speccpu2017-intptr/result/CPU2017.012.fprate.refrate.pdf
+    format: HTML -> /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.012.fprate.refrate.html
+    format: Text -> /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.012.fprate.refrate.txt
+runcpu finished at 2017-11-01 21:26:54; 1164 total seconds elapsed
+Info: file_tail(4038): file '/mnt/freezedisk/speccpu2017-intptr/tmp/CPU2017.012/templogs/preenv.fprate.012.0.debug' was removed and will no longer be followed.  No action is required.
+The log for this run is in /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.012.log
+
+runcpu finished at 2017-11-01 21:26:54; 1165 total seconds elapsed

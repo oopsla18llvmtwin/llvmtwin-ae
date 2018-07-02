@@ -1,0 +1,2812 @@
+runcpu v5825 started at 2017-11-01 21:57:32 on "freeze4"
+runcpu is: /mnt/freezedisk/speccpu2017-intptr/bin/harness/runcpu
+runcpu: runcpu --config linux64-amd64-clang-base-5.0-o3-release.cfg --noreportable --rebuild --iterations 3 538.imagick_r
+toolset: linux-x86_64
+
+Locating benchmarks...found 47 benchmarks in 53 benchsets.
+Reading config file '/mnt/freezedisk/speccpu2017-intptr/config/linux64-amd64-clang-base-5.0-o3-release.cfg'
+
+1 configuration selected:
+
+ Action    Run Mode   Workload     Report Type     Benchmarks
+--------   --------   --------   ---------------   ----------------------------
+validate   rate       refrate    SPECrate2017_fp   538.imagick_r               
+-------------------------------------------------------------------------------
+
+Setting up environment for running 538.imagick_r...
+Starting runcpu for 538.imagick_r...
+Running "specperl /mnt/freezedisk/speccpu2017-intptr/bin/sysinfo" to gather system information.
+sysinfo: r5797 of 2017-06-14 (96c45e4568ad54c135fd618bcc091c0f)
+sysinfo: Getting system information for Linux...
+sysinfo: ...getting CPU info
+sysinfo: ...getting info from numactl
+sysinfo: ...getting memory info
+sysinfo: ...getting OS info
+sysinfo: ...getting disk info
+sysinfo: ...trying to get DIMM info from dmidecode
+Retrieving flags file (/mnt/freezedisk/speccpu2017-intptr/config/flags/gcc.xml)...
+Retrieving flags file (/mnt/freezedisk/speccpu2017-intptr/config/flags/clang.xml)...
+Verbosity = 5
+Action    = validate
+Tune      = base
+Label     = mytest-m64
+Size      = refrate
+benchmarks= 538.imagick_r
+outputs   = txt,html,cfg,pdf,csv
+username  = sflab
+Environment settings:
+LD_LIBRARY_PATH = "/mnt/freezedisk/llvm-intptr-base-5.0-release/lib"
+LIBRARY_PATH = "/mnt/freezedisk/llvm-intptr-base-5.0-release/lib"
+PATH = "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin:%{ENV_PATH}"
+
+Benchmarks selected: 538.imagick_r
+When checking executables (/mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/538.imagick_r/exe/imagevalidate_538_base.mytest-m64,/mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/538.imagick_r/exe/imagick_r_base.mytest-m64), no checksums were
+  found in the config file.  They will be installed after build.
+When checking executables (/mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/538.imagick_r/exe/imagevalidate_538_base.mytest-m64,/mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/538.imagick_r/exe/imagick_r_base.mytest-m64), no checksums were
+  found in the config file.  They will be installed after build.
+Compiling Binaries
+------------------------------------------------------------------------
+  Building 538.imagick_r base mytest-m64: (build_base_mytest-m64.0000) [2017-11-01 21:57:34]
+Wrote to makefile '/mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/538.imagick_r/build/build_base_mytest-m64.0000/Makefile.imagevalidate_538.deps':
+# End dependencies
+# These are the build dependencies
+Wrote to makefile '/mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/538.imagick_r/build/build_base_mytest-m64.0000/Makefile.imagick_r.deps':
+# End dependencies
+# These are the build dependencies
+Wrote to makefile '/mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/538.imagick_r/build/build_base_mytest-m64.0000/Makefile.imagevalidate_538.spec':
+TUNE=base
+LABEL=mytest-m64
+NUMBER=538
+NAME=imagick_r
+SOURCES= image_validator/ImageValidator.c
+EXEBASE=imagevalidate_538
+NEED_MATH=yes
+BENCHLANG=C
+BASE_DIR         = /mnt/freezedisk
+BENCH_FLAGS      = -I. -DSPEC_AUTO_SUPPRESS_OPENMP
+CC               = $(LLVM_BIN_PATH)/clang -m64
+CC_VERSION_OPTION = -v
+CLD              = $(LLVM_BIN_PATH)/clang -m64
+COPTIMIZE        = -O3 -mavx
+CXX              = $(LLVM_BIN_PATH)/clang++ -m64
+CXXOPTIMIZE      = -O3 -mavx
+CXX_VERSION_OPTION = -v
+DRAGONEGG_PATH   = /mnt/freezedisk/llvm-intptr-base-5.0-release/dragonegg
+DRAGONEGG_SPECS  = /mnt/freezedisk/llvm-intptr-base-5.0-release/dragonegg/integrated-as.specs
+EXTRA_FFLAGS     = 
+EXTRA_FLIBS      = -lgfortran -lm
+EXTRA_PORTABILITY = -DSPEC_LP64
+FC               = $(FORTRAN_COMP) -m64
+FC_VERSION_OPTION = -v
+FLD              = $(LLVM_BIN_PATH)/clang -m64
+FOPTIMIZE        = -O3 -mavx -funroll-loops
+FORTRAN_COMP     = $(GFORTRAN_DIR)/gfortran
+GFORTRAN_DIR     = /usr/bin
+LDOPTIMIZE       = -z muldefs
+LLVM_BIN_PATH    = /mnt/freezedisk/llvm-intptr-base-5.0-release/bin
+LLVM_GCC_DIR     = /mnt/freezedisk/llvm-intptr-base-5.0-release/gcc-4.8.2
+LLVM_INCLUDE_PATH = /mnt/freezedisk/llvm-intptr-base-5.0-release/include
+LLVM_LIB_PATH    = /mnt/freezedisk/llvm-intptr-base-5.0-release/lib
+LLVM_PATH        = /mnt/freezedisk/llvm-intptr-base-5.0-release
+LLVM_ROOT_PATH   = /mnt/freezedisk/llvm-intptr-base-5.0-release
+OPENMP_DIR       = /mnt/freezedisk/lib/libomp_oss/exports
+OS               = unix
+absolutely_no_locking = 0
+abstol           = 
+action           = validate
+allow_label_override = 0
+backup_config    = 1
+baseexe          = imagick_r
+basepeak         = 0
+benchdir         = benchspec
+benchmark        = 538.imagick_r
+binary           = 
+bindir           = exe
+builddir         = build
+bundleaction     = 
+bundlename       = 
+calctol          = 1
+changedhash      = 0
+check_version    = 0
+clean_between_builds = no
+command_add_redirect = 0
+commanderrfile   = speccmds.err
+commandexe       = imagick_r_base.mytest-m64
+commandfile      = speccmds.cmd
+commandoutfile   = speccmds.out
+commandstdoutfile = speccmds.stdout
+comparedir       = compare
+compareerrfile   = compare.err
+comparefile      = compare.cmd
+compareoutfile   = compare.out
+comparestdoutfile = compare.stdout
+compile_error    = 0
+compwhite        = 
+configdir        = config
+configfile       = linux64-amd64-clang-base-5.0-o3-release.cfg
+configpath       = /mnt/freezedisk/speccpu2017-intptr/config/linux64-amd64-clang-base-5.0-o3-release.cfg
+copies           = 1
+current_range    = 
+datadir          = data
+default_size     = ref
+default_submit   = $command
+delay            = 0
+deletebinaries   = 0
+deletework       = 0
+dependent_workloads = 0
+device           = 
+difflines        = 10
+dirprot          = 511
+discard_power_samples = 0
+enable_monitor   = 1
+endian           = 12345678
+env_vars         = 0
+expand_notes     = 0
+expid            = 
+exthash_bits     = 256
+failflags        = 0
+fake             = 0
+feedback         = 1
+flag_url_base    = https://www.spec.org/auto/cpu2017/Docs/benchmarks/flags/
+floatcompare     = 
+force_monitor    = 0
+from_runcpu      = 2
+fw_bios          = 
+hostname         = freeze4
+http_proxy       = 
+http_timeout     = 30
+hw_avail         = 
+hw_cpu_max_mhz   = 
+hw_cpu_name      = Intel Core i3-6100
+hw_cpu_nominal_mhz = 
+hw_disk          = 230 GB  add more disk info here
+hw_memory001     = 7.497 GB fixme: If using DDR3, format is:
+hw_memory002     = 'N GB (M x N GB nRxn PCn-nnnnnR-n, ECC)'
+hw_model         = 
+hw_nchips        = 1
+hw_ncores        = 
+hw_ncpuorder     = 
+hw_nthreadspercore = 
+hw_ocache        = 
+hw_other         = 
+hw_pcache        = 
+hw_scache        = 
+hw_tcache        = 
+hw_vendor        = My Corporation
+idle_current_range = 
+idledelay        = 10
+idleduration     = 60
+ignore_errors    = 1
+ignore_sigint    = 0
+ignorecase       = 
+info_wrap_columns = 50
+inputdir         = input
+inputgenerrfile  = inputgen.err
+inputgenfile     = inputgen.cmd
+inputgenoutfile  = inputgen.out
+inputgenstdoutfile = inputgen.stdout
+iteration        = -1
+iterations       = 3
+keeptmp          = 0
+label            = mytest-m64
+license_num      = nnn (Your SPEC license number)
+line_width       = 1020
+link_input_files = 1
+locking          = 1
+log              = CPU2017
+log_line_width   = 1020
+log_timestamp    = 0
+logfile          = /mnt/freezedisk/speccpu2017-intptr/tmp/CPU2017.015/templogs/preenv.fprate.015.0
+logname          = /mnt/freezedisk/speccpu2017-intptr/tmp/CPU2017.015/templogs/preenv.fprate.015.0
+lognum           = 015.0
+mail_reports     = all
+mailcompress     = 0
+mailmethod       = smtp
+mailport         = 25
+mailserver       = 127.0.0.1
+mailto           = 
+make             = specmake
+make_no_clobber  = 0
+makefile_template = Makefile.YYYtArGeTYYYspec
+makeflags        = --jobs=8
+max_average_uncertainty = 1
+max_hum_limit    = 0
+max_report_runs  = 3
+max_unknown_uncertainty = 1
+mean_anyway      = 1
+meter_connect_timeout = 30
+meter_errors_default = 5
+meter_errors_percentage = 5
+min_report_runs  = 2
+min_temp_limit   = 20
+minimize_builddirs = 0
+minimize_rundirs = 0
+name             = imagick_r
+nansupport       = 
+need_math        = yes
+no_input_handler = close
+no_monitor       = 
+noratios         = 0
+note_preenv      = 1
+notes_plat_sysinfo_000 =  Sysinfo program /mnt/freezedisk/speccpu2017-intptr/bin/sysinfo
+notes_plat_sysinfo_005 =  Rev: r5797 of 2017-06-14 96c45e4568ad54c135fd618bcc091c0f
+notes_plat_sysinfo_010 =  running on freeze4 Wed Nov  1 21:57:34 2017
+notes_plat_sysinfo_015 = 
+notes_plat_sysinfo_020 =  SUT (System Under Test) info as seen by some common utilities.
+notes_plat_sysinfo_025 =  For more information on this section, see
+notes_plat_sysinfo_030 =     https://www.spec.org/cpu2017/Docs/config.html\#sysinfo
+notes_plat_sysinfo_035 = 
+notes_plat_sysinfo_040 =  From /proc/cpuinfo
+notes_plat_sysinfo_045 =     model name : Intel(R) Core(TM) i3-6100 CPU @ 3.70GHz
+notes_plat_sysinfo_050 =        1  "physical id"s (chips)
+notes_plat_sysinfo_055 =        2 "processors"
+notes_plat_sysinfo_060 =     cores, siblings (Caution: counting these is hw and system dependent. The following
+notes_plat_sysinfo_065 =     excerpts from /proc/cpuinfo might not be reliable.  Use with caution.)
+notes_plat_sysinfo_070 =        cpu cores : 2
+notes_plat_sysinfo_075 =        siblings  : 2
+notes_plat_sysinfo_080 =        physical 0: cores 0 1
+notes_plat_sysinfo_085 = 
+notes_plat_sysinfo_090 =  From lscpu:
+notes_plat_sysinfo_095 =       Architecture:          x86_64
+notes_plat_sysinfo_100 =       CPU op-mode(s):        32-bit, 64-bit
+notes_plat_sysinfo_105 =       Byte Order:            Little Endian
+notes_plat_sysinfo_110 =       CPU(s):                2
+notes_plat_sysinfo_115 =       On-line CPU(s) list:   0,1
+notes_plat_sysinfo_120 =       Thread(s) per core:    1
+notes_plat_sysinfo_125 =       Core(s) per socket:    2
+notes_plat_sysinfo_130 =       Socket(s):             1
+notes_plat_sysinfo_135 =       NUMA node(s):          1
+notes_plat_sysinfo_140 =       Vendor ID:             GenuineIntel
+notes_plat_sysinfo_145 =       CPU family:            6
+notes_plat_sysinfo_150 =       Model:                 94
+notes_plat_sysinfo_155 =       Model name:            Intel(R) Core(TM) i3-6100 CPU @ 3.70GHz
+notes_plat_sysinfo_160 =       Stepping:              3
+notes_plat_sysinfo_165 =       CPU MHz:               3700.000
+notes_plat_sysinfo_170 =       CPU max MHz:           3700.0000
+notes_plat_sysinfo_175 =       CPU min MHz:           800.0000
+notes_plat_sysinfo_180 =       BogoMIPS:              7392.16
+notes_plat_sysinfo_185 =       Virtualization:        VT-x
+notes_plat_sysinfo_190 =       L1d cache:             32K
+notes_plat_sysinfo_195 =       L1i cache:             32K
+notes_plat_sysinfo_200 =       L2 cache:              256K
+notes_plat_sysinfo_205 =       L3 cache:              3072K
+notes_plat_sysinfo_210 =       NUMA node0 CPU(s):     0,1
+notes_plat_sysinfo_215 =       Flags:                 fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov
+notes_plat_sysinfo_220 =       pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp
+notes_plat_sysinfo_225 =       lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc
+notes_plat_sysinfo_230 =       aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma
+notes_plat_sysinfo_235 =       cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave
+notes_plat_sysinfo_240 =       avx f16c rdrand lahf_lm abm 3dnowprefetch epb intel_pt tpr_shadow vnmi flexpriority
+notes_plat_sysinfo_245 =       ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx rdseed adx smap
+notes_plat_sysinfo_250 =       clflushopt xsaveopt xsavec xgetbv1 dtherm arat pln pts hwp hwp_notify hwp_act_window
+notes_plat_sysinfo_255 =       hwp_epp
+notes_plat_sysinfo_260 = 
+notes_plat_sysinfo_265 =  /proc/cpuinfo cache data
+notes_plat_sysinfo_270 =     cache size : 3072 KB
+notes_plat_sysinfo_275 = 
+notes_plat_sysinfo_280 =  From numactl --hardware  WARNING: a numactl 'node' might or might not correspond to a
+notes_plat_sysinfo_285 =  physical chip.
+notes_plat_sysinfo_290 =    available: 1 nodes (0)
+notes_plat_sysinfo_295 =    node 0 cpus: 0 1
+notes_plat_sysinfo_300 =    node 0 size: 7676 MB
+notes_plat_sysinfo_305 =    node 0 free: 7237 MB
+notes_plat_sysinfo_310 =    node distances:
+notes_plat_sysinfo_315 =    node   0
+notes_plat_sysinfo_320 =      0:  10
+notes_plat_sysinfo_325 = 
+notes_plat_sysinfo_330 =  From /proc/meminfo
+notes_plat_sysinfo_335 =     MemTotal:        7860684 kB
+notes_plat_sysinfo_340 =     HugePages_Total:       0
+notes_plat_sysinfo_345 =     Hugepagesize:       2048 kB
+notes_plat_sysinfo_350 = 
+notes_plat_sysinfo_355 =  /usr/bin/lsb_release -d
+notes_plat_sysinfo_360 =     Ubuntu 16.04.3 LTS
+notes_plat_sysinfo_365 = 
+notes_plat_sysinfo_370 =  From /etc/*release* /etc/*version*
+notes_plat_sysinfo_375 =     debian_version: stretch/sid
+notes_plat_sysinfo_380 =     os-release:
+notes_plat_sysinfo_385 =        NAME="Ubuntu"
+notes_plat_sysinfo_390 =        VERSION="16.04.3 LTS (Xenial Xerus)"
+notes_plat_sysinfo_395 =        ID=ubuntu
+notes_plat_sysinfo_400 =        ID_LIKE=debian
+notes_plat_sysinfo_405 =        PRETTY_NAME="Ubuntu 16.04.3 LTS"
+notes_plat_sysinfo_410 =        VERSION_ID="16.04"
+notes_plat_sysinfo_415 =        HOME_URL="http://www.ubuntu.com/"
+notes_plat_sysinfo_420 =        SUPPORT_URL="http://help.ubuntu.com/"
+notes_plat_sysinfo_425 = 
+notes_plat_sysinfo_430 =  uname -a:
+notes_plat_sysinfo_435 =     Linux freeze4 4.4.0-97-generic \#120-Ubuntu SMP Tue Sep 19 17:28:18 UTC 2017 x86_64
+notes_plat_sysinfo_440 =     x86_64 x86_64 GNU/Linux
+notes_plat_sysinfo_445 = 
+notes_plat_sysinfo_450 =  run-level 3 Oct 30 07:30
+notes_plat_sysinfo_455 = 
+notes_plat_sysinfo_460 =  SPEC is set to: /mnt/freezedisk/speccpu2017-intptr
+notes_plat_sysinfo_465 =     Filesystem     Type  Size  Used Avail Use% Mounted on
+notes_plat_sysinfo_470 =     /dev/sda1      ext4  230G   56G  162G  26% /mnt/freezedisk
+notes_plat_sysinfo_475 = 
+notes_plat_sysinfo_480 =  Additional information from dmidecode follows.  WARNING: Use caution when you interpret
+notes_plat_sysinfo_485 =  this section. The 'dmidecode' program reads system data which is "intended to allow
+notes_plat_sysinfo_490 =  hardware to be accurately determined", but the intent may not be met, as there are
+notes_plat_sysinfo_495 =  frequent changes to hardware, firmware, and the "DMTF SMBIOS" standard.
+notes_plat_sysinfo_500 = 
+notes_plat_sysinfo_505 =  (End of data from sysinfo program)
+notes_wrap_columns = 0
+notes_wrap_indent =   
+num              = 538
+obiwan           = 
+os_exe_ext       = 
+output_format    = txt,html,cfg,pdf,csv
+output_root      = 
+outputdir        = output
+parallel_test    = 0
+parallel_test_submit = 0
+parallel_test_workloads = 
+path             = /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/538.imagick_r
+plain_train      = 1
+platform         = 
+power            = 0
+preENV_LD_LIBRARY_PATH = /mnt/freezedisk/llvm-intptr-base-5.0-release/lib
+preENV_LIBRARY_PATH = /mnt/freezedisk/llvm-intptr-base-5.0-release/lib
+preENV_PATH      = /mnt/freezedisk/llvm-intptr-base-5.0-release/bin:%{ENV_PATH}
+preenv           = 0
+prefix           = 
+prepared_by      = sflab  (is never output, only tags rawfile)
+ranks            = 1
+rawhash_bits     = 256
+rebuild          = 1
+reftime          = reftime
+reltol           = 0.01
+reportable       = 0
+resultdir        = result
+review           = 0
+run              = all
+runcpu           = /mnt/freezedisk/speccpu2017-intptr/bin/harness/runcpu --configfile linux64-amd64-clang-base-5.0-o3-release.cfg --noreportable --rebuild --iterations 3 --noreportable --nopower --runmode rate --tune base --size refrate 538.imagick_r --nopreenv --note-preenv --logfile /mnt/freezedisk/speccpu2017-intptr/tmp/CPU2017.015/templogs/preenv.fprate.015.0 --lognum 015.0 --from_runcpu 2
+rundir           = run
+runmode          = rate
+safe_eval        = 1
+save_build_files = 
+section_specifier_fatal = 1
+setprocgroup     = 1
+setup_error      = 0
+sigint           = 2
+size             = refrate
+size_class       = ref
+skipabstol       = 
+skipobiwan       = 
+skipreltol       = 
+skiptol          = 
+smarttune        = base
+specdiff         = specdiff
+specrun          = specinvoke
+srcalt           = 
+srcdir           = src
+srcsource        = /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/538.imagick_r/src
+stagger          = 10
+strict_rundir_verify = 1
+submit_default   = echo "$command" > run.sh ; $BIND bash run.sh
+sw_avail         = 
+sw_base_ptrsize  = 64-bit
+sw_compiler001   = C/C++: Version 3.9.0 of Clang, the
+sw_compiler002   = LLVM Compiler Infrastructure
+sw_compiler003   = Fortran: Version 4.8.2 of GCC, the
+sw_compiler004   = GNU Compiler Collection
+sw_compiler005   = DragonEgg: Version 3.5.2, the
+sw_compiler006   = LLVM Compiler Infrastructure
+sw_file          = ext4
+sw_os001         = Ubuntu 16.04.3 LTS
+sw_os002         = 4.4.0-97-generic
+sw_other         = 
+sw_peak_ptrsize  = 64-bit
+sw_state         = Run level 3 (add definition here)
+sysinfo_hash_bits = 256
+sysinfo_program  = specperl /mnt/freezedisk/speccpu2017-intptr/bin/sysinfo
+sysinfo_program_hash = sysinfo:SHA:ecd2bef08f316af97f5a7768b641e2a3307c1b4b68efb5a57fa76367d790d233
+table            = 1
+teeout           = 0
+test_date        = Nov-2017
+test_sponsor     = My Corporation
+tester           = My Corporation
+threads          = 1
+top              = /mnt/freezedisk/speccpu2017-intptr
+train_single_thread = 0
+train_with       = train
+tune             = base
+uid              = 1000
+unbuffer         = 1
+uncertainty_exception = 5
+update           = 0
+update_url       = http://www.spec.org/auto/cpu2017/updates/
+use_submit_for_compare = 0
+use_submit_for_speed = 0
+username         = sflab
+verbose          = 5
+verify_binaries  = 1
+version          = 0.904000
+version_url      = http://www.spec.org/auto/cpu2017/current_version
+voltage_range    = 
+worklist         = list
+OUTPUT_RMFILES   = train_validate.out
+Wrote to makefile '/mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/538.imagick_r/build/build_base_mytest-m64.0000/Makefile.imagick_r.spec':
+TUNE=base
+LABEL=mytest-m64
+NUMBER=538
+NAME=imagick_r
+SOURCES= coders/tga.c filters/analyze.c magick/accelerate.c \
+	 magick/animate.c magick/annotate.c magick/artifact.c magick/attribute.c \
+	 magick/blob.c magick/cache-view.c magick/cache.c magick/channel.c \
+	 magick/cipher.c magick/client.c magick/coder.c magick/color.c \
+	 magick/colormap.c magick/colorspace.c magick/compare.c \
+	 magick/composite.c magick/compress.c magick/configure.c \
+	 magick/constitute.c magick/decorate.c magick/delegate.c magick/display.c \
+	 magick/distort.c magick/distribute-cache.c magick/draw.c magick/effect.c \
+	 magick/enhance.c magick/exception.c magick/feature.c magick/fourier.c \
+	 magick/fx.c magick/gem.c magick/geometry.c magick/hashmap.c \
+	 magick/histogram.c magick/identify.c magick/image.c magick/layer.c \
+	 magick/list.c magick/locale.c magick/log.c magick/magic.c \
+	 magick/magick.c magick/matrix.c magick/memory.c magick/mime.c \
+	 magick/module.c magick/monitor.c magick/montage.c magick/morphology.c \
+	 magick/option.c magick/paint.c magick/pixel.c magick/policy.c \
+	 magick/prepress.c magick/profile.c magick/property.c magick/quantize.c \
+	 magick/quantum-export.c magick/quantum-import.c magick/quantum.c \
+	 magick/random.c magick/registry.c magick/resample.c magick/resize.c \
+	 magick/resource.c magick/segment.c magick/semaphore.c magick/shear.c \
+	 magick/signature.c magick/splay-tree.c magick/static.c \
+	 magick/statistic.c magick/stream.c magick/string.c magick/threshold.c \
+	 magick/timer.c magick/token.c magick/transform.c magick/type.c \
+	 magick/utility.c magick/version.c magick/xml-tree.c utilities/convert.c \
+	 wand/convert.c wand/drawing-wand.c wand/magick-image.c \
+	 wand/magick-wand.c wand/mogrify.c wand/pixel-wand.c \
+	 wand/magick-property.c wand/pixel-iterator.c wand/wand.c \
+	 magick/deprecate.c
+EXEBASE=imagick_r
+NEED_MATH=yes
+BENCHLANG=C
+BASE_DIR         = /mnt/freezedisk
+BENCH_FLAGS      = -I. -DSPEC_AUTO_SUPPRESS_OPENMP
+CC               = $(LLVM_BIN_PATH)/clang -m64
+CC_VERSION_OPTION = -v
+CLD              = $(LLVM_BIN_PATH)/clang -m64
+COPTIMIZE        = -O3 -mavx
+CXX              = $(LLVM_BIN_PATH)/clang++ -m64
+CXXOPTIMIZE      = -O3 -mavx
+CXX_VERSION_OPTION = -v
+DRAGONEGG_PATH   = /mnt/freezedisk/llvm-intptr-base-5.0-release/dragonegg
+DRAGONEGG_SPECS  = /mnt/freezedisk/llvm-intptr-base-5.0-release/dragonegg/integrated-as.specs
+EXTRA_FFLAGS     = 
+EXTRA_FLIBS      = -lgfortran -lm
+EXTRA_PORTABILITY = -DSPEC_LP64
+FC               = $(FORTRAN_COMP) -m64
+FC_VERSION_OPTION = -v
+FLD              = $(LLVM_BIN_PATH)/clang -m64
+FOPTIMIZE        = -O3 -mavx -funroll-loops
+FORTRAN_COMP     = $(GFORTRAN_DIR)/gfortran
+GFORTRAN_DIR     = /usr/bin
+LDOPTIMIZE       = -z muldefs
+LLVM_BIN_PATH    = /mnt/freezedisk/llvm-intptr-base-5.0-release/bin
+LLVM_GCC_DIR     = /mnt/freezedisk/llvm-intptr-base-5.0-release/gcc-4.8.2
+LLVM_INCLUDE_PATH = /mnt/freezedisk/llvm-intptr-base-5.0-release/include
+LLVM_LIB_PATH    = /mnt/freezedisk/llvm-intptr-base-5.0-release/lib
+LLVM_PATH        = /mnt/freezedisk/llvm-intptr-base-5.0-release
+LLVM_ROOT_PATH   = /mnt/freezedisk/llvm-intptr-base-5.0-release
+OPENMP_DIR       = /mnt/freezedisk/lib/libomp_oss/exports
+OS               = unix
+absolutely_no_locking = 0
+abstol           = 
+action           = validate
+allow_label_override = 0
+backup_config    = 1
+baseexe          = imagick_r
+basepeak         = 0
+benchdir         = benchspec
+benchmark        = 538.imagick_r
+binary           = 
+bindir           = exe
+builddir         = build
+bundleaction     = 
+bundlename       = 
+calctol          = 1
+changedhash      = 0
+check_version    = 0
+clean_between_builds = no
+command_add_redirect = 0
+commanderrfile   = speccmds.err
+commandexe       = imagick_r_base.mytest-m64
+commandfile      = speccmds.cmd
+commandoutfile   = speccmds.out
+commandstdoutfile = speccmds.stdout
+comparedir       = compare
+compareerrfile   = compare.err
+comparefile      = compare.cmd
+compareoutfile   = compare.out
+comparestdoutfile = compare.stdout
+compile_error    = 0
+compwhite        = 
+configdir        = config
+configfile       = linux64-amd64-clang-base-5.0-o3-release.cfg
+configpath       = /mnt/freezedisk/speccpu2017-intptr/config/linux64-amd64-clang-base-5.0-o3-release.cfg
+copies           = 1
+current_range    = 
+datadir          = data
+default_size     = ref
+default_submit   = $command
+delay            = 0
+deletebinaries   = 0
+deletework       = 0
+dependent_workloads = 0
+device           = 
+difflines        = 10
+dirprot          = 511
+discard_power_samples = 0
+enable_monitor   = 1
+endian           = 12345678
+env_vars         = 0
+expand_notes     = 0
+expid            = 
+exthash_bits     = 256
+failflags        = 0
+fake             = 0
+feedback         = 1
+flag_url_base    = https://www.spec.org/auto/cpu2017/Docs/benchmarks/flags/
+floatcompare     = 
+force_monitor    = 0
+from_runcpu      = 2
+fw_bios          = 
+hostname         = freeze4
+http_proxy       = 
+http_timeout     = 30
+hw_avail         = 
+hw_cpu_max_mhz   = 
+hw_cpu_name      = Intel Core i3-6100
+hw_cpu_nominal_mhz = 
+hw_disk          = 230 GB  add more disk info here
+hw_memory001     = 7.497 GB fixme: If using DDR3, format is:
+hw_memory002     = 'N GB (M x N GB nRxn PCn-nnnnnR-n, ECC)'
+hw_model         = 
+hw_nchips        = 1
+hw_ncores        = 
+hw_ncpuorder     = 
+hw_nthreadspercore = 
+hw_ocache        = 
+hw_other         = 
+hw_pcache        = 
+hw_scache        = 
+hw_tcache        = 
+hw_vendor        = My Corporation
+idle_current_range = 
+idledelay        = 10
+idleduration     = 60
+ignore_errors    = 1
+ignore_sigint    = 0
+ignorecase       = 
+info_wrap_columns = 50
+inputdir         = input
+inputgenerrfile  = inputgen.err
+inputgenfile     = inputgen.cmd
+inputgenoutfile  = inputgen.out
+inputgenstdoutfile = inputgen.stdout
+iteration        = -1
+iterations       = 3
+keeptmp          = 0
+label            = mytest-m64
+license_num      = nnn (Your SPEC license number)
+line_width       = 1020
+link_input_files = 1
+locking          = 1
+log              = CPU2017
+log_line_width   = 1020
+log_timestamp    = 0
+logfile          = /mnt/freezedisk/speccpu2017-intptr/tmp/CPU2017.015/templogs/preenv.fprate.015.0
+logname          = /mnt/freezedisk/speccpu2017-intptr/tmp/CPU2017.015/templogs/preenv.fprate.015.0
+lognum           = 015.0
+mail_reports     = all
+mailcompress     = 0
+mailmethod       = smtp
+mailport         = 25
+mailserver       = 127.0.0.1
+mailto           = 
+make             = specmake
+make_no_clobber  = 0
+makefile_template = Makefile.YYYtArGeTYYYspec
+makeflags        = --jobs=8
+max_average_uncertainty = 1
+max_hum_limit    = 0
+max_report_runs  = 3
+max_unknown_uncertainty = 1
+mean_anyway      = 1
+meter_connect_timeout = 30
+meter_errors_default = 5
+meter_errors_percentage = 5
+min_report_runs  = 2
+min_temp_limit   = 20
+minimize_builddirs = 0
+minimize_rundirs = 0
+name             = imagick_r
+nansupport       = 
+need_math        = yes
+no_input_handler = close
+no_monitor       = 
+noratios         = 0
+note_preenv      = 1
+notes_plat_sysinfo_000 =  Sysinfo program /mnt/freezedisk/speccpu2017-intptr/bin/sysinfo
+notes_plat_sysinfo_005 =  Rev: r5797 of 2017-06-14 96c45e4568ad54c135fd618bcc091c0f
+notes_plat_sysinfo_010 =  running on freeze4 Wed Nov  1 21:57:34 2017
+notes_plat_sysinfo_015 = 
+notes_plat_sysinfo_020 =  SUT (System Under Test) info as seen by some common utilities.
+notes_plat_sysinfo_025 =  For more information on this section, see
+notes_plat_sysinfo_030 =     https://www.spec.org/cpu2017/Docs/config.html\#sysinfo
+notes_plat_sysinfo_035 = 
+notes_plat_sysinfo_040 =  From /proc/cpuinfo
+notes_plat_sysinfo_045 =     model name : Intel(R) Core(TM) i3-6100 CPU @ 3.70GHz
+notes_plat_sysinfo_050 =        1  "physical id"s (chips)
+notes_plat_sysinfo_055 =        2 "processors"
+notes_plat_sysinfo_060 =     cores, siblings (Caution: counting these is hw and system dependent. The following
+notes_plat_sysinfo_065 =     excerpts from /proc/cpuinfo might not be reliable.  Use with caution.)
+notes_plat_sysinfo_070 =        cpu cores : 2
+notes_plat_sysinfo_075 =        siblings  : 2
+notes_plat_sysinfo_080 =        physical 0: cores 0 1
+notes_plat_sysinfo_085 = 
+notes_plat_sysinfo_090 =  From lscpu:
+notes_plat_sysinfo_095 =       Architecture:          x86_64
+notes_plat_sysinfo_100 =       CPU op-mode(s):        32-bit, 64-bit
+notes_plat_sysinfo_105 =       Byte Order:            Little Endian
+notes_plat_sysinfo_110 =       CPU(s):                2
+notes_plat_sysinfo_115 =       On-line CPU(s) list:   0,1
+notes_plat_sysinfo_120 =       Thread(s) per core:    1
+notes_plat_sysinfo_125 =       Core(s) per socket:    2
+notes_plat_sysinfo_130 =       Socket(s):             1
+notes_plat_sysinfo_135 =       NUMA node(s):          1
+notes_plat_sysinfo_140 =       Vendor ID:             GenuineIntel
+notes_plat_sysinfo_145 =       CPU family:            6
+notes_plat_sysinfo_150 =       Model:                 94
+notes_plat_sysinfo_155 =       Model name:            Intel(R) Core(TM) i3-6100 CPU @ 3.70GHz
+notes_plat_sysinfo_160 =       Stepping:              3
+notes_plat_sysinfo_165 =       CPU MHz:               3700.000
+notes_plat_sysinfo_170 =       CPU max MHz:           3700.0000
+notes_plat_sysinfo_175 =       CPU min MHz:           800.0000
+notes_plat_sysinfo_180 =       BogoMIPS:              7392.16
+notes_plat_sysinfo_185 =       Virtualization:        VT-x
+notes_plat_sysinfo_190 =       L1d cache:             32K
+notes_plat_sysinfo_195 =       L1i cache:             32K
+notes_plat_sysinfo_200 =       L2 cache:              256K
+notes_plat_sysinfo_205 =       L3 cache:              3072K
+notes_plat_sysinfo_210 =       NUMA node0 CPU(s):     0,1
+notes_plat_sysinfo_215 =       Flags:                 fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov
+notes_plat_sysinfo_220 =       pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp
+notes_plat_sysinfo_225 =       lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc
+notes_plat_sysinfo_230 =       aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma
+notes_plat_sysinfo_235 =       cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave
+notes_plat_sysinfo_240 =       avx f16c rdrand lahf_lm abm 3dnowprefetch epb intel_pt tpr_shadow vnmi flexpriority
+notes_plat_sysinfo_245 =       ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx rdseed adx smap
+notes_plat_sysinfo_250 =       clflushopt xsaveopt xsavec xgetbv1 dtherm arat pln pts hwp hwp_notify hwp_act_window
+notes_plat_sysinfo_255 =       hwp_epp
+notes_plat_sysinfo_260 = 
+notes_plat_sysinfo_265 =  /proc/cpuinfo cache data
+notes_plat_sysinfo_270 =     cache size : 3072 KB
+notes_plat_sysinfo_275 = 
+notes_plat_sysinfo_280 =  From numactl --hardware  WARNING: a numactl 'node' might or might not correspond to a
+notes_plat_sysinfo_285 =  physical chip.
+notes_plat_sysinfo_290 =    available: 1 nodes (0)
+notes_plat_sysinfo_295 =    node 0 cpus: 0 1
+notes_plat_sysinfo_300 =    node 0 size: 7676 MB
+notes_plat_sysinfo_305 =    node 0 free: 7237 MB
+notes_plat_sysinfo_310 =    node distances:
+notes_plat_sysinfo_315 =    node   0
+notes_plat_sysinfo_320 =      0:  10
+notes_plat_sysinfo_325 = 
+notes_plat_sysinfo_330 =  From /proc/meminfo
+notes_plat_sysinfo_335 =     MemTotal:        7860684 kB
+notes_plat_sysinfo_340 =     HugePages_Total:       0
+notes_plat_sysinfo_345 =     Hugepagesize:       2048 kB
+notes_plat_sysinfo_350 = 
+notes_plat_sysinfo_355 =  /usr/bin/lsb_release -d
+notes_plat_sysinfo_360 =     Ubuntu 16.04.3 LTS
+notes_plat_sysinfo_365 = 
+notes_plat_sysinfo_370 =  From /etc/*release* /etc/*version*
+notes_plat_sysinfo_375 =     debian_version: stretch/sid
+notes_plat_sysinfo_380 =     os-release:
+notes_plat_sysinfo_385 =        NAME="Ubuntu"
+notes_plat_sysinfo_390 =        VERSION="16.04.3 LTS (Xenial Xerus)"
+notes_plat_sysinfo_395 =        ID=ubuntu
+notes_plat_sysinfo_400 =        ID_LIKE=debian
+notes_plat_sysinfo_405 =        PRETTY_NAME="Ubuntu 16.04.3 LTS"
+notes_plat_sysinfo_410 =        VERSION_ID="16.04"
+notes_plat_sysinfo_415 =        HOME_URL="http://www.ubuntu.com/"
+notes_plat_sysinfo_420 =        SUPPORT_URL="http://help.ubuntu.com/"
+notes_plat_sysinfo_425 = 
+notes_plat_sysinfo_430 =  uname -a:
+notes_plat_sysinfo_435 =     Linux freeze4 4.4.0-97-generic \#120-Ubuntu SMP Tue Sep 19 17:28:18 UTC 2017 x86_64
+notes_plat_sysinfo_440 =     x86_64 x86_64 GNU/Linux
+notes_plat_sysinfo_445 = 
+notes_plat_sysinfo_450 =  run-level 3 Oct 30 07:30
+notes_plat_sysinfo_455 = 
+notes_plat_sysinfo_460 =  SPEC is set to: /mnt/freezedisk/speccpu2017-intptr
+notes_plat_sysinfo_465 =     Filesystem     Type  Size  Used Avail Use% Mounted on
+notes_plat_sysinfo_470 =     /dev/sda1      ext4  230G   56G  162G  26% /mnt/freezedisk
+notes_plat_sysinfo_475 = 
+notes_plat_sysinfo_480 =  Additional information from dmidecode follows.  WARNING: Use caution when you interpret
+notes_plat_sysinfo_485 =  this section. The 'dmidecode' program reads system data which is "intended to allow
+notes_plat_sysinfo_490 =  hardware to be accurately determined", but the intent may not be met, as there are
+notes_plat_sysinfo_495 =  frequent changes to hardware, firmware, and the "DMTF SMBIOS" standard.
+notes_plat_sysinfo_500 = 
+notes_plat_sysinfo_505 =  (End of data from sysinfo program)
+notes_wrap_columns = 0
+notes_wrap_indent =   
+num              = 538
+obiwan           = 
+os_exe_ext       = 
+output_format    = txt,html,cfg,pdf,csv
+output_root      = 
+outputdir        = output
+parallel_test    = 0
+parallel_test_submit = 0
+parallel_test_workloads = 
+path             = /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/538.imagick_r
+plain_train      = 1
+platform         = 
+power            = 0
+preENV_LD_LIBRARY_PATH = /mnt/freezedisk/llvm-intptr-base-5.0-release/lib
+preENV_LIBRARY_PATH = /mnt/freezedisk/llvm-intptr-base-5.0-release/lib
+preENV_PATH      = /mnt/freezedisk/llvm-intptr-base-5.0-release/bin:%{ENV_PATH}
+preenv           = 0
+prefix           = 
+prepared_by      = sflab  (is never output, only tags rawfile)
+ranks            = 1
+rawhash_bits     = 256
+rebuild          = 1
+reftime          = reftime
+reltol           = 0.01
+reportable       = 0
+resultdir        = result
+review           = 0
+run              = all
+runcpu           = /mnt/freezedisk/speccpu2017-intptr/bin/harness/runcpu --configfile linux64-amd64-clang-base-5.0-o3-release.cfg --noreportable --rebuild --iterations 3 --noreportable --nopower --runmode rate --tune base --size refrate 538.imagick_r --nopreenv --note-preenv --logfile /mnt/freezedisk/speccpu2017-intptr/tmp/CPU2017.015/templogs/preenv.fprate.015.0 --lognum 015.0 --from_runcpu 2
+rundir           = run
+runmode          = rate
+safe_eval        = 1
+save_build_files = 
+section_specifier_fatal = 1
+setprocgroup     = 1
+setup_error      = 0
+sigint           = 2
+size             = refrate
+size_class       = ref
+skipabstol       = 
+skipobiwan       = 
+skipreltol       = 
+skiptol          = 
+smarttune        = base
+specdiff         = specdiff
+specrun          = specinvoke
+srcalt           = 
+srcdir           = src
+srcsource        = /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/538.imagick_r/src
+stagger          = 10
+strict_rundir_verify = 1
+submit_default   = echo "$command" > run.sh ; $BIND bash run.sh
+sw_avail         = 
+sw_base_ptrsize  = 64-bit
+sw_compiler001   = C/C++: Version 3.9.0 of Clang, the
+sw_compiler002   = LLVM Compiler Infrastructure
+sw_compiler003   = Fortran: Version 4.8.2 of GCC, the
+sw_compiler004   = GNU Compiler Collection
+sw_compiler005   = DragonEgg: Version 3.5.2, the
+sw_compiler006   = LLVM Compiler Infrastructure
+sw_file          = ext4
+sw_os001         = Ubuntu 16.04.3 LTS
+sw_os002         = 4.4.0-97-generic
+sw_other         = 
+sw_peak_ptrsize  = 64-bit
+sw_state         = Run level 3 (add definition here)
+sysinfo_hash_bits = 256
+sysinfo_program  = specperl /mnt/freezedisk/speccpu2017-intptr/bin/sysinfo
+sysinfo_program_hash = sysinfo:SHA:ecd2bef08f316af97f5a7768b641e2a3307c1b4b68efb5a57fa76367d790d233
+table            = 1
+teeout           = 0
+test_date        = Nov-2017
+test_sponsor     = My Corporation
+tester           = My Corporation
+threads          = 1
+top              = /mnt/freezedisk/speccpu2017-intptr
+train_single_thread = 0
+train_with       = train
+tune             = base
+uid              = 1000
+unbuffer         = 1
+uncertainty_exception = 5
+update           = 0
+update_url       = http://www.spec.org/auto/cpu2017/updates/
+use_submit_for_compare = 0
+use_submit_for_speed = 0
+username         = sflab
+verbose          = 5
+verify_binaries  = 1
+version          = 0.904000
+version_url      = http://www.spec.org/auto/cpu2017/current_version
+voltage_range    = 
+worklist         = list
+OUTPUT_RMFILES   = train_validate.out
+  Compile for '538.imagick_r' started at: 2017-11-01 21:57:34 (1509541054)
+Issuing make.clean.imagevalidate_538 command 'specmake --output-sync --jobs=8 clean TARGET=imagevalidate_538'
+Start make.clean.imagevalidate_538 command: 2017-11-01 21:57:34 (1509541054.7551)
+Stop make.clean.imagevalidate_538 command: 2017-11-01 21:57:34 (1509541054.91714)
+Elapsed time for make.clean.imagevalidate_538 command: 00:00:00 (0.162039995193481)
+Issuing make.clean.imagick_r command 'specmake --output-sync --jobs=8 clean TARGET=imagick_r'
+Start make.clean.imagick_r command: 2017-11-01 21:57:34 (1509541054.91782)
+Stop make.clean.imagick_r command: 2017-11-01 21:57:35 (1509541055.0777)
+Elapsed time for make.clean.imagick_r command: 00:00:00 (0.159883975982666)
+Issuing make.imagevalidate_538 command 'specmake --output-sync --jobs=8 build TARGET=imagevalidate_538'
+Start make.imagevalidate_538 command: 2017-11-01 21:57:35 (1509541055.07849)
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o image_validator/ImageValidator.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  image_validator/ImageValidator.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64       -O3 -mavx   -z muldefs      image_validator/ImageValidator.o             -lm         -o imagevalidate_538  
+Stop make.imagevalidate_538 command: 2017-11-01 21:57:35 (1509541055.74826)
+Elapsed time for make.imagevalidate_538 command: 00:00:00 (0.669770002365112)
+Issuing options.imagevalidate_538 command 'specmake --output-sync --jobs=8 options TARGET=imagevalidate_538'
+Start options.imagevalidate_538 command: 2017-11-01 21:57:35 (1509541055.74893)
+COMP: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o options.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  <source>"
+C: CC="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64"
+C: COBJOPT="-c -o options"
+P: CPUFLAGS="-DSPEC -DNDEBUG"
+P: BENCH_FLAGS="-I. -DSPEC_AUTO_SUPPRESS_OPENMP"
+P: BENCH_CFLAGS=""
+O: OPTIMIZE=""
+O: COPTIMIZE="-O3 -mavx"
+P: PORTABILITY=""
+P: CPORTABILITY=""
+O: EXTRA_CFLAGS=""
+O: EXTRA_OPTIMIZE=""
+O: EXTRA_COPTIMIZE=""
+P: EXTRA_PORTABILITY="-DSPEC_LP64"
+P: EXTRA_CPORTABILITY=""
+LINK: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64       -O3 -mavx   -z muldefs      <objects>   -lm         -o options  "
+C: LD="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64"
+O: COPTIMIZE="-O3 -mavx"
+O: LDOPTIMIZE="-z muldefs"
+C: MATH_LIBS="-lm"
+C: LDOUT="-o options"
+Stop options.imagevalidate_538 command: 2017-11-01 21:57:35 (1509541055.90691)
+Elapsed time for options.imagevalidate_538 command: 00:00:00 (0.157973051071167)
+Issuing compiler-version.imagevalidate_538 command 'specmake --output-sync --jobs=8 compiler-version TARGET=imagevalidate_538'
+Start compiler-version.imagevalidate_538 command: 2017-11-01 21:57:35 (1509541055.90777)
+ CC_VERSION_OPTION:
+clang version 6.0.0 (https://github.com/aqjune/clang-intptr.git b099f9b86954800bcbdee427fc703eb8a30389da) (https://github.com/aqjune/llvm-intptr.git d3762c4675cbe5178acef79f01c813bcbfc58cf5)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: /mnt/freezedisk/llvm-intptr-base-5.0-release/bin
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6.0.0
+Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Candidate multilib: .;@m64
+Selected multilib: .;@m64
+clang-6.0: warning: argument unused during compilation: '-D SPEC' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D NDEBUG' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I .' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_AUTO_SUPPRESS_OPENMP' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-O3' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-mavx' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_LP64' [-Wunused-command-line-argument]
+Stop compiler-version.imagevalidate_538 command: 2017-11-01 21:57:36 (1509541056.0717)
+Elapsed time for compiler-version.imagevalidate_538 command: 00:00:00 (0.163922071456909)
+Issuing make.imagick_r command 'specmake --output-sync --jobs=8 build TARGET=imagick_r'
+Start make.imagick_r command: 2017-11-01 21:57:36 (1509541056.07249)
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/animate.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/animate.c
+In file included from magick/animate.c:61:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/animate.c:61:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o filters/analyze.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  filters/analyze.c
+In file included from filters/analyze.c:45:
+In file included from ./magick/MagickCore.h:120:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from filters/analyze.c:45:
+In file included from ./magick/MagickCore.h:120:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/accelerate.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/accelerate.c
+In file included from magick/accelerate.c:59:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/accelerate.c:59:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/artifact.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/artifact.c
+In file included from magick/artifact.c:60:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/artifact.c:60:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/cipher.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/cipher.c
+In file included from magick/cipher.c:50:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/cipher.c:50:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/cache-view.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/cache-view.c
+In file included from magick/cache-view.c:54:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/cache-view.c:54:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o coders/tga.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  coders/tga.c
+In file included from coders/tga.c:58:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from coders/tga.c:58:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/client.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/client.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/annotate.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/annotate.c
+In file included from magick/annotate.c:55:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/annotate.c:55:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/attribute.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/attribute.c
+In file included from magick/attribute.c:60:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/attribute.c:60:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/coder.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/coder.c
+In file included from magick/coder.c:52:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/coder.c:52:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/colormap.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/colormap.c
+In file included from magick/colormap.c:59:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/colormap.c:59:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/channel.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/channel.c
+In file included from magick/channel.c:48:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/channel.c:48:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/blob.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/blob.c
+In file included from magick/blob.c:57:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/blob.c:57:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/configure.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/configure.c
+In file included from magick/configure.c:50:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/configure.c:50:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/color.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/color.c
+In file included from magick/color.c:57:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/color.c:57:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/delegate.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/delegate.c
+In file included from magick/delegate.c:59:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/delegate.c:59:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/constitute.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/constitute.c
+In file included from magick/constitute.c:58:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/constitute.c:58:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/compress.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/compress.c
+In file included from magick/compress.c:56:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/compress.c:56:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/display.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/display.c
+In file included from magick/display.c:70:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/display.c:70:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/cache.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/cache.c
+In file included from magick/cache.c:51:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/cache.c:51:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/colorspace.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/colorspace.c
+In file included from magick/colorspace.c:56:
+In file included from ./magick/gem-private.h:21:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/colorspace.c:56:
+In file included from ./magick/gem-private.h:21:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/distribute-cache.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/distribute-cache.c
+In file included from magick/distribute-cache.c:65:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/distribute-cache.c:65:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/compare.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/compare.c
+In file included from magick/compare.c:53:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/compare.c:53:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/exception.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/exception.c
+In file included from magick/exception.c:51:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/exception.c:51:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/fourier.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/fourier.c
+In file included from magick/fourier.c:55:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/fourier.c:55:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/composite.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/composite.c
+In file included from magick/composite.c:54:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/composite.c:54:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/distort.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/distort.c
+In file included from magick/distort.c:51:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/distort.c:51:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/gem.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/gem.c
+In file included from magick/gem.c:47:
+In file included from ./magick/gem-private.h:21:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/gem.c:47:
+In file included from ./magick/gem-private.h:21:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/feature.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/feature.c
+In file included from magick/feature.c:57:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/feature.c:57:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/geometry.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/geometry.c
+In file included from magick/geometry.c:48:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/geometry.c:48:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/hashmap.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/hashmap.c
+In file included from magick/hashmap.c:49:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/hashmap.c:49:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/enhance.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/enhance.c
+In file included from magick/enhance.c:54:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/enhance.c:54:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/decorate.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/decorate.c
+In file included from magick/decorate.c:53:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/decorate.c:53:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/histogram.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/histogram.c
+In file included from magick/histogram.c:53:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/histogram.c:53:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/effect.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/effect.c
+In file included from magick/effect.c:65:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/effect.c:65:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/log.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/log.c
+In file included from magick/log.c:50:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/log.c:50:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/identify.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/identify.c
+In file included from magick/identify.c:75:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/identify.c:75:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/locale.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/locale.c
+In file included from magick/locale.c:51:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/locale.c:51:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/list.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/list.c
+In file included from magick/list.c:49:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/list.c:49:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/magick.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/magick.c
+In file included from magick/magick.c:62:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/magick.c:62:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/magic.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/magic.c
+In file included from magick/magic.c:50:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/magic.c:50:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/fx.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/fx.c
+In file included from magick/fx.c:73:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/fx.c:73:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/memory.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/memory.c
+In file included from magick/memory.c:61:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/memory.c:61:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/module.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/module.c
+In file included from magick/module.c:55:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/module.c:55:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/monitor.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/monitor.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/image.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/image.c
+In file included from magick/image.c:59:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/image.c:59:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/layer.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/layer.c
+In file included from magick/layer.c:54:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/layer.c:54:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/matrix.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/matrix.c
+In file included from magick/matrix.c:48:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/matrix.c:48:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/mime.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/mime.c
+In file included from magick/mime.c:48:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/mime.c:48:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/draw.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/draw.c
+In file included from magick/draw.c:61:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/draw.c:61:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/prepress.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/prepress.c
+In file included from magick/prepress.c:49:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/prepress.c:49:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/policy.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/policy.c
+In file included from magick/policy.c:48:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/policy.c:48:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/montage.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/montage.c
+In file included from magick/montage.c:61:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/montage.c:61:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/option.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/option.c
+In file included from magick/option.c:62:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/option.c:62:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/paint.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/paint.c
+In file included from magick/paint.c:48:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/paint.c:48:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/profile.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/profile.c
+In file included from magick/profile.c:52:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/profile.c:52:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/quantum.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/quantum.c
+In file included from magick/quantum.c:54:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/quantum.c:54:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/registry.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/registry.c
+In file included from magick/registry.c:48:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/registry.c:48:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/random.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/random.c
+In file included from magick/random.c:54:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/random.c:54:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/resample.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/resample.c
+In file included from magick/resample.c:54:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/resample.c:54:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/resource.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/resource.c
+In file included from magick/resource.c:50:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/resource.c:50:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/property.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/property.c
+In file included from magick/property.c:67:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/property.c:67:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/semaphore.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/semaphore.c
+In file included from magick/semaphore.c:47:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/semaphore.c:47:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/quantize.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/quantize.c
+In file included from magick/quantize.c:191:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/quantize.c:191:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/signature.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/signature.c
+In file included from magick/signature.c:49:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/signature.c:49:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/resize.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/resize.c
+In file included from magick/resize.c:58:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/resize.c:58:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/static.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/static.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/splay-tree.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/splay-tree.c
+In file included from magick/splay-tree.c:55:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/splay-tree.c:55:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/segment.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/segment.c
+In file included from magick/segment.c:95:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/segment.c:95:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/morphology.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/morphology.c
+In file included from magick/morphology.c:67:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/morphology.c:67:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/shear.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/shear.c
+In file included from magick/shear.c:56:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/shear.c:56:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/timer.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/timer.c
+In file included from magick/timer.c:47:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/timer.c:47:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/string.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/string.c
+In file included from magick/string.c:50:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/string.c:50:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/stream.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/stream.c
+In file included from magick/stream.c:49:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/stream.c:49:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/threshold.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/threshold.c
+In file included from magick/threshold.c:66:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/threshold.c:66:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/type.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/type.c
+In file included from magick/type.c:51:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/type.c:51:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/version.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/version.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/transform.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/transform.c
+In file included from magick/transform.c:57:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/transform.c:57:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/pixel.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/pixel.c
+In file included from magick/pixel.c:55:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/pixel.c:55:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/utility.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/utility.c
+In file included from magick/utility.c:51:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/utility.c:51:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o utilities/convert.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  utilities/convert.c
+In file included from utilities/convert.c:50:
+In file included from ./wand/studio.h:201:
+In file included from ./wand/MagickWand.h:72:
+In file included from ./magick/MagickCore.h:120:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from utilities/convert.c:50:
+In file included from ./wand/studio.h:201:
+In file included from ./wand/MagickWand.h:72:
+In file included from ./magick/MagickCore.h:120:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/statistic.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/statistic.c
+In file included from magick/statistic.c:59:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/statistic.c:59:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/token.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/token.c
+In file included from magick/token.c:47:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/token.c:47:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o wand/magick-wand.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  wand/magick-wand.c
+In file included from wand/magick-wand.c:49:
+In file included from ./wand/studio.h:201:
+In file included from ./wand/MagickWand.h:72:
+In file included from ./magick/MagickCore.h:120:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from wand/magick-wand.c:49:
+In file included from ./wand/studio.h:201:
+In file included from ./wand/MagickWand.h:72:
+In file included from ./magick/MagickCore.h:120:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o wand/pixel-wand.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  wand/pixel-wand.c
+In file included from wand/pixel-wand.c:49:
+In file included from ./wand/studio.h:201:
+In file included from ./wand/MagickWand.h:72:
+In file included from ./magick/MagickCore.h:120:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from wand/pixel-wand.c:49:
+In file included from ./wand/studio.h:201:
+In file included from ./wand/MagickWand.h:72:
+In file included from ./magick/MagickCore.h:120:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/xml-tree.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/xml-tree.c
+In file included from magick/xml-tree.c:56:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/xml-tree.c:56:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o wand/drawing-wand.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  wand/drawing-wand.c
+In file included from wand/drawing-wand.c:49:
+In file included from ./wand/studio.h:201:
+In file included from ./wand/MagickWand.h:72:
+In file included from ./magick/MagickCore.h:120:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from wand/drawing-wand.c:49:
+In file included from ./wand/studio.h:201:
+In file included from ./wand/MagickWand.h:72:
+In file included from ./magick/MagickCore.h:120:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o wand/pixel-iterator.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  wand/pixel-iterator.c
+In file included from wand/pixel-iterator.c:49:
+In file included from ./wand/studio.h:201:
+In file included from ./wand/MagickWand.h:72:
+In file included from ./magick/MagickCore.h:120:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from wand/pixel-iterator.c:49:
+In file included from ./wand/studio.h:201:
+In file included from ./wand/MagickWand.h:72:
+In file included from ./magick/MagickCore.h:120:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o wand/magick-property.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  wand/magick-property.c
+In file included from wand/magick-property.c:49:
+In file included from ./wand/studio.h:201:
+In file included from ./wand/MagickWand.h:72:
+In file included from ./magick/MagickCore.h:120:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from wand/magick-property.c:49:
+In file included from ./wand/studio.h:201:
+In file included from ./wand/MagickWand.h:72:
+In file included from ./magick/MagickCore.h:120:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o wand/wand.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  wand/wand.c
+In file included from wand/wand.c:42:
+In file included from ./wand/studio.h:201:
+In file included from ./wand/MagickWand.h:72:
+In file included from ./magick/MagickCore.h:120:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from wand/wand.c:42:
+In file included from ./wand/studio.h:201:
+In file included from ./wand/MagickWand.h:72:
+In file included from ./magick/MagickCore.h:120:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/quantum-export.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/quantum-export.c
+In file included from magick/quantum-export.c:60:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/quantum-export.c:60:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o wand/magick-image.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  wand/magick-image.c
+In file included from wand/magick-image.c:49:
+In file included from ./wand/studio.h:201:
+In file included from ./wand/MagickWand.h:72:
+In file included from ./magick/MagickCore.h:120:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from wand/magick-image.c:49:
+In file included from ./wand/studio.h:201:
+In file included from ./wand/MagickWand.h:72:
+In file included from ./magick/MagickCore.h:120:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/quantum-import.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/quantum-import.c
+In file included from magick/quantum-import.c:60:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/quantum-import.c:60:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o magick/deprecate.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  magick/deprecate.c
+In file included from magick/deprecate.c:56:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from magick/deprecate.c:56:
+In file included from ./magick/composite-private.h:24:
+In file included from ./magick/pixel-private.h:24:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o wand/convert.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  wand/convert.c
+In file included from wand/convert.c:45:
+In file included from ./wand/studio.h:201:
+In file included from ./wand/MagickWand.h:72:
+In file included from ./magick/MagickCore.h:120:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from wand/convert.c:45:
+In file included from ./wand/studio.h:201:
+In file included from ./wand/MagickWand.h:72:
+In file included from ./magick/MagickCore.h:120:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o wand/mogrify.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  wand/mogrify.c
+In file included from wand/mogrify.c:47:
+In file included from ./wand/studio.h:201:
+In file included from ./wand/MagickWand.h:72:
+In file included from ./magick/MagickCore.h:120:
+./magick/memory_.h:29:36: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*AcquireMemoryHandler)(size_t) magick_alloc_size(1),
+                                   ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+In file included from wand/mogrify.c:47:
+In file included from ./wand/studio.h:201:
+In file included from ./wand/MagickWand.h:72:
+In file included from ./magick/MagickCore.h:120:
+./magick/memory_.h:31:42: warning: '__alloc_size__' attribute only applies to functions [-Wignored-attributes]
+  *(*ResizeMemoryHandler)(void *,size_t) magick_alloc_size(2);
+                                         ^
+./magick/method-attribute.h:127:48: note: expanded from macro 'magick_alloc_size'
+#  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
+                                               ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64       -O3 -mavx   -z muldefs      coders/tga.o filters/analyze.o magick/accelerate.o magick/animate.o magick/annotate.o magick/artifact.o magick/attribute.o magick/blob.o magick/cache-view.o magick/cache.o magick/channel.o magick/cipher.o magick/client.o magick/coder.o magick/color.o magick/colormap.o magick/colorspace.o magick/compare.o magick/composite.o magick/compress.o magick/configure.o magick/constitute.o magick/decorate.o magick/delegate.o magick/display.o magick/distort.o magick/distribute-cache.o magick/draw.o magick/effect.o magick/enhance.o magick/exception.o magick/feature.o magick/fourier.o magick/fx.o magick/gem.o magick/geometry.o magick/hashmap.o magick/histogram.o magick/identify.o magick/image.o magick/layer.o magick/list.o magick/locale.o magick/log.o magick/magic.o magick/magick.o magick/matrix.o magick/memory.o magick/mime.o magick/module.o magick/monitor.o magick/montage.o magick/morphology.o magick/option.o magick/paint.o 
+magick/pixel.o magick/policy.o magick/prepress.o magick/profile.o magick/property.o magick/quantize.o magick/quantum-export.o magick/quantum-import.o magick/quantum.o magick/random.o magick/registry.o magick/resample.o magick/resize.o magick/resource.o magick/segment.o magick/semaphore.o magick/shear.o magick/signature.o magick/splay-tree.o magick/static.o magick/statistic.o magick/stream.o magick/string.o magick/threshold.o magick/timer.o magick/token.o magick/transform.o magick/type.o magick/utility.o magick/version.o magick/xml-tree.o utilities/convert.o wand/convert.o wand/drawing-wand.o wand/magick-image.o wand/magick-wand.o wand/mogrify.o wand/pixel-wand.o wand/magick-property.o wand/pixel-iterator.o wand/wand.o magick/deprecate.o             -lm         -o imagick_r  
+Stop make.imagick_r command: 2017-11-01 21:57:58 (1509541078.81104)
+Elapsed time for make.imagick_r command: 00:00:22 (22.7385528087616)
+Issuing options.imagick_r command 'specmake --output-sync --jobs=8 options TARGET=imagick_r'
+Start options.imagick_r command: 2017-11-01 21:57:58 (1509541078.81172)
+COMP: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o options.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  <source>"
+C: CC="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64"
+C: COBJOPT="-c -o options"
+P: CPUFLAGS="-DSPEC -DNDEBUG"
+P: BENCH_FLAGS="-I. -DSPEC_AUTO_SUPPRESS_OPENMP"
+P: BENCH_CFLAGS=""
+O: OPTIMIZE=""
+O: COPTIMIZE="-O3 -mavx"
+P: PORTABILITY=""
+P: CPORTABILITY=""
+O: EXTRA_CFLAGS=""
+O: EXTRA_OPTIMIZE=""
+O: EXTRA_COPTIMIZE=""
+P: EXTRA_PORTABILITY="-DSPEC_LP64"
+P: EXTRA_CPORTABILITY=""
+LINK: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64       -O3 -mavx   -z muldefs      <objects>   -lm         -o options  "
+C: LD="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64"
+O: COPTIMIZE="-O3 -mavx"
+O: LDOPTIMIZE="-z muldefs"
+C: MATH_LIBS="-lm"
+C: LDOUT="-o options"
+Stop options.imagick_r command: 2017-11-01 21:57:58 (1509541078.97004)
+Elapsed time for options.imagick_r command: 00:00:00 (0.158316135406494)
+Issuing compiler-version.imagick_r command 'specmake --output-sync --jobs=8 compiler-version TARGET=imagick_r'
+Start compiler-version.imagick_r command: 2017-11-01 21:57:58 (1509541078.9708)
+ CC_VERSION_OPTION:
+clang version 6.0.0 (https://github.com/aqjune/clang-intptr.git b099f9b86954800bcbdee427fc703eb8a30389da) (https://github.com/aqjune/llvm-intptr.git d3762c4675cbe5178acef79f01c813bcbfc58cf5)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: /mnt/freezedisk/llvm-intptr-base-5.0-release/bin
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6.0.0
+Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Candidate multilib: .;@m64
+Selected multilib: .;@m64
+clang-6.0: warning: argument unused during compilation: '-D SPEC' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D NDEBUG' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I .' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_AUTO_SUPPRESS_OPENMP' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-O3' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-mavx' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_LP64' [-Wunused-command-line-argument]
+Stop compiler-version.imagick_r command: 2017-11-01 21:57:59 (1509541079.13309)
+Elapsed time for compiler-version.imagick_r command: 00:00:00 (0.162282943725586)
+  Compile for '538.imagick_r' ended at: 2017-11-01 21:57:59 (1509541079)
+  Elapsed compile for '538.imagick_r': 00:00:25 (25)
+COMP: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o options.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  <source>"
+C: CC="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64"
+C: COBJOPT="-c -o options"
+P: CPUFLAGS="-DSPEC -DNDEBUG"
+P: BENCH_FLAGS="-I. -DSPEC_AUTO_SUPPRESS_OPENMP"
+P: BENCH_CFLAGS=""
+O: OPTIMIZE=""
+O: COPTIMIZE="-O3 -mavx"
+P: PORTABILITY=""
+P: CPORTABILITY=""
+O: EXTRA_CFLAGS=""
+O: EXTRA_OPTIMIZE=""
+O: EXTRA_COPTIMIZE=""
+P: EXTRA_PORTABILITY="-DSPEC_LP64"
+P: EXTRA_CPORTABILITY=""
+LINK: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64       -O3 -mavx   -z muldefs      <objects>   -lm         -o options  "
+C: LD="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64"
+O: COPTIMIZE="-O3 -mavx"
+O: LDOPTIMIZE="-z muldefs"
+C: MATH_LIBS="-lm"
+C: LDOUT="-o options"
+ CC_VERSION_OPTION:
+clang version 6.0.0 (https://github.com/aqjune/clang-intptr.git b099f9b86954800bcbdee427fc703eb8a30389da) (https://github.com/aqjune/llvm-intptr.git d3762c4675cbe5178acef79f01c813bcbfc58cf5)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: /mnt/freezedisk/llvm-intptr-base-5.0-release/bin
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6.0.0
+Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Candidate multilib: .;@m64
+Selected multilib: .;@m64
+clang-6.0: warning: argument unused during compilation: '-D SPEC' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D NDEBUG' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I .' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_AUTO_SUPPRESS_OPENMP' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-O3' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-mavx' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_LP64' [-Wunused-command-line-argument]
+COMP: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o options.o -DSPEC -DNDEBUG -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  <source>"
+C: CC="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64"
+C: COBJOPT="-c -o options"
+P: CPUFLAGS="-DSPEC -DNDEBUG"
+P: BENCH_FLAGS="-I. -DSPEC_AUTO_SUPPRESS_OPENMP"
+P: BENCH_CFLAGS=""
+O: OPTIMIZE=""
+O: COPTIMIZE="-O3 -mavx"
+P: PORTABILITY=""
+P: CPORTABILITY=""
+O: EXTRA_CFLAGS=""
+O: EXTRA_OPTIMIZE=""
+O: EXTRA_COPTIMIZE=""
+P: EXTRA_PORTABILITY="-DSPEC_LP64"
+P: EXTRA_CPORTABILITY=""
+LINK: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64       -O3 -mavx   -z muldefs      <objects>   -lm         -o options  "
+C: LD="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64"
+O: COPTIMIZE="-O3 -mavx"
+O: LDOPTIMIZE="-z muldefs"
+C: MATH_LIBS="-lm"
+C: LDOUT="-o options"
+ CC_VERSION_OPTION:
+clang version 6.0.0 (https://github.com/aqjune/clang-intptr.git b099f9b86954800bcbdee427fc703eb8a30389da) (https://github.com/aqjune/llvm-intptr.git d3762c4675cbe5178acef79f01c813bcbfc58cf5)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: /mnt/freezedisk/llvm-intptr-base-5.0-release/bin
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6.0.0
+Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Candidate multilib: .;@m64
+Selected multilib: .;@m64
+clang-6.0: warning: argument unused during compilation: '-D SPEC' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D NDEBUG' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I .' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_AUTO_SUPPRESS_OPENMP' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-O3' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-mavx' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_LP64' [-Wunused-command-line-argument]
+
+Build successes for fprate: 538.imagick_r(base)
+Build errors for fprate: None
+
+Setting Up Run Directories
+  Setting up 538.imagick_r refrate (ref) base mytest-m64 (1 copy): run_base_refrate_mytest-m64.0000
+-----------------------------------
+Running Benchmarks
+-----------------------------------
+  Running (#1) 538.imagick_r refrate (ref) base mytest-m64 (1 copy) [2017-11-01 21:57:59]
+OpenMP environment variables removed: None
+OpenMP environment variables in effect:
+	OMP_NUM_THREADS	=> '1'
+	OMP_THREAD_LIMIT	=> '1'
+Pre-run environment changes:
+	'OMP_NUM_THREADS' added: (value now '1')
+	'OMP_THREAD_LIMIT' added: (value now '1')
+Commands to run (specinvoke command file):
+    -N C
+    -b numactl -m 0 --physcpubind=0
+    -C /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/538.imagick_r/run/run_base_refrate_mytest-m64.0000
+    -o refrate_convert.out -e refrate_convert.err echo "../run_base_refrate_mytest-m64.0000/imagick_r_base.mytest-m64 -limit disk 0 refrate_input.tga -edge 41 -resample 181% -emboss 31 -colorspace YUV -mean-shift 19x19+15% -resize 30% refrate_output.tga" > run.sh ; $BIND bash run.sh (timed)
+Specinvoke: /mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/538.imagick_r/run/run_base_refrate_mytest-m64.0000 -f speccmds.cmd -q -e speccmds.err -o speccmds.stdout
+Issuing command '/mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/538.imagick_r/run/run_base_refrate_mytest-m64.0000 -f speccmds.cmd -q -e speccmds.err -o speccmds.stdout'
+Start command: 2017-11-01 21:57:59 (1509541079.98298)
+Stop command: 2017-11-01 22:05:15 (1509541515.67967)
+Elapsed time for command: 00:07:15 (435.696686029434)
+Workload elapsed time (copy 0 workload 1) = 435.542134 seconds
+Copy 0 of 538.imagick_r (base refrate) run 1 finished at 2017-11-01 22:05:15.  Total elapsed time: 435.542134
+OpenMP environment variables removed: None
+OpenMP environment variables in effect:
+	OMP_NUM_THREADS	=> '1'
+	OMP_THREAD_LIMIT	=> '1'
+Pre-run environment changes:
+	'OMP_NUM_THREADS' added: (value now '1')
+	'OMP_THREAD_LIMIT' added: (value now '1')
+comparing 'refrate_validate.out' with reltol=0.01
+Specinvoke: /mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/538.imagick_r/run/run_base_refrate_mytest-m64.0000 -f compare.cmd -E -e compare.err -o compare.stdout
+Issuing command '/mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/538.imagick_r/run/run_base_refrate_mytest-m64.0000 -f compare.cmd -E -e compare.err -o compare.stdout'
+Start command: 2017-11-01 22:05:15 (1509541515.71172)
+Stop command: 2017-11-01 22:05:16 (1509541516.03374)
+Elapsed time for command: 00:00:00 (0.322019815444946)
+Benchmark Times:
+  Run Start:    2017-11-01 21:57:59 (1509541079)
+  Rate Start:   2017-11-01 21:57:59 (1509541079.98582)
+  Rate End:     2017-11-01 22:05:15 (1509541515.52796)
+  Run Stop:     2017-11-01 22:05:15 (1509541515)
+  Run Elapsed:  00:07:16 (436)
+  Run Reported: 00:07:15 (435 542133808 435.542134)
+ Success 538.imagick_r base refrate ratio=5.71, runtime=435.542134, copies=1, threads=1, power=0.00W, temp=0.00 degC, humidity=0.00%
+-----------------------------------
+  Running (#2) 538.imagick_r refrate (ref) base mytest-m64 (1 copy) [2017-11-01 22:05:16]
+OpenMP environment variables removed: None
+OpenMP environment variables in effect:
+	OMP_NUM_THREADS	=> '1'
+	OMP_THREAD_LIMIT	=> '1'
+Pre-run environment changes:
+	'OMP_NUM_THREADS' added: (value now '1')
+	'OMP_THREAD_LIMIT' added: (value now '1')
+Commands to run (specinvoke command file):
+    -N C
+    -b numactl -m 0 --physcpubind=0
+    -C /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/538.imagick_r/run/run_base_refrate_mytest-m64.0000
+    -o refrate_convert.out -e refrate_convert.err echo "../run_base_refrate_mytest-m64.0000/imagick_r_base.mytest-m64 -limit disk 0 refrate_input.tga -edge 41 -resample 181% -emboss 31 -colorspace YUV -mean-shift 19x19+15% -resize 30% refrate_output.tga" > run.sh ; $BIND bash run.sh (timed)
+Specinvoke: /mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/538.imagick_r/run/run_base_refrate_mytest-m64.0000 -f speccmds.cmd -q -e speccmds.err -o speccmds.stdout
+Issuing command '/mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/538.imagick_r/run/run_base_refrate_mytest-m64.0000 -f speccmds.cmd -q -e speccmds.err -o speccmds.stdout'
+Start command: 2017-11-01 22:05:16 (1509541516.10342)
+Stop command: 2017-11-01 22:12:31 (1509541951.61331)
+Elapsed time for command: 00:07:15 (435.509891986847)
+Workload elapsed time (copy 0 workload 1) = 435.355335 seconds
+Copy 0 of 538.imagick_r (base refrate) run 2 finished at 2017-11-01 22:12:31.  Total elapsed time: 435.355335
+OpenMP environment variables removed: None
+OpenMP environment variables in effect:
+	OMP_NUM_THREADS	=> '1'
+	OMP_THREAD_LIMIT	=> '1'
+Pre-run environment changes:
+	'OMP_NUM_THREADS' added: (value now '1')
+	'OMP_THREAD_LIMIT' added: (value now '1')
+comparing 'refrate_validate.out' with reltol=0.01
+Specinvoke: /mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/538.imagick_r/run/run_base_refrate_mytest-m64.0000 -f compare.cmd -E -e compare.err -o compare.stdout
+Issuing command '/mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/538.imagick_r/run/run_base_refrate_mytest-m64.0000 -f compare.cmd -E -e compare.err -o compare.stdout'
+Start command: 2017-11-01 22:12:31 (1509541951.6434)
+Stop command: 2017-11-01 22:12:31 (1509541951.96296)
+Elapsed time for command: 00:00:00 (0.319553852081299)
+Benchmark Times:
+  Run Start:    2017-11-01 22:05:16 (1509541516)
+  Rate Start:   2017-11-01 22:05:16 (1509541516.10627)
+  Rate End:     2017-11-01 22:12:31 (1509541951.4616)
+  Run Stop:     2017-11-01 22:12:31 (1509541951)
+  Run Elapsed:  00:07:15 (435)
+  Run Reported: 00:07:15 (435 355334997 435.355335)
+ Success 538.imagick_r base refrate ratio=5.71, runtime=435.355335, copies=1, threads=1, power=0.00W, temp=0.00 degC, humidity=0.00%
+-----------------------------------
+  Running (#3) 538.imagick_r refrate (ref) base mytest-m64 (1 copy) [2017-11-01 22:12:31]
+OpenMP environment variables removed: None
+OpenMP environment variables in effect:
+	OMP_NUM_THREADS	=> '1'
+	OMP_THREAD_LIMIT	=> '1'
+Pre-run environment changes:
+	'OMP_NUM_THREADS' added: (value now '1')
+	'OMP_THREAD_LIMIT' added: (value now '1')
+Commands to run (specinvoke command file):
+    -N C
+    -b numactl -m 0 --physcpubind=0
+    -C /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/538.imagick_r/run/run_base_refrate_mytest-m64.0000
+    -o refrate_convert.out -e refrate_convert.err echo "../run_base_refrate_mytest-m64.0000/imagick_r_base.mytest-m64 -limit disk 0 refrate_input.tga -edge 41 -resample 181% -emboss 31 -colorspace YUV -mean-shift 19x19+15% -resize 30% refrate_output.tga" > run.sh ; $BIND bash run.sh (timed)
+Specinvoke: /mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/538.imagick_r/run/run_base_refrate_mytest-m64.0000 -f speccmds.cmd -q -e speccmds.err -o speccmds.stdout
+Issuing command '/mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/538.imagick_r/run/run_base_refrate_mytest-m64.0000 -f speccmds.cmd -q -e speccmds.err -o speccmds.stdout'
+Start command: 2017-11-01 22:12:32 (1509541952.03291)
+Stop command: 2017-11-01 22:19:47 (1509542387.75668)
+Elapsed time for command: 00:07:15 (435.723764896393)
+Workload elapsed time (copy 0 workload 1) = 435.569232 seconds
+Copy 0 of 538.imagick_r (base refrate) run 3 finished at 2017-11-01 22:19:47.  Total elapsed time: 435.569232
+OpenMP environment variables removed: None
+OpenMP environment variables in effect:
+	OMP_NUM_THREADS	=> '1'
+	OMP_THREAD_LIMIT	=> '1'
+Pre-run environment changes:
+	'OMP_NUM_THREADS' added: (value now '1')
+	'OMP_THREAD_LIMIT' added: (value now '1')
+comparing 'refrate_validate.out' with reltol=0.01
+Specinvoke: /mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/538.imagick_r/run/run_base_refrate_mytest-m64.0000 -f compare.cmd -E -e compare.err -o compare.stdout
+Issuing command '/mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/538.imagick_r/run/run_base_refrate_mytest-m64.0000 -f compare.cmd -E -e compare.err -o compare.stdout'
+Start command: 2017-11-01 22:19:47 (1509542387.78657)
+Stop command: 2017-11-01 22:19:48 (1509542388.10581)
+Elapsed time for command: 00:00:00 (0.3192458152771)
+Benchmark Times:
+  Run Start:    2017-11-01 22:12:32 (1509541952)
+  Rate Start:   2017-11-01 22:12:32 (1509541952.03573)
+  Rate End:     2017-11-01 22:19:47 (1509542387.60496)
+  Run Stop:     2017-11-01 22:19:47 (1509542387)
+  Run Elapsed:  00:07:15 (435)
+  Run Reported: 00:07:15 (435 569231986 435.569232)
+ Success 538.imagick_r base refrate ratio=5.71, runtime=435.569232, copies=1, threads=1, power=0.00W, temp=0.00 degC, humidity=0.00%
+Success: 3x538.imagick_r
+Producing Raw Reports
+ label: mytest-m64
+  workload: refrate (ref)
+   benchset: intspeed
+   benchset: intrate
+   benchset: fpspeed
+   benchset: fprate
+   metric: SPECrate2017_fp_base
+    format: raw -> /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.015.fprate.refrate.rsf
+Parsing flags for 538.imagick_r base: done
+Doing flag reduction: done
+    format: flags -> /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.015.fprate.refrate.flags.html
+    format: cfg -> /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.015.fprate.refrate.cfg, /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.015.fprate.refrate.orig.cfg
+    format: CSV -> /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.015.fprate.refrate.csv
+    format: PDF -> 
+A line in your General Notes section is too long!
+
+/mnt/freezedisk/speccpu2017-intptr/result/CPU2017.015.fprate.refrate.pdf
+    format: HTML -> /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.015.fprate.refrate.html
+    format: Text -> /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.015.fprate.refrate.txt
+runcpu finished at 2017-11-01 22:19:51; 1337 total seconds elapsed
+Info: file_tail(7318): file '/mnt/freezedisk/speccpu2017-intptr/tmp/CPU2017.015/templogs/preenv.fprate.015.0.debug' was removed and will no longer be followed.  No action is required.
+The log for this run is in /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.015.log
+
+runcpu finished at 2017-11-01 22:19:51; 1338 total seconds elapsed

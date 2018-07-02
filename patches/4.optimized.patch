@@ -1,0 +1,2772 @@
+From dd022e4e001ad90fc4a7e2d798882ea282634d6c Mon Sep 17 00:00:00 2001
+From: aqjune <aqjune@gmail.com>
+Date: Mon, 28 Aug 2017 08:19:40 +0900
+Subject: [PATCH] Sound twin memory model implementation with optimizations
+
+---
+ include/llvm/Analysis/CaptureTracking.h       |  16 +-
+ include/llvm/Analysis/ValueTracking.h         |  12 +-
+ include/llvm/CodeGen/BasicTTIImpl.h           |   8 +
+ include/llvm/IR/IRBuilder.h                   |   9 +-
+ include/llvm/IR/Intrinsics.td                 |   7 +
+ include/llvm/IR/PatternMatch.h                |   6 +
+ include/llvm/InitializePasses.h               |   1 +
+ include/llvm/Transforms/Scalar.h              |   7 +
+ .../Scalar/CanonicalizeTypeToI8Ptr.h          |  30 ++
+ include/llvm/Transforms/Utils/Cloning.h       |   9 +-
+ lib/Analysis/AliasAnalysis.cpp                |  77 +++--
+ lib/Analysis/BasicAliasAnalysis.cpp           |  34 ++-
+ lib/Analysis/CaptureTracking.cpp              |  51 +++-
+ lib/Analysis/ConstantFolding.cpp              |  22 +-
+ lib/Analysis/InstructionSimplify.cpp          | 136 +++++----
+ lib/Analysis/ValueTracking.cpp                |  41 ++-
+ .../SelectionDAG/SelectionDAGBuilder.cpp      |  12 +-
+ lib/IR/Instructions.cpp                       |   4 +-
+ lib/Passes/PassBuilder.cpp                    |   6 +
+ lib/Passes/PassRegistry.def                   |   1 +
+ lib/Target/AMDGPU/AMDGPUPromoteAlloca.cpp     |   2 +-
+ lib/Transforms/IPO/FunctionAttrs.cpp          |  37 ++-
+ lib/Transforms/IPO/Inliner.cpp                |   7 +-
+ lib/Transforms/IPO/PassManagerBuilder.cpp     |   9 +-
+ .../InstCombine/InstCombineCalls.cpp          | 142 +++++----
+ .../InstCombine/InstCombineCompares.cpp       |  36 ++-
+ .../InstCombineLoadStoreAlloca.cpp            |  24 +-
+ .../InstCombine/InstructionCombining.cpp      |  16 +-
+ .../Instrumentation/ThreadSanitizer.cpp       |  12 +-
+ lib/Transforms/Scalar/CMakeLists.txt          |   1 +
+ .../Scalar/CanonicalizeTypeToI8Ptr.cpp        | 285 ++++++++++++++++++
+ .../Scalar/DeadStoreElimination.cpp           |   5 +-
+ lib/Transforms/Scalar/GVN.cpp                 | 124 +++++++-
+ lib/Transforms/Scalar/LICM.cpp                |   4 +-
+ lib/Transforms/Scalar/PlaceSafepoints.cpp     |   2 +-
+ lib/Transforms/Scalar/Scalar.cpp              |   1 +
+ lib/Transforms/Utils/InlineFunction.cpp       |  20 +-
+ lib/Transforms/Utils/SimplifyCFG.cpp          |  45 ++-
+ lib/Transforms/Utils/VNCoercion.cpp           |   9 +-
+ lib/Transforms/Vectorize/LoopVectorize.cpp    |   4 +
+ test/Transforms/InstSimplify/cast.ll          |  48 +--
+ test/Transforms/InstSimplify/compare.ll       | 100 +++---
+ test/Transforms/InstSimplify/gep.ll           | 108 +++----
+ utils/TableGen/CodeGenIntrinsics.h            |   3 +
+ utils/TableGen/CodeGenTarget.cpp              |   3 +
+ utils/TableGen/IntrinsicEmitter.cpp           |  16 +-
+ 46 files changed, 1129 insertions(+), 423 deletions(-)
+ create mode 100644 include/llvm/Transforms/Scalar/CanonicalizeTypeToI8Ptr.h
+ create mode 100644 lib/Transforms/Scalar/CanonicalizeTypeToI8Ptr.cpp
+
+diff --git a/include/llvm/Analysis/CaptureTracking.h b/include/llvm/Analysis/CaptureTracking.h
+index 8d2c095d858..7d00206fd16 100644
+--- a/include/llvm/Analysis/CaptureTracking.h
++++ b/include/llvm/Analysis/CaptureTracking.h
+@@ -14,6 +14,8 @@
+ #ifndef LLVM_ANALYSIS_CAPTURETRACKING_H
+ #define LLVM_ANALYSIS_CAPTURETRACKING_H
+ 
++#include <functional>
++
+ namespace llvm {
+ 
+   class Value;
+@@ -21,6 +23,7 @@ namespace llvm {
+   class Instruction;
+   class DominatorTree;
+   class OrderedBasicBlock;
++  class TargetLibraryInfo;
+ 
+   /// PointerMayBeCaptured - Return true if this pointer value may be captured
+   /// by the enclosing function (which is required to exist).  This routine can
+@@ -31,7 +34,8 @@ namespace llvm {
+   /// automatically counts as capturing it or not.
+   bool PointerMayBeCaptured(const Value *V,
+                             bool ReturnCaptures,
+-                            bool StoreCaptures);
++                            bool StoreCaptures,
++                            const TargetLibraryInfo *TLI);
+ 
+   /// PointerMayBeCapturedBefore - Return true if this pointer value may be
+   /// captured by the enclosing function (which is required to exist). If a
+@@ -46,8 +50,10 @@ namespace llvm {
+   /// to speed up capture-tracker queries.
+   bool PointerMayBeCapturedBefore(const Value *V, bool ReturnCaptures,
+                                   bool StoreCaptures, const Instruction *I,
+-                                  DominatorTree *DT, bool IncludeI = false,
+-                                  OrderedBasicBlock *OBB = nullptr);
++                                  DominatorTree *DT, const TargetLibraryInfo *TLI,
++                                  bool IncludeI = false,
++                                  OrderedBasicBlock *OBB = nullptr,
++                                  std::function<void(const Use*)> CallbackFunc = nullptr);
+ 
+   /// This callback is used in conjunction with PointerMayBeCaptured. In
+   /// addition to the interface here, you'll need to provide your own getters
+@@ -75,7 +81,9 @@ namespace llvm {
+   /// PointerMayBeCaptured - Visit the value and the values derived from it and
+   /// find values which appear to be capturing the pointer value. This feeds
+   /// results into and is controlled by the CaptureTracker object.
+-  void PointerMayBeCaptured(const Value *V, CaptureTracker *Tracker);
++  void PointerMayBeCaptured(const Value *V, CaptureTracker *Tracker,
++                            const TargetLibraryInfo *TLI,
++                            std::function<void(const Use*)> CallbackFunc = nullptr);
+ } // end namespace llvm
+ 
+ #endif
+diff --git a/include/llvm/Analysis/ValueTracking.h b/include/llvm/Analysis/ValueTracking.h
+index 603b3a210b8..243cab16fae 100644
+--- a/include/llvm/Analysis/ValueTracking.h
++++ b/include/llvm/Analysis/ValueTracking.h
+@@ -232,6 +232,12 @@ class Value;
+   bool isGEPBasedOnPointerToString(const GEPOperator *GEP,
+                                    unsigned CharSize = 8);
+ 
++  /// Returns true if V is known to be a logical pointer.
++  bool isGuaranteedToBeLogicalPointer(Value *V, const DataLayout &DL,
++                                      LoopInfo *LI,
++                                      const TargetLibraryInfo *TLI,
++                                      unsigned MaxLookup);
++
+   /// Represents offset+length into a ConstantDataArray.
+   struct ConstantDataArraySlice {
+     /// ConstantDataArray pointer. nullptr indicates a zeroinitializer (a valid
+@@ -282,7 +288,8 @@ class Value;
+   /// the MaxLookup value is non-zero, it limits the number of instructions to
+   /// be stripped off.
+   Value *GetUnderlyingObject(Value *V, const DataLayout &DL,
+-                             unsigned MaxLookup = 6);
++                             unsigned MaxLookup = 6,
++                             bool TrackInBoundsPositiveOfsOnly = false);
+   static inline const Value *GetUnderlyingObject(const Value *V,
+                                                  const DataLayout &DL,
+                                                  unsigned MaxLookup = 6) {
+@@ -319,7 +326,8 @@ class Value;
+   /// it shouldn't look through the phi above.
+   void GetUnderlyingObjects(Value *V, SmallVectorImpl<Value *> &Objects,
+                             const DataLayout &DL, LoopInfo *LI = nullptr,
+-                            unsigned MaxLookup = 6);
++                            unsigned MaxLookup = 6,
++                            bool TrackInBoundsPositiveOfsOnly = false);
+ 
+   /// This is a wrapper around GetUnderlyingObjects and adds support for basic
+   /// ptrtoint+arithmetic+inttoptr sequences.
+diff --git a/include/llvm/CodeGen/BasicTTIImpl.h b/include/llvm/CodeGen/BasicTTIImpl.h
+index 14dfc088627..857d8d96227 100644
+--- a/include/llvm/CodeGen/BasicTTIImpl.h
++++ b/include/llvm/CodeGen/BasicTTIImpl.h
+@@ -995,6 +995,14 @@ public:
+     case Intrinsic::masked_load:
+       return static_cast<T *>(this)
+           ->getMaskedMemoryOpCost(Instruction::Load, RetTy, 0, 0);
++    case Intrinsic::psub: {
++      // Two ptrtoints followed by sub.
++      unsigned p2i_cost = static_cast<T *>(this)
++          ->getOperationCost(Instruction::PtrToInt, Tys[0], RetTy);
++      unsigned sub_cost = static_cast<T *>(this)
++          ->getOperationCost(Instruction::Sub, RetTy, RetTy);
++      return p2i_cost * 2 + sub_cost;
++    }
+     case Intrinsic::ctpop:
+       ISDs.push_back(ISD::CTPOP);
+       // In case of legalization use TCC_Expensive. This is cheaper than a
+diff --git a/include/llvm/IR/IRBuilder.h b/include/llvm/IR/IRBuilder.h
+index 5344a93efb3..3d1c3ae515b 100644
+--- a/include/llvm/IR/IRBuilder.h
++++ b/include/llvm/IR/IRBuilder.h
+@@ -1796,9 +1796,12 @@ public:
+     assert(LHS->getType() == RHS->getType() &&
+            "Pointer subtraction operand types must match!");
+     PointerType *ArgType = cast<PointerType>(LHS->getType());
+-    Value *LHS_int = CreatePtrToInt(LHS, Type::getInt64Ty(Context));
+-    Value *RHS_int = CreatePtrToInt(RHS, Type::getInt64Ty(Context));
+-    Value *Difference = CreateSub(LHS_int, RHS_int);
++    Type *psubTys[] = { Type::getInt64Ty(Context), ArgType, ArgType };
++    Value *psubArgs[] = { LHS, RHS };
++    Module *M = BB->getParent()->getParent();
++    Value *Difference = CreateCall(Intrinsic::getDeclaration(M,
++                  llvm::Intrinsic::psub, ArrayRef<llvm::Type *>(psubTys, 3)),
++               psubArgs);
+     return CreateExactSDiv(Difference,
+                            ConstantExpr::getSizeOf(ArgType->getElementType()),
+                            Name);
+diff --git a/include/llvm/IR/Intrinsics.td b/include/llvm/IR/Intrinsics.td
+index 6ced600ddc0..c8a3f9123a3 100644
+--- a/include/llvm/IR/Intrinsics.td
++++ b/include/llvm/IR/Intrinsics.td
+@@ -101,6 +101,9 @@ def IntrConvergent : IntrinsicProperty;
+ // This property indicates that the intrinsic is safe to speculate.
+ def IntrSpeculatable : IntrinsicProperty;
+ 
++// This property indicates that the intrinsic has norecurse tag.
++def InstrNoRecurse : IntrinsicProperty;
++
+ // This property can be used to override the 'has no other side effects'
+ // language of the IntrNoMem, IntrReadMem, IntrWriteMem, and IntrArgMemOnly
+ // intrinsic properties.  By default, intrinsics are assumed to have side
+@@ -817,6 +820,10 @@ def int_convert_from_fp16 : Intrinsic<[llvm_anyfloat_ty], [llvm_i16_ty]>;
+ def int_clear_cache : Intrinsic<[], [llvm_ptr_ty, llvm_ptr_ty],
+                                 [], "llvm.clear_cache">;
+ 
++let IntrProperties = [IntrNoMem, IntrSpeculatable, InstrNoRecurse] in {
++def int_psub : Intrinsic<[llvm_anyint_ty], [llvm_anyptr_ty, llvm_anyptr_ty]>;
++}
++
+ //===-------------------------- Masked Intrinsics -------------------------===//
+ //
+ def int_masked_store : Intrinsic<[], [llvm_anyvector_ty,
+diff --git a/include/llvm/IR/PatternMatch.h b/include/llvm/IR/PatternMatch.h
+index 5124607436f..306343c090b 100644
+--- a/include/llvm/IR/PatternMatch.h
++++ b/include/llvm/IR/PatternMatch.h
+@@ -907,6 +907,12 @@ inline CastClass_match<OpTy, Instruction::PtrToInt> m_PtrToInt(const OpTy &Op) {
+   return CastClass_match<OpTy, Instruction::PtrToInt>(Op);
+ }
+ 
++/// \brief Matches IntToPtr.
++template <typename OpTy>
++inline CastClass_match<OpTy, Instruction::IntToPtr> m_IntToPtr(const OpTy &Op) {
++  return CastClass_match<OpTy, Instruction::IntToPtr>(Op);
++}
++
+ /// \brief Matches Trunc.
+ template <typename OpTy>
+ inline CastClass_match<OpTy, Instruction::Trunc> m_Trunc(const OpTy &Op) {
+diff --git a/include/llvm/InitializePasses.h b/include/llvm/InitializePasses.h
+index bf54b6471f4..5f428b48eb9 100644
+--- a/include/llvm/InitializePasses.h
++++ b/include/llvm/InitializePasses.h
+@@ -91,6 +91,7 @@ void initializeCallGraphDOTPrinterPass(PassRegistry&);
+ void initializeCallGraphPrinterLegacyPassPass(PassRegistry&);
+ void initializeCallGraphViewerPass(PassRegistry&);
+ void initializeCallGraphWrapperPassPass(PassRegistry&);
++void initializeCanonicalizeTypeToI8PtrPass(PassRegistry&);
+ void initializeCodeGenPreparePass(PassRegistry&);
+ void initializeConstantHoistingLegacyPassPass(PassRegistry&);
+ void initializeConstantMergeLegacyPassPass(PassRegistry&);
+diff --git a/include/llvm/Transforms/Scalar.h b/include/llvm/Transforms/Scalar.h
+index d9a10c086d9..93b04476b5a 100644
+--- a/include/llvm/Transforms/Scalar.h
++++ b/include/llvm/Transforms/Scalar.h
+@@ -36,6 +36,13 @@ class TargetMachine;
+ //
+ FunctionPass *createConstantPropagationPass();
+ 
++//===----------------------------------------------------------------------===//
++//
++// CanonicalizeTypeToI8Ptr - Canonicalize "load/store i64/ptrty" to
++// "load/store i8*". This is needed to help vectorization.
++//
++FunctionPass *createCanonicalizeTypeToI8PtrPass();
++
+ //===----------------------------------------------------------------------===//
+ //
+ // AlignmentFromAssumptions - Use assume intrinsics to set load/store
+diff --git a/include/llvm/Transforms/Scalar/CanonicalizeTypeToI8Ptr.h b/include/llvm/Transforms/Scalar/CanonicalizeTypeToI8Ptr.h
+new file mode 100644
+index 00000000000..b4c7e33ed70
+--- /dev/null
++++ b/include/llvm/Transforms/Scalar/CanonicalizeTypeToI8Ptr.h
+@@ -0,0 +1,30 @@
++//===-- CanonicalizeTypeToI8Ptr.h - Canonicalize Type to i8*-----*- C++ -*-===//
++//
++//                     The LLVM Compiler Infrastructure
++//
++// This file is distributed under the University of Illinois Open Source
++// License. See LICENSE.TXT for details.
++//
++//===----------------------------------------------------------------------===//
++//
++// This canonicalizes load i64 / load ty* to load i8* and
++// store i64 / store ty* to store i8*. This helps SLPVectorizer to find
++// consecutive memory accesses.
++//
++//===----------------------------------------------------------------------===//
++
++#ifndef LLVM_TRANSFORMS_SCALAR_CANONICALIZETYPETOI8PTR_H
++#define LLVM_TRANSFORMS_SCALAR_CANONICALIZETYPETOI8PTR_H
++
++#include "llvm/IR/Function.h"
++#include "llvm/IR/PassManager.h"
++
++namespace llvm {
++
++class CanonicalizeTypeToI8PtrPass : public PassInfoMixin<CanonicalizeTypeToI8PtrPass> {
++public:
++  PreservedAnalyses run(Function &F, FunctionAnalysisManager &AM);
++};
++}
++
++#endif // LLVM_TRANSFORMS_SCALAR_CANONICALIZETYPETOI8PTR_H
+diff --git a/include/llvm/Transforms/Utils/Cloning.h b/include/llvm/Transforms/Utils/Cloning.h
+index 2a8b89d8628..fe68dc04879 100644
+--- a/include/llvm/Transforms/Utils/Cloning.h
++++ b/include/llvm/Transforms/Utils/Cloning.h
+@@ -228,11 +228,14 @@ public:
+ /// code in the caller as users of this routine may have pointers to
+ /// instructions in the caller that need to remain stable.
+ bool InlineFunction(CallInst *C, InlineFunctionInfo &IFI,
+-                    AAResults *CalleeAAR = nullptr, bool InsertLifetime = true);
++                    AAResults *CalleeAAR = nullptr, bool InsertLifetime = true,
++                    const TargetLibraryInfo *TLI = nullptr);
+ bool InlineFunction(InvokeInst *II, InlineFunctionInfo &IFI,
+-                    AAResults *CalleeAAR = nullptr, bool InsertLifetime = true);
++                    AAResults *CalleeAAR = nullptr, bool InsertLifetime = true,
++                    const TargetLibraryInfo *TLI = nullptr);
+ bool InlineFunction(CallSite CS, InlineFunctionInfo &IFI,
+-                    AAResults *CalleeAAR = nullptr, bool InsertLifetime = true);
++                    AAResults *CalleeAAR = nullptr, bool InsertLifetime = true,
++                    const TargetLibraryInfo *TLI = nullptr);
+ 
+ /// \brief Clones a loop \p OrigLoop.  Returns the loop and the blocks in \p
+ /// Blocks.
+diff --git a/lib/Analysis/AliasAnalysis.cpp b/lib/Analysis/AliasAnalysis.cpp
+index 897f89d3114..712c3b6f455 100644
+--- a/lib/Analysis/AliasAnalysis.cpp
++++ b/lib/Analysis/AliasAnalysis.cpp
+@@ -479,39 +479,58 @@ ModRefInfo AAResults::callCapturesBefore(const Instruction *I,
+   if (!CS.getInstruction() || CS.getInstruction() == Object)
+     return MRI_ModRef;
+ 
++  // CallbackFunc is a function that PointerMayBeCapturedBefore calls
++  // whenever it visits use of a pointer which is based on Object.
++  // This CallbackFunc updates ArgModRefInfo, which is mod/ref info
++  // telling whether call site I mod/refs a pointer based on Object.
++  // Capturing a pointer is always regarded as MRI_ModRef.
++  ModRefInfo ArgModRefInfo = MRI_NoModRef;
++  auto CallbackFunc = [&ArgModRefInfo, &I, &CS, &Object](const Use* U) {
++    if (U->getUser() != I)
++      // Interested in instruction I only.
++      return;
++    if (ArgModRefInfo == MRI_ModRef)
++      // Already in the worst case.
++      return;
++
++    const Value *V = U->get();
++    unsigned ArgNo = 0;
++    for (auto CI = CS.data_operands_begin(), CE = CS.data_operands_end();
++         CI != CE; ++CI, ++ArgNo) {
++      if (V != (*CI))
++        continue;
++      // If V is passed to argument which is neither nocapture nor byval,
++      // the callee (call site I) captures the pointer V. In this case, return
++      // value of callCapturesBefore is set to be MRI_ModRef.
++      if (!CS.doesNotCapture(ArgNo) &&
++           ArgNo < CS.getNumArgOperands() && !CS.isByValArgument(ArgNo)) {
++        ArgModRefInfo = MRI_ModRef;
++        break;
++      }
++
++      // If ArgNo'th argument of CS does not access memory, then ArgModRefInfo
++      // does not need to be updated.
++      if (CS.doesNotAccessMemory(ArgNo))
++        continue;
++      // If ArgNo'th argument of CS only reads memory, ArgModRefInfo is
++      // MRI_Ref.
++      if (CS.onlyReadsMemory(ArgNo)) {
++        ArgModRefInfo = MRI_Ref;
++        continue;
++      }
++      // Otherwise, callee may modify memory.
++      ArgModRefInfo = MRI_ModRef;
++      break;
++    }
++  };
+   if (PointerMayBeCapturedBefore(Object, /* ReturnCaptures */ true,
+-                                 /* StoreCaptures */ true, I, DT,
++                                 /* StoreCaptures */ true, I, DT, &TLI,
+                                  /* include Object */ true,
+-                                 /* OrderedBasicBlock */ OBB))
++                                 /* OrderedBasicBlock */ OBB,
++                                 /* Callback function*/ CallbackFunc))
+     return MRI_ModRef;
+ 
+-  unsigned ArgNo = 0;
+-  ModRefInfo R = MRI_NoModRef;
+-  for (auto CI = CS.data_operands_begin(), CE = CS.data_operands_end();
+-       CI != CE; ++CI, ++ArgNo) {
+-    // Only look at the no-capture or byval pointer arguments.  If this
+-    // pointer were passed to arguments that were neither of these, then it
+-    // couldn't be no-capture.
+-    if (!(*CI)->getType()->isPointerTy() ||
+-        (!CS.doesNotCapture(ArgNo) &&
+-         ArgNo < CS.getNumArgOperands() && !CS.isByValArgument(ArgNo)))
+-      continue;
+-
+-    // If this is a no-capture pointer argument, see if we can tell that it
+-    // is impossible to alias the pointer we're checking.  If not, we have to
+-    // assume that the call could touch the pointer, even though it doesn't
+-    // escape.
+-    if (isNoAlias(MemoryLocation(*CI), MemoryLocation(Object)))
+-      continue;
+-    if (CS.doesNotAccessMemory(ArgNo))
+-      continue;
+-    if (CS.onlyReadsMemory(ArgNo)) {
+-      R = MRI_Ref;
+-      continue;
+-    }
+-    return MRI_ModRef;
+-  }
+-  return R;
++  return ArgModRefInfo;
+ }
+ 
+ /// canBasicBlockModify - Return true if it is possible for execution of the
+diff --git a/lib/Analysis/BasicAliasAnalysis.cpp b/lib/Analysis/BasicAliasAnalysis.cpp
+index 3909e6b44aa..4135634a867 100644
+--- a/lib/Analysis/BasicAliasAnalysis.cpp
++++ b/lib/Analysis/BasicAliasAnalysis.cpp
+@@ -106,7 +106,8 @@ bool BasicAAResult::invalidate(Function &F, const PreservedAnalyses &PA,
+ 
+ /// Returns true if the pointer is to a function-local object that never
+ /// escapes from the function.
+-static bool isNonEscapingLocalObject(const Value *V) {
++static bool isNonEscapingLocalObject(const Value *V,
++                                     const TargetLibraryInfo *TLI) {
+   // If this is a local allocation, check to see if it escapes.
+   if (isa<AllocaInst>(V) || isNoAliasCall(V))
+     // Set StoreCaptures to True so that we can assume in our callers that the
+@@ -114,7 +115,7 @@ static bool isNonEscapingLocalObject(const Value *V) {
+     // PointerMayBeCaptured doesn't have any special analysis for the
+     // StoreCaptures=false case; if it did, our callers could be refined to be
+     // more precise.
+-    return !PointerMayBeCaptured(V, false, /*StoreCaptures=*/true);
++    return !PointerMayBeCaptured(V, false, /*StoreCaptures=*/true, TLI);
+ 
+   // If this is an argument that corresponds to a byval or noalias argument,
+   // then it has not escaped before entering the function.  Check if it escapes
+@@ -124,7 +125,7 @@ static bool isNonEscapingLocalObject(const Value *V) {
+       // Note even if the argument is marked nocapture, we still need to check
+       // for copies made inside the function. The nocapture attribute only
+       // specifies that there are no copies made that outlive the function.
+-      return !PointerMayBeCaptured(V, false, /*StoreCaptures=*/true);
++      return !PointerMayBeCaptured(V, false, /*StoreCaptures=*/true, TLI);
+ 
+   return false;
+ }
+@@ -135,6 +136,9 @@ static bool isEscapeSource(const Value *V) {
+   if (isa<CallInst>(V) || isa<InvokeInst>(V) || isa<Argument>(V))
+     return true;
+ 
++  if (isa<IntToPtrInst>(V))
++    return true;
++
+   // The load case works because isNonEscapingLocalObject considers all
+   // stores to be escapes (it passes true for the StoreCaptures argument
+   // to PointerMayBeCaptured).
+@@ -772,7 +776,7 @@ ModRefInfo BasicAAResult::getModRefInfo(ImmutableCallSite CS,
+   // then the call can not mod/ref the pointer unless the call takes the pointer
+   // as an argument, and itself doesn't capture it.
+   if (!isa<Constant>(Object) && CS.getInstruction() != Object &&
+-      isNonEscapingLocalObject(Object)) {
++      isNonEscapingLocalObject(Object, &TLI)) {
+ 
+     // Optimistically assume that call doesn't touch Object and check this
+     // assumption in the following loop.
+@@ -938,6 +942,12 @@ ModRefInfo BasicAAResult::getModRefInfo(ImmutableCallSite CS1,
+   return AAResultBase::getModRefInfo(CS1, CS2);
+ }
+ 
++static bool isStrippedPointerInBounds(const Value *V) {
++  const Value *V2 = V->stripPointerCasts();
++  const GEPOperator *Op = dyn_cast<GEPOperator>(V2);
++  return Op && Op->isInBounds();
++}
++
+ /// Provide ad-hoc rules to disambiguate accesses through two GEP operators,
+ /// both having the exact same pointer operand.
+ static AliasResult aliasSameBasePointerGEPs(const GEPOperator *GEP1,
+@@ -1568,10 +1578,12 @@ AliasResult BasicAAResult::aliasCheck(const Value *V1, uint64_t V1Size,
+   // Null values in the default address space don't point to any object, so they
+   // don't alias any other pointer.
+   if (const ConstantPointerNull *CPN = dyn_cast<ConstantPointerNull>(O1))
+-    if (CPN->getType()->getAddressSpace() == 0)
++    if (CPN->getType()->getAddressSpace() == 0 &&
++        (isStrippedPointerInBounds(V1) || V1 == O1))
+       return NoAlias;
+   if (const ConstantPointerNull *CPN = dyn_cast<ConstantPointerNull>(O2))
+-    if (CPN->getType()->getAddressSpace() == 0)
++    if (CPN->getType()->getAddressSpace() == 0 &&
++        (isStrippedPointerInBounds(V2) || V2 == O2))
+       return NoAlias;
+ 
+   if (O1 != O2) {
+@@ -1580,8 +1592,10 @@ AliasResult BasicAAResult::aliasCheck(const Value *V1, uint64_t V1Size,
+       return NoAlias;
+ 
+     // Constant pointers can't alias with non-const isIdentifiedObject objects.
+-    if ((isa<Constant>(O1) && isIdentifiedObject(O2) && !isa<Constant>(O2)) ||
+-        (isa<Constant>(O2) && isIdentifiedObject(O1) && !isa<Constant>(O1)))
++    if ((isa<Constant>(O1) && isNonEscapingLocalObject(O2, &TLI) &&
++         !isa<Constant>(O2)) ||
++        (isa<Constant>(O2) && isNonEscapingLocalObject(O1, &TLI) &&
++         !isa<Constant>(O1)))
+       return NoAlias;
+ 
+     // Function arguments can't alias with things that are known to be
+@@ -1599,9 +1613,9 @@ AliasResult BasicAAResult::aliasCheck(const Value *V1, uint64_t V1Size,
+     // temporary store the nocapture argument's value in a temporary memory
+     // location if that memory location doesn't escape. Or it may pass a
+     // nocapture value to other functions as long as they don't capture it.
+-    if (isEscapeSource(O1) && isNonEscapingLocalObject(O2))
++    if (isEscapeSource(O1) && isNonEscapingLocalObject(O2, &TLI))
+       return NoAlias;
+-    if (isEscapeSource(O2) && isNonEscapingLocalObject(O1))
++    if (isEscapeSource(O2) && isNonEscapingLocalObject(O1, &TLI))
+       return NoAlias;
+   }
+ 
+diff --git a/lib/Analysis/CaptureTracking.cpp b/lib/Analysis/CaptureTracking.cpp
+index 3b0026ba10e..9282e6f595a 100644
+--- a/lib/Analysis/CaptureTracking.cpp
++++ b/lib/Analysis/CaptureTracking.cpp
+@@ -22,6 +22,7 @@
+ #include "llvm/Analysis/AliasAnalysis.h"
+ #include "llvm/Analysis/CFG.h"
+ #include "llvm/Analysis/OrderedBasicBlock.h"
++#include "llvm/Analysis/ValueTracking.h"
+ #include "llvm/IR/CallSite.h"
+ #include "llvm/IR/Constants.h"
+ #include "llvm/IR/Dominators.h"
+@@ -156,8 +157,9 @@ namespace {
+ /// counts as capturing it or not.  The boolean StoreCaptures specified whether
+ /// storing the value (or part of it) into memory anywhere automatically
+ /// counts as capturing it or not.
+-bool llvm::PointerMayBeCaptured(const Value *V,
+-                                bool ReturnCaptures, bool StoreCaptures) {
++bool llvm::PointerMayBeCaptured(const Value *V, bool ReturnCaptures,
++                                bool StoreCaptures,
++                                const TargetLibraryInfo *TLI) {
+   assert(!isa<GlobalValue>(V) &&
+          "It doesn't make sense to ask whether a global is captured.");
+ 
+@@ -168,7 +170,7 @@ bool llvm::PointerMayBeCaptured(const Value *V,
+   (void)StoreCaptures;
+ 
+   SimpleCaptureTracker SCT(ReturnCaptures);
+-  PointerMayBeCaptured(V, &SCT);
++  PointerMayBeCaptured(V, &SCT, TLI, (std::function<void(const Use*)>)nullptr);
+   return SCT.Captured;
+ }
+ 
+@@ -184,14 +186,16 @@ bool llvm::PointerMayBeCaptured(const Value *V,
+ /// queries about relative order among instructions in the same basic block.
+ bool llvm::PointerMayBeCapturedBefore(const Value *V, bool ReturnCaptures,
+                                       bool StoreCaptures, const Instruction *I,
+-                                      DominatorTree *DT, bool IncludeI,
+-                                      OrderedBasicBlock *OBB) {
++                                      DominatorTree *DT,
++                                      const TargetLibraryInfo *TLI,
++                                      bool IncludeI, OrderedBasicBlock *OBB,
++                                      std::function<void(const Use*)> CallbackFunc) {
+   assert(!isa<GlobalValue>(V) &&
+          "It doesn't make sense to ask whether a global is captured.");
+   bool UseNewOBB = OBB == nullptr;
+ 
+   if (!DT)
+-    return PointerMayBeCaptured(V, ReturnCaptures, StoreCaptures);
++    return PointerMayBeCaptured(V, ReturnCaptures, StoreCaptures, TLI);
+   if (UseNewOBB)
+     OBB = new OrderedBasicBlock(I->getParent());
+ 
+@@ -199,7 +203,7 @@ bool llvm::PointerMayBeCapturedBefore(const Value *V, bool ReturnCaptures,
+   // with StoreCaptures.
+ 
+   CapturesBefore CB(ReturnCaptures, I, DT, IncludeI, OBB);
+-  PointerMayBeCaptured(V, &CB);
++  PointerMayBeCaptured(V, &CB, TLI, CallbackFunc);
+ 
+   if (UseNewOBB)
+     delete OBB;
+@@ -211,7 +215,9 @@ bool llvm::PointerMayBeCapturedBefore(const Value *V, bool ReturnCaptures,
+ /// that path, and remove this threshold.
+ static int const Threshold = 20;
+ 
+-void llvm::PointerMayBeCaptured(const Value *V, CaptureTracker *Tracker) {
++void llvm::PointerMayBeCaptured(const Value *V, CaptureTracker *Tracker,
++                                const TargetLibraryInfo *TLI,
++                                std::function<void(const Use*)> CallbackFunc) {
+   assert(V->getType()->isPointerTy() && "Capture is for pointers only!");
+   SmallVector<const Use *, Threshold> Worklist;
+   SmallSet<const Use *, Threshold> Visited;
+@@ -231,7 +237,10 @@ void llvm::PointerMayBeCaptured(const Value *V, CaptureTracker *Tracker) {
+   while (!Worklist.empty()) {
+     const Use *U = Worklist.pop_back_val();
+     Instruction *I = cast<Instruction>(U->getUser());
++    const DataLayout &DL = I->getModule()->getDataLayout();
+     V = U->get();
++    if (CallbackFunc)
++      CallbackFunc(U);
+ 
+     switch (I->getOpcode()) {
+     case Instruction::Call:
+@@ -250,6 +259,22 @@ void llvm::PointerMayBeCaptured(const Value *V, CaptureTracker *Tracker) {
+           if (Tracker->captured(U))
+             return;
+ 
++      // psub intrinsics on logical pointer does not capture address. :)
++      if (auto *II = dyn_cast<IntrinsicInst>(I)) {
++        if (II->getIntrinsicID() == Intrinsic::psub) {
++          Value *AddrToCheck = nullptr;
++          if (II->getArgOperand(0) == V)
++            AddrToCheck = II->getArgOperand(1);
++          else if (II->getArgOperand(1) == V)
++            AddrToCheck = II->getArgOperand(0);
++          else
++            llvm_unreachable("at least one of argument should be Addr");
++          unsigned Depth = 6;
++          if (isGuaranteedToBeLogicalPointer(AddrToCheck, DL, nullptr,
++                                             TLI, Depth))
++            break;
++        }
++      }
+       // Not captured if only passed via 'nocapture' arguments.  Note that
+       // calling a function pointer does not in itself cause the pointer to
+       // be captured.  This is a subtle point considering that (for example)
+@@ -311,7 +336,6 @@ void llvm::PointerMayBeCaptured(const Value *V, CaptureTracker *Tracker) {
+     case Instruction::GetElementPtr:
+     case Instruction::PHI:
+     case Instruction::Select:
+-    case Instruction::AddrSpaceCast:
+       // The original value is not captured via this if the new value isn't.
+       Count = 0;
+       for (Use &UU : I->uses()) {
+@@ -338,8 +362,13 @@ void llvm::PointerMayBeCaptured(const Value *V, CaptureTracker *Tracker) {
+       // does not escape, its value cannot be guessed and stored separately in a
+       // global variable.
+       unsigned OtherIndex = (I->getOperand(0) == V) ? 1 : 0;
+-      auto *LI = dyn_cast<LoadInst>(I->getOperand(OtherIndex));
+-      if (LI && isa<GlobalVariable>(LI->getPointerOperand()))
++      //auto *LI = dyn_cast<LoadInst>(I->getOperand(OtherIndex));
++      //if (LI && isa<GlobalVariable>(LI->getPointerOperand()))
++      //  break;
++      // Comparison against logical pointer does not capture.
++      Value *AddrToCheck = I->getOperand(OtherIndex);
++      unsigned Depth = 6;
++      if (isGuaranteedToBeLogicalPointer(AddrToCheck, DL, nullptr, TLI, Depth))
+         break;
+       // Otherwise, be conservative. There are crazy ways to capture pointers
+       // using comparisons.
+diff --git a/lib/Analysis/ConstantFolding.cpp b/lib/Analysis/ConstantFolding.cpp
+index e88b8f14d54..f2020467078 100644
+--- a/lib/Analysis/ConstantFolding.cpp
++++ b/lib/Analysis/ConstantFolding.cpp
+@@ -1296,17 +1296,17 @@ Constant *llvm::ConstantFoldCastOperand(unsigned Opcode, Constant *C,
+     // This requires knowing the width of a pointer, so it can't be done in
+     // ConstantExpr::getCast.
+     if (auto *CE = dyn_cast<ConstantExpr>(C)) {
+-      if (CE->getOpcode() == Instruction::PtrToInt) {
+-        Constant *SrcPtr = CE->getOperand(0);
+-        unsigned SrcPtrSize = DL.getPointerTypeSizeInBits(SrcPtr->getType());
+-        unsigned MidIntSize = CE->getType()->getScalarSizeInBits();
+-
+-        if (MidIntSize >= SrcPtrSize) {
+-          unsigned SrcAS = SrcPtr->getType()->getPointerAddressSpace();
+-          if (SrcAS == DestTy->getPointerAddressSpace())
+-            return FoldBitCast(CE->getOperand(0), DestTy, DL);
+-        }
+-      }
++      //if (CE->getOpcode() == Instruction::PtrToInt) {
++      //  Constant *SrcPtr = CE->getOperand(0);
++      //  unsigned SrcPtrSize = DL.getPointerTypeSizeInBits(SrcPtr->getType());
++      //  unsigned MidIntSize = CE->getType()->getScalarSizeInBits();
++
++      //  if (MidIntSize >= SrcPtrSize) {
++      //    unsigned SrcAS = SrcPtr->getType()->getPointerAddressSpace();
++      //    if (SrcAS == DestTy->getPointerAddressSpace())
++      //      return FoldBitCast(CE->getOperand(0), DestTy, DL);
++      //  }
++      //}
+     }
+ 
+     return ConstantExpr::getCast(Opcode, C, DestTy);
+diff --git a/lib/Analysis/InstructionSimplify.cpp b/lib/Analysis/InstructionSimplify.cpp
+index 05afc4f5501..df4266eecfb 100644
+--- a/lib/Analysis/InstructionSimplify.cpp
++++ b/lib/Analysis/InstructionSimplify.cpp
+@@ -765,6 +765,9 @@ static Value *SimplifySubInst(Value *Op0, Value *Op1, bool isNSW, bool isNUW,
+           return W;
+ 
+   // Variations on GEP(base, I, ...) - GEP(base, i, ...) -> GEP(null, I-i, ...).
++  // This is actually "GEP(base, I, ..) - GEP(base, i, ..) -> I-i".
++  // This optimization is allowed. Note that PtrToInt should not be removed
++  // (if PtrToInt contains capturing effect as well)
+   if (match(Op0, m_PtrToInt(m_Value(X))) &&
+       match(Op1, m_PtrToInt(m_Value(Y))))
+     if (Constant *Result = computePointerDifference(Q.DL, X, Y))
+@@ -2096,7 +2099,7 @@ computePointerICmp(const DataLayout &DL, const TargetLibraryInfo *TLI,
+       MI = RHS;
+     // FIXME: We should also fold the compare when the pointer escapes, but the
+     // compare dominates the pointer escape
+-    if (MI && !PointerMayBeCaptured(MI, true, true))
++    if (MI && !PointerMayBeCaptured(MI, true, true, TLI))
+       return ConstantInt::get(GetCompareTy(LHS),
+                               CmpInst::isFalseWhenEqual(Pred));
+   }
+@@ -3014,22 +3017,22 @@ static Value *SimplifyICmpInst(unsigned Predicate, Value *LHS, Value *RHS,
+ 
+     // Turn icmp (ptrtoint x), (ptrtoint/constant) into a compare of the input
+     // if the integer type is the same size as the pointer type.
+-    if (MaxRecurse && isa<PtrToIntInst>(LI) &&
+-        Q.DL.getTypeSizeInBits(SrcTy) == DstTy->getPrimitiveSizeInBits()) {
+-      if (Constant *RHSC = dyn_cast<Constant>(RHS)) {
+-        // Transfer the cast to the constant.
+-        if (Value *V = SimplifyICmpInst(Pred, SrcOp,
+-                                        ConstantExpr::getIntToPtr(RHSC, SrcTy),
+-                                        Q, MaxRecurse-1))
+-          return V;
+-      } else if (PtrToIntInst *RI = dyn_cast<PtrToIntInst>(RHS)) {
+-        if (RI->getOperand(0)->getType() == SrcTy)
+-          // Compare without the cast.
+-          if (Value *V = SimplifyICmpInst(Pred, SrcOp, RI->getOperand(0),
+-                                          Q, MaxRecurse-1))
+-            return V;
+-      }
+-    }
++    //if (MaxRecurse && isa<PtrToIntInst>(LI) &&
++    //    Q.DL.getTypeSizeInBits(SrcTy) == DstTy->getPrimitiveSizeInBits()) {
++    //  if (Constant *RHSC = dyn_cast<Constant>(RHS)) {
++    //    // Transfer the cast to the constant.
++    //    if (Value *V = SimplifyICmpInst(Pred, SrcOp,
++    //                                    ConstantExpr::getIntToPtr(RHSC, SrcTy),
++    //                                    Q, MaxRecurse-1))
++    //      return V;
++    //  } else if (PtrToIntInst *RI = dyn_cast<PtrToIntInst>(RHS)) {
++    //    if (RI->getOperand(0)->getType() == SrcTy)
++    //      // Compare without the cast.
++    //      if (Value *V = SimplifyICmpInst(Pred, SrcOp, RI->getOperand(0),
++    //                                      Q, MaxRecurse-1))
++    //        return V;
++    //  }
++    //}
+ 
+     if (isa<ZExtInst>(LHS)) {
+       // Turn icmp (zext X), (zext Y) into a compare of X and Y if they have the
+@@ -3182,16 +3185,16 @@ static Value *SimplifyICmpInst(unsigned Predicate, Value *LHS, Value *RHS,
+     if (auto *C = computePointerICmp(Q.DL, Q.TLI, Q.DT, Pred, Q.AC, Q.CxtI, LHS,
+                                      RHS))
+       return C;
+-  if (auto *CLHS = dyn_cast<PtrToIntOperator>(LHS))
+-    if (auto *CRHS = dyn_cast<PtrToIntOperator>(RHS))
+-      if (Q.DL.getTypeSizeInBits(CLHS->getPointerOperandType()) ==
+-              Q.DL.getTypeSizeInBits(CLHS->getType()) &&
+-          Q.DL.getTypeSizeInBits(CRHS->getPointerOperandType()) ==
+-              Q.DL.getTypeSizeInBits(CRHS->getType()))
+-        if (auto *C = computePointerICmp(Q.DL, Q.TLI, Q.DT, Pred, Q.AC, Q.CxtI,
+-                                         CLHS->getPointerOperand(),
+-                                         CRHS->getPointerOperand()))
+-          return C;
++  //if (auto *CLHS = dyn_cast<PtrToIntOperator>(LHS))
++  //  if (auto *CRHS = dyn_cast<PtrToIntOperator>(RHS))
++  //    if (Q.DL.getTypeSizeInBits(CLHS->getPointerOperandType()) ==
++  //            Q.DL.getTypeSizeInBits(CLHS->getType()) &&
++  //        Q.DL.getTypeSizeInBits(CRHS->getPointerOperandType()) ==
++  //            Q.DL.getTypeSizeInBits(CRHS->getType()))
++  //      if (auto *C = computePointerICmp(Q.DL, Q.TLI, Q.DT, Pred, Q.AC, Q.CxtI,
++  //                                       CLHS->getPointerOperand(),
++  //                                       CRHS->getPointerOperand()))
++  //        return C;
+ 
+   if (GetElementPtrInst *GLHS = dyn_cast<GetElementPtrInst>(LHS)) {
+     if (GEPOperator *GRHS = dyn_cast<GEPOperator>(RHS)) {
+@@ -3545,7 +3548,7 @@ static Value *simplifySelectWithICmpCond(Value *CondVal, Value *TrueVal,
+   // If we have an equality comparison, then we know the value in one of the
+   // arms of the select. See if substituting this value into the arm and
+   // simplifying the result yields the same value as the other arm.
+-  if (Pred == ICmpInst::ICMP_EQ) {
++  if (Pred == ICmpInst::ICMP_EQ && !CmpLHS->getType()->isPtrOrPtrVectorTy()) {
+     if (SimplifyWithOpReplaced(FalseVal, CmpLHS, CmpRHS, Q, MaxRecurse) ==
+             TrueVal ||
+         SimplifyWithOpReplaced(FalseVal, CmpRHS, CmpLHS, Q, MaxRecurse) ==
+@@ -3556,7 +3559,7 @@ static Value *simplifySelectWithICmpCond(Value *CondVal, Value *TrueVal,
+         SimplifyWithOpReplaced(TrueVal, CmpRHS, CmpLHS, Q, MaxRecurse) ==
+             FalseVal)
+       return FalseVal;
+-  } else if (Pred == ICmpInst::ICMP_NE) {
++  } else if (Pred == ICmpInst::ICMP_NE && !CmpLHS->getType()->isPtrOrPtrVectorTy()) {
+     if (SimplifyWithOpReplaced(TrueVal, CmpLHS, CmpRHS, Q, MaxRecurse) ==
+             FalseVal ||
+         SimplifyWithOpReplaced(TrueVal, CmpRHS, CmpLHS, Q, MaxRecurse) ==
+@@ -3651,41 +3654,41 @@ static Value *SimplifyGEPInst(Type *SrcTy, ArrayRef<Value *> Ops,
+ 
+       // The following transforms are only safe if the ptrtoint cast
+       // doesn't truncate the pointers.
+-      if (Ops[1]->getType()->getScalarSizeInBits() ==
+-          Q.DL.getPointerSizeInBits(AS)) {
+-        auto PtrToIntOrZero = [GEPTy](Value *P) -> Value * {
+-          if (match(P, m_Zero()))
+-            return Constant::getNullValue(GEPTy);
+-          Value *Temp;
+-          if (match(P, m_PtrToInt(m_Value(Temp))))
+-            if (Temp->getType() == GEPTy)
+-              return Temp;
+-          return nullptr;
+-        };
+-
+-        // getelementptr V, (sub P, V) -> P if P points to a type of size 1.
+-        if (TyAllocSize == 1 &&
+-            match(Ops[1], m_Sub(m_Value(P), m_PtrToInt(m_Specific(Ops[0])))))
+-          if (Value *R = PtrToIntOrZero(P))
+-            return R;
+-
+-        // getelementptr V, (ashr (sub P, V), C) -> Q
+-        // if P points to a type of size 1 << C.
+-        if (match(Ops[1],
+-                  m_AShr(m_Sub(m_Value(P), m_PtrToInt(m_Specific(Ops[0]))),
+-                         m_ConstantInt(C))) &&
+-            TyAllocSize == 1ULL << C)
+-          if (Value *R = PtrToIntOrZero(P))
+-            return R;
+-
+-        // getelementptr V, (sdiv (sub P, V), C) -> Q
+-        // if P points to a type of size C.
+-        if (match(Ops[1],
+-                  m_SDiv(m_Sub(m_Value(P), m_PtrToInt(m_Specific(Ops[0]))),
+-                         m_SpecificInt(TyAllocSize))))
+-          if (Value *R = PtrToIntOrZero(P))
+-            return R;
+-      }
++      //if (Ops[1]->getType()->getScalarSizeInBits() ==
++      //    Q.DL.getPointerSizeInBits(AS)) {
++      //  auto PtrToIntOrZero = [GEPTy](Value *P) -> Value * {
++      //    if (match(P, m_Zero()))
++      //      return Constant::getNullValue(GEPTy);
++      //    Value *Temp;
++      //    if (match(P, m_PtrToInt(m_Value(Temp))))
++      //      if (Temp->getType() == GEPTy)
++      //        return Temp;
++      //    return nullptr;
++      //  };
++
++      //  // getelementptr V, (sub P, V) -> P if P points to a type of size 1.
++      //  if (TyAllocSize == 1 &&
++      //      match(Ops[1], m_Sub(m_Value(P), m_PtrToInt(m_Specific(Ops[0])))))
++      //    if (Value *R = PtrToIntOrZero(P))
++      //      return R;
++
++      //  // getelementptr V, (ashr (sub P, V), C) -> Q
++      //  // if P points to a type of size 1 << C.
++      //  if (match(Ops[1],
++      //            m_AShr(m_Sub(m_Value(P), m_PtrToInt(m_Specific(Ops[0]))),
++      //                   m_ConstantInt(C))) &&
++      //      TyAllocSize == 1ULL << C)
++      //    if (Value *R = PtrToIntOrZero(P))
++      //      return R;
++
++      //  // getelementptr V, (sdiv (sub P, V), C) -> Q
++      //  // if P points to a type of size C.
++      //  if (match(Ops[1],
++      //            m_SDiv(m_Sub(m_Value(P), m_PtrToInt(m_Specific(Ops[0]))),
++      //                   m_SpecificInt(TyAllocSize))))
++      //    if (Value *R = PtrToIntOrZero(P))
++      //      return R;
++      //}
+     }
+   }
+ 
+@@ -4461,6 +4464,11 @@ static Value *SimplifyIntrinsic(Function *F, IterTy ArgBegin, IterTy ArgEnd,
+         return SimplifyRelativeLoad(C0, C1, Q.DL);
+       return nullptr;
+     }
++    case Intrinsic::psub: {
++      if (Constant *Result = computePointerDifference(Q.DL, LHS, RHS))
++        return ConstantExpr::getIntegerCast(Result, F->getReturnType(), true);
++      return nullptr;
++    }
+     default:
+       return nullptr;
+     }
+diff --git a/lib/Analysis/ValueTracking.cpp b/lib/Analysis/ValueTracking.cpp
+index a49da3a861e..57bb07e8880 100644
+--- a/lib/Analysis/ValueTracking.cpp
++++ b/lib/Analysis/ValueTracking.cpp
+@@ -29,6 +29,7 @@
+ #include "llvm/Analysis/InstructionSimplify.h"
+ #include "llvm/Analysis/Loads.h"
+ #include "llvm/Analysis/LoopInfo.h"
++#include "llvm/Analysis/MemoryBuiltins.h"
+ #include "llvm/Analysis/OptimizationDiagnosticInfo.h"
+ #include "llvm/Analysis/TargetLibraryInfo.h"
+ #include "llvm/IR/Argument.h"
+@@ -1749,6 +1750,26 @@ static bool isGEPKnownNonNull(const GEPOperator *GEP, unsigned Depth,
+   return false;
+ }
+ 
++bool llvm::isGuaranteedToBeLogicalPointer(Value *V, const DataLayout &DL, LoopInfo *LI,
++                            const TargetLibraryInfo *TLI, unsigned MaxLookup) {
++  SmallVector<Value *, 4> Objects;
++  GetUnderlyingObjects(V, Objects, DL, LI, MaxLookup);
++  if (Objects.begin() == Objects.end())
++    return false;
++
++  for (auto itr = Objects.begin(); itr != Objects.end(); itr++) {
++    Value *V = *itr;
++    if (isa<AllocaInst>(V))
++      continue;
++    if (isa<GlobalObject>(V))
++      continue;
++    if (TLI && isAllocationFn(V, TLI, true))
++      continue;
++    return false;
++  }
++  return true;
++}
++
+ static bool isKnownNonNullFromDominatingCondition(const Value *V,
+                                                   const Instruction *CtxI,
+                                                   const DominatorTree *DT) {
+@@ -3319,11 +3340,24 @@ static bool isSameUnderlyingObjectInLoop(const PHINode *PN,
+ }
+ 
+ Value *llvm::GetUnderlyingObject(Value *V, const DataLayout &DL,
+-                                 unsigned MaxLookup) {
++                                 unsigned MaxLookup,
++                                 bool TrackInBoundsPositiveOfsOnly) {
+   if (!V->getType()->isPointerTy())
+     return V;
++  auto psize = DL.getPointerSizeInBits(V->getType()->getPointerAddressSpace());
+   for (unsigned Count = 0; MaxLookup == 0 || Count < MaxLookup; ++Count) {
+     if (GEPOperator *GEP = dyn_cast<GEPOperator>(V)) {
++      if (TrackInBoundsPositiveOfsOnly) {
++        if (!GEP->isInBounds())
++          // GEP without inbounds is not allowed.
++          return V;
++        APInt Ofs(psize, 0);
++        bool hasPositiveOffset = GEP->accumulateConstantOffset(DL, Ofs) &&
++                                 Ofs.isNonNegative() &&
++                                 !Ofs.isNullValue();
++        if (!hasPositiveOffset)
++          return V;
++      }
+       V = GEP->getPointerOperand();
+     } else if (Operator::getOpcode(V) == Instruction::BitCast ||
+                Operator::getOpcode(V) == Instruction::AddrSpaceCast) {
+@@ -3359,13 +3393,14 @@ Value *llvm::GetUnderlyingObject(Value *V, const DataLayout &DL,
+ 
+ void llvm::GetUnderlyingObjects(Value *V, SmallVectorImpl<Value *> &Objects,
+                                 const DataLayout &DL, LoopInfo *LI,
+-                                unsigned MaxLookup) {
++                                unsigned MaxLookup,
++                                bool TrackInBoundsPositiveOfsOnly) {
+   SmallPtrSet<Value *, 4> Visited;
+   SmallVector<Value *, 4> Worklist;
+   Worklist.push_back(V);
+   do {
+     Value *P = Worklist.pop_back_val();
+-    P = GetUnderlyingObject(P, DL, MaxLookup);
++    P = GetUnderlyingObject(P, DL, MaxLookup, TrackInBoundsPositiveOfsOnly);
+ 
+     if (!Visited.insert(P).second)
+       continue;
+diff --git a/lib/CodeGen/SelectionDAG/SelectionDAGBuilder.cpp b/lib/CodeGen/SelectionDAG/SelectionDAGBuilder.cpp
+index fb32487ac42..bdbf630d948 100644
+--- a/lib/CodeGen/SelectionDAG/SelectionDAGBuilder.cpp
++++ b/lib/CodeGen/SelectionDAG/SelectionDAGBuilder.cpp
+@@ -5959,7 +5959,6 @@ SelectionDAGBuilder::visitIntrinsicCall(const CallInst &I, unsigned Intrinsic) {
+   case Intrinsic::experimental_deoptimize:
+     LowerDeoptimizeCall(&I);
+     return nullptr;
+-
+   case Intrinsic::experimental_vector_reduce_fadd:
+   case Intrinsic::experimental_vector_reduce_fmul:
+   case Intrinsic::experimental_vector_reduce_add:
+@@ -5976,7 +5975,16 @@ SelectionDAGBuilder::visitIntrinsicCall(const CallInst &I, unsigned Intrinsic) {
+     visitVectorReduce(I, Intrinsic);
+     return nullptr;
+   }
+-
++  case Intrinsic::psub:
++    // pointer to integer casting
++    EVT DestVT = DAG.getTargetLoweringInfo().getValueType(DAG.getDataLayout(),
++                                                          I.getType());
++    SDValue Op1 = DAG.getZExtOrTrunc(getValue(I.getArgOperand(0)), getCurSDLoc(), DestVT);
++    SDValue Op2 = DAG.getZExtOrTrunc(getValue(I.getArgOperand(1)), getCurSDLoc(), DestVT);
++    SDValue BinNodeValue = DAG.getNode(ISD::SUB, getCurSDLoc(), Op1.getValueType(),
++                                       Op1, Op2);
++    setValue(&I, BinNodeValue);
++    return nullptr;
+   }
+ }
+ 
+diff --git a/lib/IR/Instructions.cpp b/lib/IR/Instructions.cpp
+index 2c49564e328..eee40f15a0c 100644
+--- a/lib/IR/Instructions.cpp
++++ b/lib/IR/Instructions.cpp
+@@ -2402,7 +2402,7 @@ unsigned CastInst::isEliminableCastPair(
+     { 99,99,99, 0, 0,99,99, 0, 0,99,99, 4, 0}, // SIToFP         |
+     { 99,99,99, 0, 0,99,99, 0, 0,99,99, 4, 0}, // FPTrunc        |
+     { 99,99,99, 2, 2,99,99,10, 2,99,99, 4, 0}, // FPExt          |
+-    {  1, 0, 0,99,99, 0, 0,99,99,99, 7, 3, 0}, // PtrToInt       |
++    {  1, 0, 0,99,99, 0, 0,99,99,99, 0, 3, 0}, // PtrToInt       |
+     { 99,99,99,99,99,99,99,99,99,11,99,15, 0}, // IntToPtr       |
+     {  5, 5, 5, 6, 6, 5, 5, 6, 6,16, 5, 1,14}, // BitCast        |
+     {  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,13,12}, // AddrSpaceCast -+
+@@ -2891,12 +2891,14 @@ bool CastInst::isBitCastable(Type *SrcTy, Type *DestTy) {
+ 
+ bool CastInst::isBitOrNoopPointerCastable(Type *SrcTy, Type *DestTy,
+                                           const DataLayout &DL) {
++  /*
+   if (auto *PtrTy = dyn_cast<PointerType>(SrcTy))
+     if (auto *IntTy = dyn_cast<IntegerType>(DestTy))
+       return IntTy->getBitWidth() == DL.getPointerTypeSizeInBits(PtrTy);
+   if (auto *PtrTy = dyn_cast<PointerType>(DestTy))
+     if (auto *IntTy = dyn_cast<IntegerType>(SrcTy))
+       return IntTy->getBitWidth() == DL.getPointerTypeSizeInBits(PtrTy);
++  */
+ 
+   return isBitCastable(SrcTy, DestTy);
+ }
+diff --git a/lib/Passes/PassBuilder.cpp b/lib/Passes/PassBuilder.cpp
+index c277b5b14e7..2639ba271fa 100644
+--- a/lib/Passes/PassBuilder.cpp
++++ b/lib/Passes/PassBuilder.cpp
+@@ -88,6 +88,7 @@
+ #include "llvm/Transforms/Scalar/ADCE.h"
+ #include "llvm/Transforms/Scalar/AlignmentFromAssumptions.h"
+ #include "llvm/Transforms/Scalar/BDCE.h"
++#include "llvm/Transforms/Scalar/CanonicalizeTypeToI8Ptr.h"
+ #include "llvm/Transforms/Scalar/ConstantHoisting.h"
+ #include "llvm/Transforms/Scalar/CorrelatedValuePropagation.h"
+ #include "llvm/Transforms/Scalar/DCE.h"
+@@ -735,6 +736,11 @@ PassBuilder::buildModuleOptimizationPipeline(OptimizationLevel Level,
+   // optimizations. These are run afterward as they might block doing complex
+   // analyses and transforms such as what are needed for loop vectorization.
+ 
++  // Canonicalize load i64 / load ty* instructions to load i8* (and
++  // store i64 / store ty* to store i8*). This helps SLPVectorizer to
++  // analyze memory accesses better.
++  OptimizePM.addPass(CanonicalizeTypeToI8PtrPass());
++
+   // Optimize parallel scalar instruction chains into SIMD instructions.
+   OptimizePM.addPass(SLPVectorizerPass());
+ 
+diff --git a/lib/Passes/PassRegistry.def b/lib/Passes/PassRegistry.def
+index bfe3dd782c1..605e84f70ed 100644
+--- a/lib/Passes/PassRegistry.def
++++ b/lib/Passes/PassRegistry.def
+@@ -139,6 +139,7 @@ FUNCTION_PASS("add-discriminators", AddDiscriminatorsPass())
+ FUNCTION_PASS("alignment-from-assumptions", AlignmentFromAssumptionsPass())
+ FUNCTION_PASS("bdce", BDCEPass())
+ FUNCTION_PASS("break-crit-edges", BreakCriticalEdgesPass())
++FUNCTION_PASS("canonicalize-to-i8ptr", CanonicalizeTypeToI8PtrPass())
+ FUNCTION_PASS("consthoist", ConstantHoistingPass())
+ FUNCTION_PASS("correlated-propagation", CorrelatedValuePropagationPass())
+ FUNCTION_PASS("dce", DCEPass())
+diff --git a/lib/Target/AMDGPU/AMDGPUPromoteAlloca.cpp b/lib/Target/AMDGPU/AMDGPUPromoteAlloca.cpp
+index 41876ed45c8..3f6d3669d24 100644
+--- a/lib/Target/AMDGPU/AMDGPUPromoteAlloca.cpp
++++ b/lib/Target/AMDGPU/AMDGPUPromoteAlloca.cpp
+@@ -537,7 +537,7 @@ bool AMDGPUPromoteAlloca::collectUsesWithPtrTypes(
+ 
+     if (UseInst->getOpcode() == Instruction::AddrSpaceCast) {
+       // Give up if the pointer may be captured.
+-      if (PointerMayBeCaptured(UseInst, true, true))
++      if (PointerMayBeCaptured(UseInst, true, true, nullptr))
+         return false;
+       // Don't collect the users of this.
+       WorkList.push_back(User);
+diff --git a/lib/Transforms/IPO/FunctionAttrs.cpp b/lib/Transforms/IPO/FunctionAttrs.cpp
+index 92810c7d6cb..74101a09f2c 100644
+--- a/lib/Transforms/IPO/FunctionAttrs.cpp
++++ b/lib/Transforms/IPO/FunctionAttrs.cpp
+@@ -580,7 +580,8 @@ static bool addArgumentAttrsFromCallsites(Function &F) {
+ }
+ 
+ /// Deduce nocapture attributes for the SCC.
+-static bool addArgumentAttrs(const SCCNodeSet &SCCNodes) {
++static bool addArgumentAttrs(const SCCNodeSet &SCCNodes,
++                             const TargetLibraryInfo *TLI) {
+   bool Changed = false;
+ 
+   ArgumentGraph AG;
+@@ -618,7 +619,7 @@ static bool addArgumentAttrs(const SCCNodeSet &SCCNodes) {
+       bool HasNonLocalUses = false;
+       if (!A->hasNoCaptureAttr()) {
+         ArgumentUsesTracker Tracker(SCCNodes);
+-        PointerMayBeCaptured(&*A, &Tracker);
++        PointerMayBeCaptured(&*A, &Tracker, TLI);
+         if (!Tracker.Captured) {
+           if (Tracker.Uses.empty()) {
+             // If it's trivially not captured, mark it nocapture now.
+@@ -765,7 +766,8 @@ static bool addArgumentAttrs(const SCCNodeSet &SCCNodes) {
+ ///
+ /// A function is "malloc-like" if it returns either null or a pointer that
+ /// doesn't alias any other pointer visible to the caller.
+-static bool isFunctionMallocLike(Function *F, const SCCNodeSet &SCCNodes) {
++static bool isFunctionMallocLike(Function *F, const SCCNodeSet &SCCNodes,
++                                 const TargetLibraryInfo *TLI) {
+   SmallSetVector<Value *, 8> FlowsToReturn;
+   for (BasicBlock &BB : *F)
+     if (ReturnInst *Ret = dyn_cast<ReturnInst>(BB.getTerminator()))
+@@ -821,7 +823,7 @@ static bool isFunctionMallocLike(Function *F, const SCCNodeSet &SCCNodes) {
+         return false; // Did not come from an allocation.
+       }
+ 
+-    if (PointerMayBeCaptured(RetVal, false, /*StoreCaptures=*/false))
++    if (PointerMayBeCaptured(RetVal, false, /*StoreCaptures=*/false, TLI))
+       return false;
+   }
+ 
+@@ -829,7 +831,8 @@ static bool isFunctionMallocLike(Function *F, const SCCNodeSet &SCCNodes) {
+ }
+ 
+ /// Deduce noalias attributes for the SCC.
+-static bool addNoAliasAttrs(const SCCNodeSet &SCCNodes) {
++static bool addNoAliasAttrs(const SCCNodeSet &SCCNodes,
++                            const TargetLibraryInfo *TLI) {
+   // Check each function in turn, determining which functions return noalias
+   // pointers.
+   for (Function *F : SCCNodes) {
+@@ -848,7 +851,7 @@ static bool addNoAliasAttrs(const SCCNodeSet &SCCNodes) {
+     if (!F->getReturnType()->isPointerTy())
+       continue;
+ 
+-    if (!isFunctionMallocLike(F, SCCNodes))
++    if (!isFunctionMallocLike(F, SCCNodes, TLI))
+       return false;
+   }
+ 
+@@ -1084,12 +1087,12 @@ PreservedAnalyses PostOrderFunctionAttrsPass::run(LazyCallGraph::SCC &C,
+                                                   CGSCCUpdateResult &) {
+   FunctionAnalysisManager &FAM =
+       AM.getResult<FunctionAnalysisManagerCGSCCProxy>(C, CG).getManager();
+-
+   // We pass a lambda into functions to wire them up to the analysis manager
+   // for getting function analyses.
+   auto AARGetter = [&](Function &F) -> AAResults & {
+     return FAM.getResult<AAManager>(F);
+   };
++  TargetLibraryInfo *TLI = nullptr;
+ 
+   // Fill SCCNodes with the elements of the SCC. Also track whether there are
+   // any external or opt-none nodes that will prevent us from optimizing any
+@@ -1117,17 +1120,19 @@ PreservedAnalyses PostOrderFunctionAttrsPass::run(LazyCallGraph::SCC &C,
+           }
+ 
+     SCCNodes.insert(&F);
++    if (!TLI)
++      TLI = &FAM.getResult<TargetLibraryAnalysis>(F);
+   }
+ 
+   bool Changed = false;
+   Changed |= addArgumentReturnedAttrs(SCCNodes);
+   Changed |= addReadAttrs(SCCNodes, AARGetter);
+-  Changed |= addArgumentAttrs(SCCNodes);
++  Changed |= addArgumentAttrs(SCCNodes, TLI);
+ 
+   // If we have no external nodes participating in the SCC, we can deduce some
+   // more precise attributes as well.
+   if (!HasUnknownCall) {
+-    Changed |= addNoAliasAttrs(SCCNodes);
++    Changed |= addNoAliasAttrs(SCCNodes, TLI);
+     Changed |= addNonNullAttrs(SCCNodes);
+     Changed |= removeConvergentAttrs(SCCNodes);
+     Changed |= addNoRecurseAttrs(SCCNodes);
+@@ -1149,6 +1154,7 @@ struct PostOrderFunctionAttrsLegacyPass : public CallGraphSCCPass {
+   void getAnalysisUsage(AnalysisUsage &AU) const override {
+     AU.setPreservesCFG();
+     AU.addRequired<AssumptionCacheTracker>();
++    AU.addRequired<TargetLibraryInfoWrapperPass>();
+     getAAResultsAnalysisUsage(AU);
+     CallGraphSCCPass::getAnalysisUsage(AU);
+   }
+@@ -1159,6 +1165,7 @@ char PostOrderFunctionAttrsLegacyPass::ID = 0;
+ INITIALIZE_PASS_BEGIN(PostOrderFunctionAttrsLegacyPass, "functionattrs",
+                       "Deduce function attributes", false, false)
+ INITIALIZE_PASS_DEPENDENCY(AssumptionCacheTracker)
++INITIALIZE_PASS_DEPENDENCY(TargetLibraryInfoWrapperPass)
+ INITIALIZE_PASS_DEPENDENCY(CallGraphWrapperPass)
+ INITIALIZE_PASS_END(PostOrderFunctionAttrsLegacyPass, "functionattrs",
+                     "Deduce function attributes", false, false)
+@@ -1168,7 +1175,8 @@ Pass *llvm::createPostOrderFunctionAttrsLegacyPass() {
+ }
+ 
+ template <typename AARGetterT>
+-static bool runImpl(CallGraphSCC &SCC, AARGetterT AARGetter) {
++static bool runImpl(CallGraphSCC &SCC, AARGetterT AARGetter,
++                    const TargetLibraryInfo *TLI) {
+   bool Changed = false;
+ 
+   // Fill SCCNodes with the elements of the SCC. Used for quickly looking up
+@@ -1195,12 +1203,12 @@ static bool runImpl(CallGraphSCC &SCC, AARGetterT AARGetter) {
+ 
+   Changed |= addArgumentReturnedAttrs(SCCNodes);
+   Changed |= addReadAttrs(SCCNodes, AARGetter);
+-  Changed |= addArgumentAttrs(SCCNodes);
++  Changed |= addArgumentAttrs(SCCNodes, TLI);
+ 
+   // If we have no external nodes participating in the SCC, we can deduce some
+   // more precise attributes as well.
+   if (!ExternalNode) {
+-    Changed |= addNoAliasAttrs(SCCNodes);
++    Changed |= addNoAliasAttrs(SCCNodes, TLI);
+     Changed |= addNonNullAttrs(SCCNodes);
+     Changed |= removeConvergentAttrs(SCCNodes);
+     Changed |= addNoRecurseAttrs(SCCNodes);
+@@ -1212,7 +1220,10 @@ static bool runImpl(CallGraphSCC &SCC, AARGetterT AARGetter) {
+ bool PostOrderFunctionAttrsLegacyPass::runOnSCC(CallGraphSCC &SCC) {
+   if (skipSCC(SCC))
+     return false;
+-  return runImpl(SCC, LegacyAARGetter(*this));
++
++  auto &TLI = getAnalysis<TargetLibraryInfoWrapperPass>().getTLI();
++
++  return runImpl(SCC, LegacyAARGetter(*this), &TLI);
+ }
+ 
+ namespace {
+diff --git a/lib/Transforms/IPO/Inliner.cpp b/lib/Transforms/IPO/Inliner.cpp
+index 4233ba9deec..297f27b1d5a 100644
+--- a/lib/Transforms/IPO/Inliner.cpp
++++ b/lib/Transforms/IPO/Inliner.cpp
+@@ -236,7 +236,8 @@ static bool InlineCallIfPossible(
+     CallSite CS, InlineFunctionInfo &IFI,
+     InlinedArrayAllocasTy &InlinedArrayAllocas, int InlineHistory,
+     bool InsertLifetime, function_ref<AAResults &(Function &)> &AARGetter,
+-    ImportedFunctionsInliningStatistics &ImportedFunctionsStats) {
++    ImportedFunctionsInliningStatistics &ImportedFunctionsStats,
++    const TargetLibraryInfo *TLI) {
+   Function *Callee = CS.getCalledFunction();
+   Function *Caller = CS.getCaller();
+ 
+@@ -244,7 +245,7 @@ static bool InlineCallIfPossible(
+ 
+   // Try to inline the function.  Get the list of static allocas that were
+   // inlined.
+-  if (!InlineFunction(CS, IFI, &AAR, InsertLifetime))
++  if (!InlineFunction(CS, IFI, &AAR, InsertLifetime, TLI))
+     return false;
+ 
+   if (InlinerFunctionImportStats != InlinerFunctionImportStatsOpts::No)
+@@ -571,7 +572,7 @@ inlineCallsImpl(CallGraphSCC &SCC, CallGraph &CG,
+         using namespace ore;
+         if (!InlineCallIfPossible(CS, InlineInfo, InlinedArrayAllocas,
+                                   InlineHistoryID, InsertLifetime, AARGetter,
+-                                  ImportedFunctionsStats)) {
++                                  ImportedFunctionsStats, &TLI)) {
+           ORE.emit(
+               OptimizationRemarkMissed(DEBUG_TYPE, "NotInlined", DLoc, Block)
+               << NV("Callee", Callee) << " will not be inlined into "
+diff --git a/lib/Transforms/IPO/PassManagerBuilder.cpp b/lib/Transforms/IPO/PassManagerBuilder.cpp
+index b38462913c4..6f7d1a68e54 100644
+--- a/lib/Transforms/IPO/PassManagerBuilder.cpp
++++ b/lib/Transforms/IPO/PassManagerBuilder.cpp
+@@ -389,8 +389,10 @@ void PassManagerBuilder::addFunctionSimplificationPasses(
+ 
+   if (RerollLoops)
+     MPM.add(createLoopRerollPass());
+-  if (!RunSLPAfterLoopVectorization && SLPVectorize)
++  if (!RunSLPAfterLoopVectorization && SLPVectorize) {
++    MPM.add(createCanonicalizeTypeToI8PtrPass());
+     MPM.add(createSLPVectorizerPass()); // Vectorize parallel scalar chains.
++  }
+ 
+   MPM.add(createAggressiveDCEPass());         // Delete dead instructions
+   MPM.add(createCFGSimplificationPass()); // Merge & remove BBs
+@@ -623,6 +625,7 @@ void PassManagerBuilder::populateModulePassManager(
+   }
+ 
+   if (RunSLPAfterLoopVectorization && SLPVectorize) {
++    MPM.add(createCanonicalizeTypeToI8PtrPass());
+     MPM.add(createSLPVectorizerPass()); // Vectorize parallel scalar chains.
+     if (OptLevel > 1 && ExtraVectorizerPasses) {
+       MPM.add(createEarlyCSEPass());
+@@ -812,8 +815,10 @@ void PassManagerBuilder::addLTOOptimizationPasses(legacy::PassManagerBase &PM) {
+ 
+   // More scalar chains could be vectorized due to more alias information
+   if (RunSLPAfterLoopVectorization)
+-    if (SLPVectorize)
++    if (SLPVectorize) {
++      PM.add(createCanonicalizeTypeToI8PtrPass());
+       PM.add(createSLPVectorizerPass()); // Vectorize parallel scalar chains.
++    }
+ 
+   // After vectorization, assume intrinsics may tell us more about pointer
+   // alignments.
+diff --git a/lib/Transforms/InstCombine/InstCombineCalls.cpp b/lib/Transforms/InstCombine/InstCombineCalls.cpp
+index 61f0329f704..871ad7cee67 100644
+--- a/lib/Transforms/InstCombine/InstCombineCalls.cpp
++++ b/lib/Transforms/InstCombine/InstCombineCalls.cpp
+@@ -181,73 +181,74 @@ Instruction *InstCombiner::SimplifyMemTransfer(MemIntrinsic *MI) {
+     MI->setAlignment(ConstantInt::get(MI->getAlignmentType(), MinAlign, false));
+     return MI;
+   }
++  return nullptr;
+ 
+-  // If MemCpyInst length is 1/2/4/8 bytes then replace memcpy with
+-  // load/store.
+-  ConstantInt *MemOpLength = dyn_cast<ConstantInt>(MI->getArgOperand(2));
+-  if (!MemOpLength) return nullptr;
+-
+-  // Source and destination pointer types are always "i8*" for intrinsic.  See
+-  // if the size is something we can handle with a single primitive load/store.
+-  // A single load+store correctly handles overlapping memory in the memmove
+-  // case.
+-  uint64_t Size = MemOpLength->getLimitedValue();
+-  assert(Size && "0-sized memory transferring should be removed already.");
+-
+-  if (Size > 8 || (Size&(Size-1)))
+-    return nullptr;  // If not 1/2/4/8 bytes, exit.
+-
+-  // Use an integer load+store unless we can find something better.
+-  unsigned SrcAddrSp =
+-    cast<PointerType>(MI->getArgOperand(1)->getType())->getAddressSpace();
+-  unsigned DstAddrSp =
+-    cast<PointerType>(MI->getArgOperand(0)->getType())->getAddressSpace();
+-
+-  IntegerType* IntType = IntegerType::get(MI->getContext(), Size<<3);
+-  Type *NewSrcPtrTy = PointerType::get(IntType, SrcAddrSp);
+-  Type *NewDstPtrTy = PointerType::get(IntType, DstAddrSp);
+-
+-  // If the memcpy has metadata describing the members, see if we can get the
+-  // TBAA tag describing our copy.
+-  MDNode *CopyMD = nullptr;
+-  if (MDNode *M = MI->getMetadata(LLVMContext::MD_tbaa_struct)) {
+-    if (M->getNumOperands() == 3 && M->getOperand(0) &&
+-        mdconst::hasa<ConstantInt>(M->getOperand(0)) &&
+-        mdconst::extract<ConstantInt>(M->getOperand(0))->isZero() &&
+-        M->getOperand(1) &&
+-        mdconst::hasa<ConstantInt>(M->getOperand(1)) &&
+-        mdconst::extract<ConstantInt>(M->getOperand(1))->getValue() ==
+-        Size &&
+-        M->getOperand(2) && isa<MDNode>(M->getOperand(2)))
+-      CopyMD = cast<MDNode>(M->getOperand(2));
+-  }
+-
+-  // If the memcpy/memmove provides better alignment info than we can
+-  // infer, use it.
+-  SrcAlign = std::max(SrcAlign, CopyAlign);
+-  DstAlign = std::max(DstAlign, CopyAlign);
+-
+-  Value *Src = Builder.CreateBitCast(MI->getArgOperand(1), NewSrcPtrTy);
+-  Value *Dest = Builder.CreateBitCast(MI->getArgOperand(0), NewDstPtrTy);
+-  LoadInst *L = Builder.CreateLoad(Src, MI->isVolatile());
+-  L->setAlignment(SrcAlign);
+-  if (CopyMD)
+-    L->setMetadata(LLVMContext::MD_tbaa, CopyMD);
+-  MDNode *LoopMemParallelMD =
+-    MI->getMetadata(LLVMContext::MD_mem_parallel_loop_access);
+-  if (LoopMemParallelMD)
+-    L->setMetadata(LLVMContext::MD_mem_parallel_loop_access, LoopMemParallelMD);
+-
+-  StoreInst *S = Builder.CreateStore(L, Dest, MI->isVolatile());
+-  S->setAlignment(DstAlign);
+-  if (CopyMD)
+-    S->setMetadata(LLVMContext::MD_tbaa, CopyMD);
+-  if (LoopMemParallelMD)
+-    S->setMetadata(LLVMContext::MD_mem_parallel_loop_access, LoopMemParallelMD);
+-
+-  // Set the size of the copy to 0, it will be deleted on the next iteration.
+-  MI->setArgOperand(2, Constant::getNullValue(MemOpLength->getType()));
+-  return MI;
++  // // If MemCpyInst length is 1/2/4/8 bytes then replace memcpy with
++  // // load/store.
++  // ConstantInt *MemOpLength = dyn_cast<ConstantInt>(MI->getArgOperand(2));
++  // if (!MemOpLength) return nullptr;
++
++  // // Source and destination pointer types are always "i8*" for intrinsic.  See
++  // // if the size is something we can handle with a single primitive load/store.
++  // // A single load+store correctly handles overlapping memory in the memmove
++  // // case.
++  // uint64_t Size = MemOpLength->getLimitedValue();
++  // assert(Size && "0-sized memory transferring should be removed already.");
++
++  // if (Size > 8 || (Size&(Size-1)))
++  //   return nullptr;  // If not 1/2/4/8 bytes, exit.
++
++  // // Use an integer load+store unless we can find something better.
++  // unsigned SrcAddrSp =
++  //   cast<PointerType>(MI->getArgOperand(1)->getType())->getAddressSpace();
++  // unsigned DstAddrSp =
++  //   cast<PointerType>(MI->getArgOperand(0)->getType())->getAddressSpace();
++
++  // IntegerType* IntType = IntegerType::get(MI->getContext(), Size<<3);
++  // Type *NewSrcPtrTy = PointerType::get(IntType, SrcAddrSp);
++  // Type *NewDstPtrTy = PointerType::get(IntType, DstAddrSp);
++
++  // // If the memcpy has metadata describing the members, see if we can get the
++  // // TBAA tag describing our copy.
++  // MDNode *CopyMD = nullptr;
++  // if (MDNode *M = MI->getMetadata(LLVMContext::MD_tbaa_struct)) {
++  //   if (M->getNumOperands() == 3 && M->getOperand(0) &&
++  //       mdconst::hasa<ConstantInt>(M->getOperand(0)) &&
++  //       mdconst::extract<ConstantInt>(M->getOperand(0))->isZero() &&
++  //       M->getOperand(1) &&
++  //       mdconst::hasa<ConstantInt>(M->getOperand(1)) &&
++  //       mdconst::extract<ConstantInt>(M->getOperand(1))->getValue() ==
++  //       Size &&
++  //       M->getOperand(2) && isa<MDNode>(M->getOperand(2)))
++  //     CopyMD = cast<MDNode>(M->getOperand(2));
++  // }
++
++  // // If the memcpy/memmove provides better alignment info than we can
++  // // infer, use it.
++  // SrcAlign = std::max(SrcAlign, CopyAlign);
++  // DstAlign = std::max(DstAlign, CopyAlign);
++
++  // Value *Src = Builder.CreateBitCast(MI->getArgOperand(1), NewSrcPtrTy);
++  // Value *Dest = Builder.CreateBitCast(MI->getArgOperand(0), NewDstPtrTy);
++  // LoadInst *L = Builder.CreateLoad(Src, MI->isVolatile());
++  // L->setAlignment(SrcAlign);
++  // if (CopyMD)
++  //   L->setMetadata(LLVMContext::MD_tbaa, CopyMD);
++  // MDNode *LoopMemParallelMD =
++  //   MI->getMetadata(LLVMContext::MD_mem_parallel_loop_access);
++  // if (LoopMemParallelMD)
++  //   L->setMetadata(LLVMContext::MD_mem_parallel_loop_access, LoopMemParallelMD);
++
++  // StoreInst *S = Builder.CreateStore(L, Dest, MI->isVolatile());
++  // S->setAlignment(DstAlign);
++  // if (CopyMD)
++  //   S->setMetadata(LLVMContext::MD_tbaa, CopyMD);
++  // if (LoopMemParallelMD)
++  //   S->setMetadata(LLVMContext::MD_mem_parallel_loop_access, LoopMemParallelMD);
++
++  // // Set the size of the copy to 0, it will be deleted on the next iteration.
++  // MI->setArgOperand(2, Constant::getNullValue(MemOpLength->getType()));
++  // return MI;
+ }
+ 
+ Instruction *InstCombiner::SimplifyMemSet(MemSetInst *MI) {
+@@ -3698,6 +3699,15 @@ Instruction *InstCombiner::visitCallInst(CallInst &CI) {
+     }
+     break;
+   }
++
++  case Intrinsic::psub: {
++    Value *Op1 = II->getArgOperand(0);
++    Value *Op2 = II->getArgOperand(1);
++    if (Value *Res = OptimizePointerDifference(Op1, Op2, II->getType())) {
++      return replaceInstUsesWith(*II, Res);
++    }
++    break;
++  }
+   }
+   return visitCallSite(II);
+ }
+diff --git a/lib/Transforms/InstCombine/InstCombineCompares.cpp b/lib/Transforms/InstCombine/InstCombineCompares.cpp
+index 980519bcf9c..fab77f88222 100644
+--- a/lib/Transforms/InstCombine/InstCombineCompares.cpp
++++ b/lib/Transforms/InstCombine/InstCombineCompares.cpp
+@@ -859,6 +859,7 @@ getAsConstantIndexedAddress(Value *V, const DataLayout &DL) {
+       }
+       break;
+     }
++    /*
+     if (auto *CI = dyn_cast<IntToPtrInst>(V)) {
+       if (!CI->isNoopCast(DL))
+         break;
+@@ -871,6 +872,7 @@ getAsConstantIndexedAddress(Value *V, const DataLayout &DL) {
+       V = CI->getOperand(0);
+       continue;
+     }
++    */
+     break;
+   }
+   return {V, Index};
+@@ -1101,6 +1103,16 @@ Instruction *InstCombiner::foldAllocaCmp(ICmpInst &ICI,
+     } else if (isa<ICmpInst>(V)) {
+       if (NumCmps++)
+         return nullptr; // Found more than one cmp.
++      // Check whether this comparison is done only once in this function.
++      const BasicBlock *ICIBB = dyn_cast<ICmpInst>(V)->getParent();
++      if (LI && LI->getLoopFor(ICIBB) != nullptr) {
++        // This comparison is in a loop.
++        return nullptr; 
++      } else {
++        // Be conservative.
++        if (Alloca->getParent() != ICIBB)
++          return nullptr;
++      }
+       continue;
+     } else if (const auto *Intrin = dyn_cast<IntrinsicInst>(V)) {
+       switch (Intrin->getIntrinsicID()) {
+@@ -2776,6 +2788,25 @@ Instruction *InstCombiner::foldICmpIntrinsicWithConstant(ICmpInst &Cmp,
+     }
+     break;
+   }
++  case Intrinsic::psub: {
++    // psub(a, b) == 0  ->  a == b
++    if (*C == 0) {
++      Value *Op0 = II->getArgOperand(0);
++      Value *Op1 = II->getArgOperand(1);
++      Value *NewCmp = nullptr;
++      if (Cmp.getPredicate() == CmpInst::ICMP_EQ) {
++        NewCmp = Builder.CreateICmpEQ(Op0, Op1);
++      } else if (Cmp.getPredicate() == CmpInst::ICMP_NE) {
++        NewCmp = Builder.CreateICmpNE(Op0, Op1);
++      } // There's no other case because this function starts with
++        // Cmp.isEquality().
++      NewCmp->takeName(&Cmp);
++      replaceInstUsesWith(Cmp, NewCmp);
++      Worklist.Add(II);
++      return &Cmp;
++    }
++    break;
++  }
+   default:
+     break;
+   }
+@@ -3467,7 +3498,8 @@ Instruction *InstCombiner::foldICmpWithCastAndCast(ICmpInst &ICmp) {
+ 
+   // Turn icmp (ptrtoint x), (ptrtoint/c) into a compare of the input if the
+   // integer type is the same size as the pointer type.
+-  if (LHSCI->getOpcode() == Instruction::PtrToInt &&
++  /*
++   * if (LHSCI->getOpcode() == Instruction::PtrToInt &&
+       DL.getPointerTypeSizeInBits(SrcTy) == DestTy->getIntegerBitWidth()) {
+     Value *RHSOp = nullptr;
+     if (auto *RHSC = dyn_cast<PtrToIntOperator>(ICmp.getOperand(1))) {
+@@ -3485,7 +3517,7 @@ Instruction *InstCombiner::foldICmpWithCastAndCast(ICmpInst &ICmp) {
+ 
+     if (RHSOp)
+       return new ICmpInst(ICmp.getPredicate(), LHSCIOp, RHSOp);
+-  }
++  }*/
+ 
+   // The code below only handles extension cast instructions, so far.
+   // Enforce this.
+diff --git a/lib/Transforms/InstCombine/InstCombineLoadStoreAlloca.cpp b/lib/Transforms/InstCombine/InstCombineLoadStoreAlloca.cpp
+index 45103654574..7baebb8c395 100644
+--- a/lib/Transforms/InstCombine/InstCombineLoadStoreAlloca.cpp
++++ b/lib/Transforms/InstCombine/InstCombineLoadStoreAlloca.cpp
+@@ -561,6 +561,20 @@ static StoreInst *combineStoreToNewValue(InstCombiner &IC, StoreInst &SI, Value
+   return NewStore;
+ }
+ 
++static bool containsPointerType(Type *Ty) {
++  if (isa<PointerType>(Ty))
++    return true;
++  else if (StructType *ST = dyn_cast<StructType>(Ty)) {
++    for (auto itr = ST->element_begin(); itr != ST->element_end(); itr++) {
++      if (containsPointerType(*itr))
++        return true;
++    }
++  } else if (SequentialType *ST = dyn_cast<SequentialType>(Ty))
++    if (containsPointerType(ST->getElementType()))
++      return true;
++  return false;
++}
++
+ /// \brief Combine loads to match the type of their uses' value after looking
+ /// through intervening bitcasts.
+ ///
+@@ -597,11 +611,12 @@ static Instruction *combineLoadToOperationType(InstCombiner &IC, LoadInst &LI) {
+   // Try to canonicalize loads which are only ever stored to operate over
+   // integers instead of any other type. We only do this when the loaded type
+   // is sized and has a size exactly the same as its store size and the store
+-  // size is a legal integer type.
++  // size is a legal integer type and it is neither a pointer type or
++  // a struct type that has pointer in it.
+   if (!Ty->isIntegerTy() && Ty->isSized() &&
+       DL.isLegalInteger(DL.getTypeStoreSizeInBits(Ty)) &&
+       DL.getTypeStoreSizeInBits(Ty) == DL.getTypeSizeInBits(Ty) &&
+-      !DL.isNonIntegralPointerType(Ty)) {
++      !containsPointerType(Ty)) {
+     if (all_of(LI.users(), [&LI](User *U) {
+           auto *SI = dyn_cast<StoreInst>(U);
+           return SI && SI->getPointerOperand() != &LI &&
+@@ -629,7 +644,7 @@ static Instruction *combineLoadToOperationType(InstCombiner &IC, LoadInst &LI) {
+   // bitwidth as the target's pointers).
+   if (LI.hasOneUse())
+     if (auto* CI = dyn_cast<CastInst>(LI.user_back()))
+-      if (CI->isNoopCast(DL))
++      if (CI->isNoopCast(DL) && !isa<PtrToIntInst>(CI) && !isa<IntToPtrInst>(CI))
+         if (!LI.isAtomic() || isSupportedAtomicType(CI->getDestTy())) {
+           LoadInst *NewLoad = combineLoadToNewType(IC, LI, CI->getDestTy());
+           CI->replaceAllUsesWith(NewLoad);
+@@ -934,7 +949,8 @@ static Instruction *replaceGEPIdxWithZero(InstCombiner &IC, Value *Ptr,
+ static bool canSimplifyNullLoadOrGEP(LoadInst &LI, Value *Op) {
+   if (GetElementPtrInst *GEPI = dyn_cast<GetElementPtrInst>(Op)) {
+     const Value *GEPI0 = GEPI->getOperand(0);
+-    if (isa<ConstantPointerNull>(GEPI0) && GEPI->getPointerAddressSpace() == 0)
++    if (isa<ConstantPointerNull>(GEPI0) && GEPI->getPointerAddressSpace() == 0
++        && GEPI->isInBounds())
+       return true;
+   }
+   if (isa<UndefValue>(Op) ||
+diff --git a/lib/Transforms/InstCombine/InstructionCombining.cpp b/lib/Transforms/InstCombine/InstructionCombining.cpp
+index f51b8381445..0430d9950eb 100644
+--- a/lib/Transforms/InstCombine/InstructionCombining.cpp
++++ b/lib/Transforms/InstCombine/InstructionCombining.cpp
+@@ -1726,12 +1726,12 @@ Instruction *InstCombiner::visitGetElementPtrInst(GetElementPtrInst &GEP) {
+         }
+         // Canonicalize (gep i8* X, (ptrtoint Y)-(ptrtoint X))
+         // to (bitcast Y)
+-        Value *Y;
+-        if (match(V, m_Sub(m_PtrToInt(m_Value(Y)),
+-                           m_PtrToInt(m_Specific(GEP.getOperand(0)))))) {
+-          return CastInst::CreatePointerBitCastOrAddrSpaceCast(Y,
+-                                                               GEP.getType());
+-        }
++        //Value *Y;
++        //if (match(V, m_Sub(m_PtrToInt(m_Value(Y)),
++        //                   m_PtrToInt(m_Specific(GEP.getOperand(0)))))) {
++        //  return CastInst::CreatePointerBitCastOrAddrSpaceCast(Y,
++        //                                                       GEP.getType());
++        //}
+       }
+     }
+   }
+@@ -2007,8 +2007,8 @@ static bool isNeverEqualToUnescapedAlloc(Value *V, const TargetLibraryInfo *TLI,
+                                          Instruction *AI) {
+   if (isa<ConstantPointerNull>(V))
+     return true;
+-  if (auto *LI = dyn_cast<LoadInst>(V))
+-    return isa<GlobalVariable>(LI->getPointerOperand());
++  //if (auto *LI = dyn_cast<LoadInst>(V))
++  //  return isa<GlobalVariable>(LI->getPointerOperand());
+   // Two distinct allocations will never be equal.
+   // We rely on LookThroughBitCast in isAllocLikeFn being false, since looking
+   // through bitcasts of V can cause
+diff --git a/lib/Transforms/Instrumentation/ThreadSanitizer.cpp b/lib/Transforms/Instrumentation/ThreadSanitizer.cpp
+index ec6904486e1..8788799ef0c 100644
+--- a/lib/Transforms/Instrumentation/ThreadSanitizer.cpp
++++ b/lib/Transforms/Instrumentation/ThreadSanitizer.cpp
+@@ -101,7 +101,8 @@ struct ThreadSanitizer : public FunctionPass {
+   bool instrumentMemIntrinsic(Instruction *I);
+   void chooseInstructionsToInstrument(SmallVectorImpl<Instruction *> &Local,
+                                       SmallVectorImpl<Instruction *> &All,
+-                                      const DataLayout &DL);
++                                      const DataLayout &DL,
++                                      const TargetLibraryInfo *TLI);
+   bool addrPointsToConstantData(Value *Addr);
+   int getMemoryAccessFuncIndex(Value *Addr, const DataLayout &DL);
+   void InsertRuntimeIgnores(Function &F);
+@@ -338,7 +339,7 @@ bool ThreadSanitizer::addrPointsToConstantData(Value *Addr) {
+ // 'All' is a vector of insns that will be instrumented.
+ void ThreadSanitizer::chooseInstructionsToInstrument(
+     SmallVectorImpl<Instruction *> &Local, SmallVectorImpl<Instruction *> &All,
+-    const DataLayout &DL) {
++    const DataLayout &DL, const TargetLibraryInfo *TLI) {
+   SmallSet<Value*, 8> WriteTargets;
+   // Iterate from the end.
+   for (Instruction *I : reverse(Local)) {
+@@ -366,7 +367,7 @@ void ThreadSanitizer::chooseInstructionsToInstrument(
+         ? cast<StoreInst>(I)->getPointerOperand()
+         : cast<LoadInst>(I)->getPointerOperand();
+     if (isa<AllocaInst>(GetUnderlyingObject(Addr, DL)) &&
+-        !PointerMayBeCaptured(Addr, true, true)) {
++        !PointerMayBeCaptured(Addr, true, true, TLI)) {
+       // The variable is addressable but not captured, so it cannot be
+       // referenced from a different thread and participate in a data race
+       // (see llvm/Analysis/CaptureTracking.h for details).
+@@ -433,10 +434,11 @@ bool ThreadSanitizer::runOnFunction(Function &F) {
+           MemIntrinCalls.push_back(&Inst);
+         HasCalls = true;
+         chooseInstructionsToInstrument(LocalLoadsAndStores, AllLoadsAndStores,
+-                                       DL);
++                                       DL, TLI);
+       }
+     }
+-    chooseInstructionsToInstrument(LocalLoadsAndStores, AllLoadsAndStores, DL);
++    chooseInstructionsToInstrument(LocalLoadsAndStores, AllLoadsAndStores,
++                                   DL, TLI);
+   }
+ 
+   // We have collected all loads and stores.
+diff --git a/lib/Transforms/Scalar/CMakeLists.txt b/lib/Transforms/Scalar/CMakeLists.txt
+index d79ae851005..89990772933 100644
+--- a/lib/Transforms/Scalar/CMakeLists.txt
++++ b/lib/Transforms/Scalar/CMakeLists.txt
+@@ -2,6 +2,7 @@ add_llvm_library(LLVMScalarOpts
+   ADCE.cpp
+   AlignmentFromAssumptions.cpp
+   BDCE.cpp
++  CanonicalizeTypeToI8Ptr.cpp
+   ConstantHoisting.cpp
+   ConstantProp.cpp
+   CorrelatedValuePropagation.cpp
+diff --git a/lib/Transforms/Scalar/CanonicalizeTypeToI8Ptr.cpp b/lib/Transforms/Scalar/CanonicalizeTypeToI8Ptr.cpp
+new file mode 100644
+index 00000000000..9ec2aa0d0e6
+--- /dev/null
++++ b/lib/Transforms/Scalar/CanonicalizeTypeToI8Ptr.cpp
+@@ -0,0 +1,285 @@
++//===-- CanonicalizeTypeToI8Ptr.h - Canonicalize Type to i8*-----*- C++ -*-===//
++//
++//                     The LLVM Compiler Infrastructure
++//
++// This file is distributed under the University of Illinois Open Source
++// License. See LICENSE.TXT for details.
++//
++//===----------------------------------------------------------------------===//
++//
++// This canonicalizes load i64 / load ty* to load i8* and
++// store i64 / store ty* to store i8*. This helps SLPVectorizer to find
++// consecutive memory accesses.
++//
++//===----------------------------------------------------------------------===//
++
++#include "llvm/Transforms/Scalar/CanonicalizeTypeToI8Ptr.h"
++#include "llvm/ADT/MapVector.h"
++#include "llvm/Analysis/GlobalsModRef.h"
++#include "llvm/IR/Function.h"
++#include "llvm/IR/IRBuilder.h"
++#include "llvm/IR/Instructions.h"
++#include "llvm/Pass.h"
++#include "llvm/Transforms/Scalar.h"
++#include "llvm/IR/MDBuilder.h"
++#include "llvm/Transforms/Utils/Local.h"
++using namespace llvm;
++
++#define DEBUG_TYPE "canonicalize-to-i8ptr"
++
++// Are we allowed to form a atomic load or store of this type?
++/// FIXME: This is copied from InstCombineLoadStoreAlloca.cpp
++/// This function should be removed later.
++static bool isSupportedAtomicType(Type *Ty) {
++  return Ty->isIntegerTy() || Ty->isPointerTy() || Ty->isFloatingPointTy();
++}
++
++/// \brief Helper to combine a load to a new type.
++///
++/// FIXME: This is copied from InstCombineLoadStoreAlloca.cpp
++/// This function should be removed later.
++static LoadInst *combineLoadToNewType(const DataLayout &DL,
++                                      IRBuilder<> &Builder,
++                                      LoadInst &LI, Type *NewTy,
++                                      const Twine &Suffix = "") {
++  assert((!LI.isAtomic() || isSupportedAtomicType(NewTy)) &&
++         "can't fold an atomic load to requested type");
++  
++  Value *Ptr = LI.getPointerOperand();
++  unsigned AS = LI.getPointerAddressSpace();
++  SmallVector<std::pair<unsigned, MDNode *>, 8> MD;
++  LI.getAllMetadata(MD);
++
++  LoadInst *NewLoad = Builder.CreateAlignedLoad(
++      Builder.CreateBitCast(Ptr, NewTy->getPointerTo(AS)),
++      LI.getAlignment(), LI.isVolatile(), LI.getName() + Suffix);
++  NewLoad->setAtomic(LI.getOrdering(), LI.getSyncScopeID());
++  MDBuilder MDB(NewLoad->getContext());
++  for (const auto &MDPair : MD) {
++    unsigned ID = MDPair.first;
++    MDNode *N = MDPair.second;
++    // Note, essentially every kind of metadata should be preserved here! This
++    // routine is supposed to clone a load instruction changing *only its type*.
++    // The only metadata it makes sense to drop is metadata which is invalidated
++    // when the pointer type changes. This should essentially never be the case
++    // in LLVM, but we explicitly switch over only known metadata to be
++    // conservatively correct. If you are adding metadata to LLVM which pertains
++    // to loads, you almost certainly want to add it here.
++    switch (ID) {
++    case LLVMContext::MD_dbg:
++    case LLVMContext::MD_tbaa:
++    case LLVMContext::MD_prof:
++    case LLVMContext::MD_fpmath:
++    case LLVMContext::MD_tbaa_struct:
++    case LLVMContext::MD_invariant_load:
++    case LLVMContext::MD_alias_scope:
++    case LLVMContext::MD_noalias:
++    case LLVMContext::MD_nontemporal:
++    case LLVMContext::MD_mem_parallel_loop_access:
++      // All of these directly apply.
++      NewLoad->setMetadata(ID, N);
++      break;
++
++    case LLVMContext::MD_nonnull:
++      copyNonnullMetadata(LI, N, *NewLoad);
++      break;
++    case LLVMContext::MD_align:
++    case LLVMContext::MD_dereferenceable:
++    case LLVMContext::MD_dereferenceable_or_null:
++      // These only directly apply if the new type is also a pointer.
++      if (NewTy->isPointerTy())
++        NewLoad->setMetadata(ID, N);
++      break;
++    case LLVMContext::MD_range:
++      copyRangeMetadata(DL, LI, N, *NewLoad);
++      break;
++    }
++  }
++  return NewLoad;
++}
++
++/// \brief Combine a store to a new type.
++///
++/// FIXME: This is copied from InstCombineLoadStoreAlloca.cpp
++/// This function should be removed later.
++static StoreInst *combineStoreToNewValue(IRBuilder<> &Builder,
++                                         StoreInst &SI, Value *V) {
++  assert((!SI.isAtomic() || isSupportedAtomicType(V->getType())) &&
++         "can't fold an atomic store of requested type");
++  
++  Value *Ptr = SI.getPointerOperand();
++  unsigned AS = SI.getPointerAddressSpace();
++  SmallVector<std::pair<unsigned, MDNode *>, 8> MD;
++  SI.getAllMetadata(MD);
++
++  StoreInst *NewStore = Builder.CreateAlignedStore(
++      V, Builder.CreateBitCast(Ptr, V->getType()->getPointerTo(AS)),
++      SI.getAlignment(), SI.isVolatile());
++  NewStore->setAtomic(SI.getOrdering(), SI.getSyncScopeID());
++  for (const auto &MDPair : MD) {
++    unsigned ID = MDPair.first;
++    MDNode *N = MDPair.second;
++    // Note, essentially every kind of metadata should be preserved here! This
++    // routine is supposed to clone a store instruction changing *only its
++    // type*. The only metadata it makes sense to drop is metadata which is
++    // invalidated when the pointer type changes. This should essentially
++    // never be the case in LLVM, but we explicitly switch over only known
++    // metadata to be conservatively correct. If you are adding metadata to
++    // LLVM which pertains to stores, you almost certainly want to add it
++    // here.
++    switch (ID) {
++    case LLVMContext::MD_dbg:
++    case LLVMContext::MD_tbaa:
++    case LLVMContext::MD_prof:
++    case LLVMContext::MD_fpmath:
++    case LLVMContext::MD_tbaa_struct:
++    case LLVMContext::MD_alias_scope:
++    case LLVMContext::MD_noalias:
++    case LLVMContext::MD_nontemporal:
++    case LLVMContext::MD_mem_parallel_loop_access:
++      // All of these directly apply.
++      NewStore->setMetadata(ID, N);
++      break;
++
++    case LLVMContext::MD_invariant_load:
++    case LLVMContext::MD_nonnull:
++    case LLVMContext::MD_range:
++    case LLVMContext::MD_align:
++    case LLVMContext::MD_dereferenceable:
++    case LLVMContext::MD_dereferenceable_or_null:
++      // These don't apply for stores.
++      break;
++    }
++  }
++
++  return NewStore;
++}
++
++
++
++
++static bool canonicalizeLoadInst(LoadInst &LI) {
++  if (!LI.isUnordered())
++    return false;
++
++  if (LI.use_empty())
++    return false;
++
++  // swifterror values can't be bitcasted.
++  // NOTE: This condition is copied from combineLoadToOperationType
++  // in InstCombineLoadStoreAlloca.cpp
++  if (LI.getPointerOperand()->isSwiftError())
++    return false;
++
++  Type *Ty = LI.getType();
++  const DataLayout &DL = LI.getModule()->getDataLayout();
++
++  PointerType *I8PtrTy = PointerType::get(
++        Type::getIntNTy(LI.getContext(), 8), 0);
++  if (Ty == I8PtrTy)
++    // It is already i8* ty.
++    return false;
++  if (Ty->isIntegerTy() &&
++      Ty->getIntegerBitWidth() != DL.getPointerSizeInBits(0))
++    // Cannot canonicalize this load.
++    return false;
++  if (PointerType *PT = dyn_cast<PointerType>(Ty))
++    if (PT->getAddressSpace() != 0)
++      return false;
++  if (!Ty->isPointerTy() && !Ty->isIntegerTy())
++    // Do not canonicalize this load.
++    return false;
++  
++  // All of users of LI should be StoreInst.
++  if (!all_of(LI.users(), [&LI](User *U) {
++        auto *SI = dyn_cast<StoreInst>(U);
++        return SI && SI->getPointerOperand() != &LI &&
++               !SI->getPointerOperand()->isSwiftError();
++      }))
++    return false;
++
++  // Try to canonicalize integer loads which are only ever stored to operate
++  // over i8* pointers. The width of the integer should be equal to the
++  // size of a pointer.
++  IRBuilder<> Builder(&LI);
++  LoadInst *NewLoad = combineLoadToNewType(DL, Builder, LI, I8PtrTy);
++
++  // Replace all the stores with stores of the newly loaded value.
++  for (auto UI = LI.user_begin(), UE = LI.user_end(); UI != UE;) {
++    auto *SI = cast<StoreInst>(*UI++);
++    Builder.SetInsertPoint(SI);
++    combineStoreToNewValue(Builder, *SI, NewLoad);
++    SI->eraseFromParent();
++  }
++  assert(LI.use_empty() && "Failed to remove all users of the load!");
++  LI.eraseFromParent();
++  return true;
++}
++
++static bool runOnBasicBlock(BasicBlock &BB) {
++  bool Changed = false;
++  SmallVector<LoadInst*, 32> Worklist;
++  for (BasicBlock::iterator DI = BB.begin(), DE = BB.end(); DI != DE;) {
++    Instruction *Inst = &*DI++;
++    LoadInst *LI = dyn_cast<LoadInst>(Inst);
++    if (!LI) continue;
++    Worklist.push_back(LI);
++  }
++  for (auto I = Worklist.begin(); I != Worklist.end(); I++)
++    Changed |= canonicalizeLoadInst(**I);
++  return Changed;
++}
++
++static bool canonicalize(Function &F) {
++  bool Changed = false;
++  for (BasicBlock &BB : F) {
++    Changed |= runOnBasicBlock(BB);
++  }
++  return Changed;
++}
++
++PreservedAnalyses CanonicalizeTypeToI8PtrPass::run(Function &F, FunctionAnalysisManager &FAM) {
++  if (!canonicalize(F))
++    return PreservedAnalyses::all();
++
++  PreservedAnalyses PA;
++  PA.preserveSet<CFGAnalyses>();
++  PA.preserve<GlobalsAA>();
++  return PA;
++}
++
++namespace {
++class CanonicalizeTypeToI8Ptr : public FunctionPass {
++public:
++  static char ID;
++  CanonicalizeTypeToI8Ptr() : FunctionPass(ID) {
++    initializeCanonicalizeTypeToI8PtrPass(*PassRegistry::getPassRegistry());
++  }
++
++  void getAnalysisUsage(AnalysisUsage &AU) const override {
++    AU.setPreservesCFG();
++    AU.addPreserved<DominatorTreeWrapperPass>();
++    AU.addPreserved<GlobalsAAWrapperPass>();
++    FunctionPass::getAnalysisUsage(AU);
++  }
++
++  bool runOnFunction(Function &F) override {
++    if (skipFunction(F))
++      return false;
++    FunctionAnalysisManager DummyFAM;
++    auto PA = Impl.run(F, DummyFAM);
++    return !PA.areAllPreserved();
++  }
++private:
++  CanonicalizeTypeToI8PtrPass Impl;
++};
++
++}
++
++char CanonicalizeTypeToI8Ptr::ID = 0;
++INITIALIZE_PASS(CanonicalizeTypeToI8Ptr, "canonicalize-to-i8ptr",
++                "Canonicalize load/stores to i8*", false, false)
++
++FunctionPass *llvm::createCanonicalizeTypeToI8PtrPass() {
++  return new CanonicalizeTypeToI8Ptr();
++}
+diff --git a/lib/Transforms/Scalar/DeadStoreElimination.cpp b/lib/Transforms/Scalar/DeadStoreElimination.cpp
+index 1ec38e56aa4..ca7509c8dbd 100644
+--- a/lib/Transforms/Scalar/DeadStoreElimination.cpp
++++ b/lib/Transforms/Scalar/DeadStoreElimination.cpp
+@@ -689,7 +689,8 @@ static bool handleEndBlock(BasicBlock &BB, AliasAnalysis *AA,
+ 
+     // Okay, so these are dead heap objects, but if the pointer never escapes
+     // then it's leaked by this function anyways.
+-    else if (isAllocLikeFn(&I, TLI) && !PointerMayBeCaptured(&I, true, true))
++    else if (isAllocLikeFn(&I, TLI) &&
++             !PointerMayBeCaptured(&I, true, true, TLI))
+       DeadStackObjects.insert(&I);
+   }
+ 
+@@ -1085,7 +1086,7 @@ static bool eliminateDeadStores(BasicBlock &BB, AliasAnalysis *AA,
+             // throwing instruction; PointerMayBeCaptured
+             // reasonably fast approximation.
+             IsStoreDeadOnUnwind = isAllocLikeFn(Underlying, TLI) &&
+-                !PointerMayBeCaptured(Underlying, false, true);
++                !PointerMayBeCaptured(Underlying, false, true, TLI);
+         }
+         if (!IsStoreDeadOnUnwind)
+           break;
+diff --git a/lib/Transforms/Scalar/GVN.cpp b/lib/Transforms/Scalar/GVN.cpp
+index 593aad74bd1..01685cf4376 100644
+--- a/lib/Transforms/Scalar/GVN.cpp
++++ b/lib/Transforms/Scalar/GVN.cpp
+@@ -32,12 +32,14 @@
+ #include "llvm/Analysis/CFG.h"
+ #include "llvm/Analysis/GlobalsModRef.h"
+ #include "llvm/Analysis/InstructionSimplify.h"
++#include "llvm/Analysis/Loads.h"
+ #include "llvm/Analysis/LoopInfo.h"
+ #include "llvm/Analysis/MemoryBuiltins.h"
+ #include "llvm/Analysis/MemoryDependenceAnalysis.h"
+ #include "llvm/Analysis/OptimizationDiagnosticInfo.h"
+ #include "llvm/Analysis/PHITransAddr.h"
+ #include "llvm/Analysis/TargetLibraryInfo.h"
++#include "llvm/Analysis/ValueTracking.h"
+ #include "llvm/IR/Attributes.h"
+ #include "llvm/IR/BasicBlock.h"
+ #include "llvm/IR/CallSite.h"
+@@ -964,9 +966,18 @@ bool GVN::AnalyzeLoadAvailability(LoadInst *LI, MemDepResult DepInfo,
+     // If the types mismatch and we can't handle it, reject reuse of the load.
+     // If the stored value is larger or equal to the loaded value, we can reuse
+     // it.
+-    if (LD->getType() != LI->getType() &&
+-        !canCoerceMustAliasedValueToLoad(LD, LI->getType(), DL))
+-      return false;
++    if (LD->getType() != LI->getType()) {
++      // If LI has pointer type and LD has integer type
++      // (or vice versa), it cannot be transformed.
++      Type *LDTy = LD->getType();
++      Type *LITy = LI->getType();
++      if ((LDTy->isPtrOrPtrVectorTy() && LITy->isIntOrIntVectorTy()) ||
++          (LDTy->isIntOrIntVectorTy() && LITy->isPtrOrPtrVectorTy()))
++        return false;
++
++      if (!canCoerceMustAliasedValueToLoad(LD, LITy, DL))
++        return false;
++    }
+ 
+     // Can't forward from non-atomic to atomic without violating memory model.
+     if (LD->isAtomic() < LI->isAtomic())
+@@ -1662,6 +1673,90 @@ bool GVN::replaceOperandsWithConsts(Instruction *Instr) const {
+   return Changed;
+ }
+ 
++/// Returns true if either replacing Op0 with Op1 or O1 with O0
++/// is safe, given Op0 == Op1.
++static bool isSafeToPropagatePtrEquality(Value *Op0, Value *Op1,
++                                         Instruction *CxtI,
++                                         const DataLayout &DL,
++                                         const DominatorTree *DT) {
++  // If Op0 is null pointer, it is safe to replace Op0 with Op1.
++  if (isa<ConstantPointerNull>(Op1) || isa<ConstantPointerNull>(Op0))
++    return true;
++
++  // If Op1 is inttoptr, it is safe to replace Op0 with Op1.
++  if (match(Op1, m_IntToPtr(m_Value())) || match(Op0, m_IntToPtr(m_Value())))
++    return true;
++
++  // p = gep inbounds p0, n;
++  // q = gep inbounds p0, m;
++  // if (p == q) { /* it is safe to use q instead of p */ }
++  GEPOperator *GEP0 = dyn_cast<GEPOperator>(Op0);
++  GEPOperator *GEP1 = dyn_cast<GEPOperator>(Op1);
++  if (GEP0 && GEP1 && GEP0->isInBounds() && GEP1->isInBounds() &&
++      GEP0->getPointerOperand() == GEP1->getPointerOperand())
++    return true;
++
++  SmallVector<Value *, 4> Op0Bases, Op1Bases;
++	GetUnderlyingObjects(Op0, Op0Bases, DL, nullptr, 12);
++	GetUnderlyingObjects(Op1, Op1Bases, DL, nullptr, 12);
++  auto isLogical = [](Value *V) {
++    return isa<AllocaInst>(V) ||
++           isNoAliasCall(V) ||
++           (isa<GlobalValue>(V) && !isa<GlobalAlias>(V));
++  };
++  bool isOp0BaseLogical = true, isOp1BaseLogical = true;
++  for (unsigned i = 0; i < Op0Bases.size(); i++) {
++    if (!isLogical(Op0Bases[i])) {
++      isOp0BaseLogical = false;
++      break;
++    }
++  }
++  for (unsigned i = 0; i < Op1Bases.size(); i++) {
++    if (!isLogical(Op1Bases[i])) {
++      isOp1BaseLogical = false;
++      break;
++    }
++  }
++
++  // alc = alloca
++	// p = gep alc, ..
++  // q = gep alc, ..
++  if (Op0Bases.size() == 1 && Op1Bases.size() == 1 &&
++      Op0Bases[0] == Op1Bases[0] && isOp0BaseLogical)
++    return true;
++
++  // alc = alloca
++  // alc2 = alloca
++  // store 10, alc
++  // store 20, alc2
++  if (isOp0BaseLogical && isOp1BaseLogical &&
++      isSafeToLoadUnconditionally(Op0, 0, DL, CxtI, DT) &&
++      isSafeToLoadUnconditionally(Op1, 0, DL, CxtI, DT))
++    return true;
++
++  // p = gep inbounds (gep inbounds ... (gep inbounds p0, c1), c2), cn
++  //     c1, c2, .. , cn are non-negative constants
++  // q = gep inbounds (gep inbounds ... (gep inbounds p0, c1'), c2'), cn'
++  //     c1', c2', .., cn' are non-negative constants
++  SmallVector<Value *, 4> Op0Bases2, Op1Bases2;
++  if (GEP0 && GEP1 && GEP0->isInBounds() && GEP1->isInBounds()) {
++    if (GetUnderlyingObject(Op0, DL, 12, true) ==
++        GetUnderlyingObject(Op1, DL, 12, true))
++      return true;
++    else {
++      SmallVector<Value *, 4> Op0Bases2, Op1Bases2;
++      GetUnderlyingObjects(Op0, Op0Bases2, DL, nullptr, 12, true);
++      GetUnderlyingObjects(Op1, Op1Bases2, DL, nullptr, 12, true);
++      if (Op0Bases2.size() == 1 && Op1Bases2.size() == 1 &&
++          Op0Bases2[0] == Op1Bases2[0])
++        return true;
++    }
++  }
++
++  return false;
++}
++
++
+ /// The given values are known to be equal in every block
+ /// dominated by 'Root'.  Exploit this, for example by replacing 'LHS' with
+ /// 'RHS' everywhere in the scope.  Returns whether a change was made.
+@@ -1669,6 +1764,8 @@ bool GVN::replaceOperandsWithConsts(Instruction *Instr) const {
+ /// value starting from the end of Root.Start.
+ bool GVN::propagateEquality(Value *LHS, Value *RHS, const BasicBlockEdge &Root,
+                             bool DominatesByEdge) {
++  const DataLayout &DL = Root.getStart()->getModule()->getDataLayout();
++  Instruction *CxtI = dyn_cast<Instruction>(LHS);
+   SmallVector<std::pair<Value*, Value*>, 4> Worklist;
+   Worklist.push_back(std::make_pair(LHS, RHS));
+   bool Changed = false;
+@@ -1689,8 +1786,15 @@ bool GVN::propagateEquality(Value *LHS, Value *RHS, const BasicBlockEdge &Root,
+       continue;
+ 
+     // Prefer a constant on the right-hand side, or an Argument if no constants.
+-    if (isa<Constant>(LHS) || (isa<Argument>(LHS) && !isa<Constant>(RHS)))
++    bool OrderFixed = false;
++    if (isa<Constant>(LHS) || (isa<Argument>(LHS) && !isa<Constant>(RHS))) {
++      OrderFixed = true;
++      std::swap(LHS, RHS);
++    } else if (match(LHS, m_IntToPtr(m_Value()))) {
++      OrderFixed = true;
+       std::swap(LHS, RHS);
++    } else if (match(RHS, m_IntToPtr(m_Value())))
++      OrderFixed = true;
+     assert((isa<Argument>(LHS) || isa<Instruction>(LHS)) && "Unexpected value!");
+ 
+     // If there is no obvious reason to prefer the left-hand side over the
+@@ -1703,7 +1807,7 @@ bool GVN::propagateEquality(Value *LHS, Value *RHS, const BasicBlockEdge &Root,
+       // Move the 'oldest' value to the right-hand side, using the value number
+       // as a proxy for age.
+       uint32_t RVN = VN.lookupOrAdd(RHS);
+-      if (LVN < RVN) {
++      if (!OrderFixed && LVN < RVN) {
+         std::swap(LHS, RHS);
+         LVN = RVN;
+       }
+@@ -1767,9 +1871,13 @@ bool GVN::propagateEquality(Value *LHS, Value *RHS, const BasicBlockEdge &Root,
+ 
+       // If "A == B" is known true, or "A != B" is known false, then replace
+       // A with B everywhere in the scope.
+-      if ((isKnownTrue && Cmp->getPredicate() == CmpInst::ICMP_EQ) ||
+-          (isKnownFalse && Cmp->getPredicate() == CmpInst::ICMP_NE))
+-        Worklist.push_back(std::make_pair(Op0, Op1));
++      if (((isKnownTrue && Cmp->getPredicate() == CmpInst::ICMP_EQ) ||
++          (isKnownFalse && Cmp->getPredicate() == CmpInst::ICMP_NE))) {
++        bool isOkay = !Op0->getType()->isPtrOrPtrVectorTy() ||
++                      isSafeToPropagatePtrEquality(Op0, Op1, CxtI, DL, DT);
++        if (isOkay)
++          Worklist.push_back(std::make_pair(Op0, Op1));
++      }
+ 
+       // Handle the floating point versions of equality comparisons too.
+       if ((isKnownTrue && Cmp->getPredicate() == CmpInst::FCMP_OEQ) ||
+diff --git a/lib/Transforms/Scalar/LICM.cpp b/lib/Transforms/Scalar/LICM.cpp
+index f45d362e077..6f5fab2138b 100644
+--- a/lib/Transforms/Scalar/LICM.cpp
++++ b/lib/Transforms/Scalar/LICM.cpp
+@@ -1118,7 +1118,7 @@ bool llvm::promoteLoopAccessesToScalars(
+       // escaped even though its not captured by the enclosing function.
+       // Standard allocation functions like malloc, calloc, and operator new
+       // return values which can be assumed not to have previously escaped.
+-      if (PointerMayBeCaptured(Object, true, true))
++      if (PointerMayBeCaptured(Object, true, true, TLI))
+         return false;
+       IsKnownNonEscapingObject = true;
+     }
+@@ -1240,7 +1240,7 @@ bool llvm::promoteLoopAccessesToScalars(
+       Value *Object = GetUnderlyingObject(SomePtr, MDL);
+       SafeToInsertStore =
+           (isAllocLikeFn(Object, TLI) || isa<AllocaInst>(Object)) &&
+-          !PointerMayBeCaptured(Object, true, true);
++          !PointerMayBeCaptured(Object, true, true, TLI);
+     }
+   }
+ 
+diff --git a/lib/Transforms/Scalar/PlaceSafepoints.cpp b/lib/Transforms/Scalar/PlaceSafepoints.cpp
+index 2d0cb6fbf21..0f572d6f8e4 100644
+--- a/lib/Transforms/Scalar/PlaceSafepoints.cpp
++++ b/lib/Transforms/Scalar/PlaceSafepoints.cpp
+@@ -651,7 +651,7 @@ InsertSafepointPoll(Instruction *InsertBefore,
+ 
+   // Do the actual inlining
+   InlineFunctionInfo IFI;
+-  bool InlineStatus = InlineFunction(PollCall, IFI);
++  bool InlineStatus = InlineFunction(PollCall, IFI, nullptr, true, &TLI);
+   assert(InlineStatus && "inline must succeed");
+   (void)InlineStatus; // suppress warning in release-asserts
+ 
+diff --git a/lib/Transforms/Scalar/Scalar.cpp b/lib/Transforms/Scalar/Scalar.cpp
+index ba7a6fe9377..bb7c89257a4 100644
+--- a/lib/Transforms/Scalar/Scalar.cpp
++++ b/lib/Transforms/Scalar/Scalar.cpp
+@@ -35,6 +35,7 @@ void llvm::initializeScalarOpts(PassRegistry &Registry) {
+   initializeADCELegacyPassPass(Registry);
+   initializeBDCELegacyPassPass(Registry);
+   initializeAlignmentFromAssumptionsPass(Registry);
++  initializeCanonicalizeTypeToI8PtrPass(Registry);
+   initializeConstantHoistingLegacyPassPass(Registry);
+   initializeConstantPropagationPass(Registry);
+   initializeCorrelatedValuePropagationPass(Registry);
+diff --git a/lib/Transforms/Utils/InlineFunction.cpp b/lib/Transforms/Utils/InlineFunction.cpp
+index 2a18c140c78..d5e2ef9d486 100644
+--- a/lib/Transforms/Utils/InlineFunction.cpp
++++ b/lib/Transforms/Utils/InlineFunction.cpp
+@@ -59,12 +59,14 @@ PreserveAlignmentAssumptions("preserve-alignment-assumptions-during-inlining",
+   cl::desc("Convert align attributes to assumptions during inlining."));
+ 
+ bool llvm::InlineFunction(CallInst *CI, InlineFunctionInfo &IFI,
+-                          AAResults *CalleeAAR, bool InsertLifetime) {
+-  return InlineFunction(CallSite(CI), IFI, CalleeAAR, InsertLifetime);
++                          AAResults *CalleeAAR, bool InsertLifetime,
++                          const TargetLibraryInfo *TLI) {
++  return InlineFunction(CallSite(CI), IFI, CalleeAAR, InsertLifetime, TLI);
+ }
+ bool llvm::InlineFunction(InvokeInst *II, InlineFunctionInfo &IFI,
+-                          AAResults *CalleeAAR, bool InsertLifetime) {
+-  return InlineFunction(CallSite(II), IFI, CalleeAAR, InsertLifetime);
++                          AAResults *CalleeAAR, bool InsertLifetime,
++                          const TargetLibraryInfo *TLI) {
++  return InlineFunction(CallSite(II), IFI, CalleeAAR, InsertLifetime, TLI);
+ }
+ 
+ namespace {
+@@ -874,7 +876,8 @@ static void CloneAliasScopeMetadata(CallSite CS, ValueToValueMapTy &VMap) {
+ /// parameters with noalias metadata specifying the new scope, and tag all
+ /// non-derived loads, stores and memory intrinsics with the new alias scopes.
+ static void AddAliasScopeMetadata(CallSite CS, ValueToValueMapTy &VMap,
+-                                  const DataLayout &DL, AAResults *CalleeAAR) {
++                                  const DataLayout &DL, AAResults *CalleeAAR,
++                                  const TargetLibraryInfo *TLI) {
+   if (!EnableNoAliasConversion)
+     return;
+ 
+@@ -1055,7 +1058,7 @@ static void AddAliasScopeMetadata(CallSite CS, ValueToValueMapTy &VMap,
+                                  // that the value cannot be locally captured.
+                                  !PointerMayBeCapturedBefore(A,
+                                    /* ReturnCaptures */ false,
+-                                   /* StoreCaptures */ false, I, &DT)))
++                                   /* StoreCaptures */ false, I, &DT, TLI)))
+           NoAliases.push_back(NewScopes[A]);
+       }
+ 
+@@ -1454,7 +1457,8 @@ static void updateCalleeCount(BlockFrequencyInfo *CallerBFI, BasicBlock *CallBB,
+ /// exists in the instruction stream.  Similarly this will inline a recursive
+ /// function by one level.
+ bool llvm::InlineFunction(CallSite CS, InlineFunctionInfo &IFI,
+-                          AAResults *CalleeAAR, bool InsertLifetime) {
++                          AAResults *CalleeAAR, bool InsertLifetime,
++                          const TargetLibraryInfo *TLI) {
+   Instruction *TheCall = CS.getInstruction();
+   assert(TheCall->getParent() && TheCall->getFunction()
+          && "Instruction not in function!");
+@@ -1715,7 +1719,7 @@ bool llvm::InlineFunction(CallSite CS, InlineFunctionInfo &IFI,
+     CloneAliasScopeMetadata(CS, VMap);
+ 
+     // Add noalias metadata if necessary.
+-    AddAliasScopeMetadata(CS, VMap, DL, CalleeAAR);
++    AddAliasScopeMetadata(CS, VMap, DL, CalleeAAR, TLI);
+ 
+     // Propagate llvm.mem.parallel_loop_access if necessary.
+     PropagateParallelLoopAccessMetadata(CS, VMap);
+diff --git a/lib/Transforms/Utils/SimplifyCFG.cpp b/lib/Transforms/Utils/SimplifyCFG.cpp
+index 52e07e049a0..c67d28186d4 100644
+--- a/lib/Transforms/Utils/SimplifyCFG.cpp
++++ b/lib/Transforms/Utils/SimplifyCFG.cpp
+@@ -698,13 +698,13 @@ Value *SimplifyCFGOpt::isValueEqualityComparison(TerminatorInst *TI) {
+       }
+ 
+   // Unwrap any lossless ptrtoint cast.
+-  if (CV) {
+-    if (PtrToIntInst *PTII = dyn_cast<PtrToIntInst>(CV)) {
+-      Value *Ptr = PTII->getPointerOperand();
+-      if (PTII->getType() == DL.getIntPtrType(Ptr->getType()))
+-        CV = Ptr;
+-    }
+-  }
++  //if (CV) {
++  //  if (PtrToIntInst *PTII = dyn_cast<PtrToIntInst>(CV)) {
++  //    Value *Ptr = PTII->getPointerOperand();
++  //    if (PTII->getType() == DL.getIntPtrType(Ptr->getType()))
++  //      CV = Ptr;
++  //  }
++  //}
+   return CV;
+ }
+ 
+@@ -995,7 +995,7 @@ bool SimplifyCFGOpt::FoldValueComparisonIntoPredecessors(TerminatorInst *TI,
+     TerminatorInst *PTI = Pred->getTerminator();
+     Value *PCV = isValueEqualityComparison(PTI); // PredCondVal
+ 
+-    if (PCV == CV && TI != PTI) {
++    if (PCV == CV && TI != PTI && !PCV->getType()->isPointerTy()) {
+       SmallSetVector<BasicBlock*, 4> FailBlocks;
+       if (!SafeToMergeTerminators(TI, PTI, &FailBlocks)) {
+         for (auto *Succ : FailBlocks) {
+@@ -1148,10 +1148,31 @@ bool SimplifyCFGOpt::FoldValueComparisonIntoPredecessors(TerminatorInst *TI,
+ 
+       Builder.SetInsertPoint(PTI);
+       // Convert pointer to int before we switch.
+-      if (CV->getType()->isPointerTy()) {
+-        CV = Builder.CreatePtrToInt(CV, DL.getIntPtrType(CV->getType()),
+-                                    "magicptr");
+-      }
++      // NOTE: This should be unreachable now.
++      // This code basically tries to do this kind of thing:        
++      //
++      // PTI block:
++      // while.cond:
++      //  %cmp = icmp eq %struct._list* %current.0, null
++      //  br i1 %cmp, label %while.end, label %while.body
++      // TI block:
++      // while.end:
++      //  %cmp2 = icmp eq %struct._list* %current.0, null
++      //  br i1 %cmp2, label %if.then3, label %if.end4
++      //
++      // into:
++      // while.cond:
++      //  %magicptr = ptrtoint %struct._list* %current.0 to i64
++      //  switch i64 %magicptr, label %while.body [
++      //    i64 0, label %if.then3
++      //  ]
++      //
++      // I inserted `!PCV->getType()->isPointerTy()' at line 995,
++      // so this branch should not be executed.
++      // if (CV->getType()->isPointerTy()) {
++      //   CV = Builder.CreatePtrToInt(CV, DL.getIntPtrType(CV->getType()),
++      //                               "magicptr");
++      // }
+ 
+       // Now that the successors are updated, create the new Switch instruction.
+       SwitchInst *NewSI =
+diff --git a/lib/Transforms/Utils/VNCoercion.cpp b/lib/Transforms/Utils/VNCoercion.cpp
+index c3feea6a0a4..1327c4c5317 100644
+--- a/lib/Transforms/Utils/VNCoercion.cpp
++++ b/lib/Transforms/Utils/VNCoercion.cpp
+@@ -219,7 +219,14 @@ int analyzeLoadFromClobberingStore(Type *LoadTy, Value *LoadPtr,
+ int analyzeLoadFromClobberingLoad(Type *LoadTy, Value *LoadPtr, LoadInst *DepLI,
+                                   const DataLayout &DL) {
+   // Cannot handle reading from store of first-class aggregate yet.
+-  if (DepLI->getType()->isStructTy() || DepLI->getType()->isArrayTy())
++  Type *DepLITy = DepLI->getType();
++  if (DepLITy->isStructTy() || DepLITy->isArrayTy())
++    return -1;
++
++  // If it is loaded as a pointer type and integer value was previously
++  // written (or vice versa), it cannot be transformed.
++  if ((DepLITy->isPtrOrPtrVectorTy() && LoadTy->isIntOrIntVectorTy()) ||
++      (DepLITy->isIntOrIntVectorTy() && LoadTy->isPtrOrPtrVectorTy()))
+     return -1;
+ 
+   Value *DepPtr = DepLI->getPointerOperand();
+diff --git a/lib/Transforms/Vectorize/LoopVectorize.cpp b/lib/Transforms/Vectorize/LoopVectorize.cpp
+index c14ae0d962c..c2b4eb04017 100644
+--- a/lib/Transforms/Vectorize/LoopVectorize.cpp
++++ b/lib/Transforms/Vectorize/LoopVectorize.cpp
+@@ -3286,6 +3286,10 @@ Value *InnerLoopVectorizer::createBitOrPointerCast(Value *V, VectorType *DstVTy,
+   // Do a direct cast if element types are castable.
+   if (CastInst::isBitOrNoopPointerCastable(SrcElemTy, DstElemTy, DL)) {
+     return Builder.CreateBitOrPointerCast(V, DstVTy);
++  } else if (SrcElemTy->isPointerTy() && DstElemTy->isIntegerTy()) {
++    return Builder.CreatePtrToInt(V, DstVTy);
++  } else if (SrcElemTy->isIntegerTy() && DstElemTy->isPointerTy()) {
++    return Builder.CreateIntToPtr(V, DstVTy);
+   }
+   // V cannot be directly casted to desired vector type.
+   // May happen when V is a floating point vector but DstVTy is a vector of
+diff --git a/test/Transforms/InstSimplify/cast.ll b/test/Transforms/InstSimplify/cast.ll
+index 1ba3c76d023..10f27d98d8c 100644
+--- a/test/Transforms/InstSimplify/cast.ll
++++ b/test/Transforms/InstSimplify/cast.ll
+@@ -27,28 +27,28 @@ entry:
+ ; CHECK: ret i8* %V
+ }
+ 
+-define i32 @test4() {
+-; CHECK-LABEL: @test4(
+-  %alloca = alloca i32, align 4                                     ; alloca + 0
+-  %gep = getelementptr inbounds i32, i32* %alloca, i32 1            ; alloca + 4
+-  %bc = bitcast i32* %gep to [4 x i8]*                              ; alloca + 4
+-  %pti = ptrtoint i32* %alloca to i32                               ; alloca
+-  %sub = sub i32 0, %pti                                            ; -alloca
+-  %add = getelementptr [4 x i8], [4 x i8]* %bc, i32 0, i32 %sub     ; alloca + 4 - alloca == 4
+-  %add_to_int = ptrtoint i8* %add to i32                            ; 4
+-  ret i32 %add_to_int                                               ; 4
+-; CHECK-NEXT: ret i32 4
+-}
++; NOTE: This transformation itself is valid, but it involves optimizing
++; %add into "inttoptr 4", which is incorrect.
++;define i32 @test4() {
++;  %alloca = alloca i32, align 4                                     ; alloca + 0
++;  %gep = getelementptr inbounds i32, i32* %alloca, i32 1            ; alloca + 4
++;  %bc = bitcast i32* %gep to [4 x i8]*                              ; alloca + 4
++;  %pti = ptrtoint i32* %alloca to i32                               ; alloca
++;  %sub = sub i32 0, %pti                                            ; -alloca
++;  %add = getelementptr [4 x i8], [4 x i8]* %bc, i32 0, i32 %sub     ; alloca + 4 - alloca == 4
++;  %add_to_int = ptrtoint i8* %add to i32                            ; 4
++;  ret i32 %add_to_int                                               ; 4
++;}
+ 
+-define i32 @test5() {
+-; CHECK-LABEL: @test5(
+-  %alloca = alloca i32, align 4                                     ; alloca + 0
+-  %gep = getelementptr inbounds i32, i32* %alloca, i32 1            ; alloca + 4
+-  %bc = bitcast i32* %gep to [4 x i8]*                              ; alloca + 4
+-  %pti = ptrtoint i32* %alloca to i32                               ; alloca
+-  %sub = xor i32 %pti, -1                                           ; ~alloca
+-  %add = getelementptr [4 x i8], [4 x i8]* %bc, i32 0, i32 %sub     ; alloca + 4 - alloca - 1 == 3
+-  %add_to_int = ptrtoint i8* %add to i32                            ; 4
+-  ret i32 %add_to_int                                               ; 4
+-; CHECK-NEXT: ret i32 3
+-}
++; NOTE: This transformation itself is valid, but it involves optimizing
++; %add into "inttoptr 4", which is incorrect.
++;define i32 @test5() {
++;  %alloca = alloca i32, align 4                                     ; alloca + 0
++;  %gep = getelementptr inbounds i32, i32* %alloca, i32 1            ; alloca + 4
++;  %bc = bitcast i32* %gep to [4 x i8]*                              ; alloca + 4
++;  %pti = ptrtoint i32* %alloca to i32                               ; alloca
++;  %sub = xor i32 %pti, -1                                           ; ~alloca
++;  %add = getelementptr [4 x i8], [4 x i8]* %bc, i32 0, i32 %sub     ; alloca + 4 - alloca - 1 == 3
++;  %add_to_int = ptrtoint i8* %add to i32                            ; 4
++;  ret i32 %add_to_int                                               ; 4
++;}
+diff --git a/test/Transforms/InstSimplify/compare.ll b/test/Transforms/InstSimplify/compare.ll
+index d84e4986dbb..d86861050aa 100644
+--- a/test/Transforms/InstSimplify/compare.ll
++++ b/test/Transforms/InstSimplify/compare.ll
+@@ -1,14 +1,12 @@
+ ; RUN: opt < %s -instsimplify -S | FileCheck %s
+ target datalayout = "p:32:32"
+ 
+-define i1 @ptrtoint() {
+-; CHECK-LABEL: @ptrtoint(
+-  %a = alloca i8
+-  %tmp = ptrtoint i8* %a to i32
+-  %r = icmp eq i32 %tmp, 0
+-  ret i1 %r
+-; CHECK: ret i1 false
+-}
++;define i1 @ptrtoint() {
++;  %a = alloca i8
++;  %tmp = ptrtoint i8* %a to i32
++;  %r = icmp eq i32 %tmp, 0
++;  ret i1 %r
++;}
+ 
+ define i1 @bitcast() {
+ ; CHECK-LABEL: @bitcast(
+@@ -114,41 +112,35 @@ define i1 @gep8(%gept* %x) {
+ ; CHECK: ret i1 %equal
+ }
+ 
+-define i1 @gep9(i8* %ptr) {
+-; CHECK-LABEL: @gep9(
+-; CHECK-NOT: ret
+-; CHECK: ret i1 true
+-
+-entry:
+-  %first1 = getelementptr inbounds i8, i8* %ptr, i32 0
+-  %first2 = getelementptr inbounds i8, i8* %first1, i32 1
+-  %first3 = getelementptr inbounds i8, i8* %first2, i32 2
+-  %first4 = getelementptr inbounds i8, i8* %first3, i32 4
+-  %last1 = getelementptr inbounds i8, i8* %first2, i32 48
+-  %last2 = getelementptr inbounds i8, i8* %last1, i32 8
+-  %last3 = getelementptr inbounds i8, i8* %last2, i32 -4
+-  %last4 = getelementptr inbounds i8, i8* %last3, i32 -4
+-  %first.int = ptrtoint i8* %first4 to i32
+-  %last.int = ptrtoint i8* %last4 to i32
+-  %cmp = icmp ne i32 %last.int, %first.int
+-  ret i1 %cmp
+-}
+-
+-define i1 @gep10(i8* %ptr) {
+-; CHECK-LABEL: @gep10(
+-; CHECK-NOT: ret
+-; CHECK: ret i1 true
+-
+-entry:
+-  %first1 = getelementptr inbounds i8, i8* %ptr, i32 -2
+-  %first2 = getelementptr inbounds i8, i8* %first1, i32 44
+-  %last1 = getelementptr inbounds i8, i8* %ptr, i32 48
+-  %last2 = getelementptr inbounds i8, i8* %last1, i32 -6
+-  %first.int = ptrtoint i8* %first2 to i32
+-  %last.int = ptrtoint i8* %last2 to i32
+-  %cmp = icmp eq i32 %last.int, %first.int
+-  ret i1 %cmp
+-}
++;define i1 @gep9(i8* %ptr) {
++;
++;entry:
++;  %first1 = getelementptr inbounds i8, i8* %ptr, i32 0
++;  %first2 = getelementptr inbounds i8, i8* %first1, i32 1
++;  %first3 = getelementptr inbounds i8, i8* %first2, i32 2
++;  %first4 = getelementptr inbounds i8, i8* %first3, i32 4
++;  %last1 = getelementptr inbounds i8, i8* %first2, i32 48
++;  %last2 = getelementptr inbounds i8, i8* %last1, i32 8
++;  %last3 = getelementptr inbounds i8, i8* %last2, i32 -4
++;  %last4 = getelementptr inbounds i8, i8* %last3, i32 -4
++;  %first.int = ptrtoint i8* %first4 to i32
++;  %last.int = ptrtoint i8* %last4 to i32
++;  %cmp = icmp ne i32 %last.int, %first.int
++;  ret i1 %cmp
++;}
++
++;define i1 @gep10(i8* %ptr) {
++;
++;entry:
++;  %first1 = getelementptr inbounds i8, i8* %ptr, i32 -2
++;  %first2 = getelementptr inbounds i8, i8* %first1, i32 44
++;  %last1 = getelementptr inbounds i8, i8* %ptr, i32 48
++;  %last2 = getelementptr inbounds i8, i8* %last1, i32 -6
++;  %first.int = ptrtoint i8* %first2 to i32
++;  %last.int = ptrtoint i8* %last2 to i32
++;  %cmp = icmp eq i32 %last.int, %first.int
++;  ret i1 %cmp
++;}
+ 
+ define i1 @gep11(i8* %ptr) {
+ ; CHECK-LABEL: @gep11(
+@@ -216,18 +208,16 @@ define i1 @gep16(i8* %ptr, i32 %a) {
+ ; CHECK-NEXT: ret i1 false
+ }
+ 
+-define i1 @gep17() {
+-; CHECK-LABEL: @gep17(
+-  %alloca = alloca i32, align 4
+-  %bc = bitcast i32* %alloca to [4 x i8]*
+-  %gep1 = getelementptr inbounds i32, i32* %alloca, i32 1
+-  %pti1 = ptrtoint i32* %gep1 to i32
+-  %gep2 = getelementptr inbounds [4 x i8], [4 x i8]* %bc, i32 0, i32 1
+-  %pti2 = ptrtoint i8* %gep2 to i32
+-  %cmp = icmp ugt i32 %pti1, %pti2
+-  ret i1 %cmp
+-; CHECK-NEXT: ret i1 true
+-}
++;define i1 @gep17() {
++;  %alloca = alloca i32, align 4
++;  %bc = bitcast i32* %alloca to [4 x i8]*
++;  %gep1 = getelementptr inbounds i32, i32* %alloca, i32 1
++;  %pti1 = ptrtoint i32* %gep1 to i32
++;  %gep2 = getelementptr inbounds [4 x i8], [4 x i8]* %bc, i32 0, i32 1
++;  %pti2 = ptrtoint i8* %gep2 to i32
++;  %cmp = icmp ugt i32 %pti1, %pti2
++;  ret i1 %cmp
++;}
+ 
+ define i1 @zext(i32 %x) {
+ ; CHECK-LABEL: @zext(
+diff --git a/test/Transforms/InstSimplify/gep.ll b/test/Transforms/InstSimplify/gep.ll
+index 13640e7631d..f73667bd622 100644
+--- a/test/Transforms/InstSimplify/gep.ll
++++ b/test/Transforms/InstSimplify/gep.ll
+@@ -4,66 +4,54 @@ target datalayout = "e-m:o-i64:64-f80:128-n8:16:32:64-S128"
+ 
+ %struct.A = type { [7 x i8] }
+ 
+-define %struct.A* @test1(%struct.A* %b, %struct.A* %e) {
+-  %e_ptr = ptrtoint %struct.A* %e to i64
+-  %b_ptr = ptrtoint %struct.A* %b to i64
+-  %sub = sub i64 %e_ptr, %b_ptr
+-  %sdiv = sdiv exact i64 %sub, 7
+-  %gep = getelementptr inbounds %struct.A, %struct.A* %b, i64 %sdiv
+-  ret %struct.A* %gep
+-; CHECK-LABEL: @test1
+-; CHECK-NEXT: ret %struct.A* %e
+-}
+-
+-define i8* @test2(i8* %b, i8* %e) {
+-  %e_ptr = ptrtoint i8* %e to i64
+-  %b_ptr = ptrtoint i8* %b to i64
+-  %sub = sub i64 %e_ptr, %b_ptr
+-  %gep = getelementptr inbounds i8, i8* %b, i64 %sub
+-  ret i8* %gep
+-; CHECK-LABEL: @test2
+-; CHECK-NEXT: ret i8* %e
+-}
+-
+-define i64* @test3(i64* %b, i64* %e) {
+-  %e_ptr = ptrtoint i64* %e to i64
+-  %b_ptr = ptrtoint i64* %b to i64
+-  %sub = sub i64 %e_ptr, %b_ptr
+-  %ashr = ashr exact i64 %sub, 3
+-  %gep = getelementptr inbounds i64, i64* %b, i64 %ashr
+-  ret i64* %gep
+-; CHECK-LABEL: @test3
+-; CHECK-NEXT: ret i64* %e
+-}
+-
+-define %struct.A* @test4(%struct.A* %b) {
+-  %b_ptr = ptrtoint %struct.A* %b to i64
+-  %sub = sub i64 0, %b_ptr
+-  %sdiv = sdiv exact i64 %sub, 7
+-  %gep = getelementptr inbounds %struct.A, %struct.A* %b, i64 %sdiv
+-  ret %struct.A* %gep
+-; CHECK-LABEL: @test4
+-; CHECK-NEXT: ret %struct.A* null
+-}
+-
+-define i8* @test5(i8* %b) {
+-  %b_ptr = ptrtoint i8* %b to i64
+-  %sub = sub i64 0, %b_ptr
+-  %gep = getelementptr inbounds i8, i8* %b, i64 %sub
+-  ret i8* %gep
+-; CHECK-LABEL: @test5
+-; CHECK-NEXT: ret i8* null
+-}
+-
+-define i64* @test6(i64* %b) {
+-  %b_ptr = ptrtoint i64* %b to i64
+-  %sub = sub i64 0, %b_ptr
+-  %ashr = ashr exact i64 %sub, 3
+-  %gep = getelementptr inbounds i64, i64* %b, i64 %ashr
+-  ret i64* %gep
+-; CHECK-LABEL: @test6
+-; CHECK-NEXT: ret i64* null
+-}
++;define %struct.A* @test1(%struct.A* %b, %struct.A* %e) {
++;  %e_ptr = ptrtoint %struct.A* %e to i64
++;  %b_ptr = ptrtoint %struct.A* %b to i64
++;  %sub = sub i64 %e_ptr, %b_ptr
++;  %sdiv = sdiv exact i64 %sub, 7
++;  %gep = getelementptr inbounds %struct.A, %struct.A* %b, i64 %sdiv
++;  ret %struct.A* %gep
++;}
++;
++;define i8* @test2(i8* %b, i8* %e) {
++;  %e_ptr = ptrtoint i8* %e to i64
++;  %b_ptr = ptrtoint i8* %b to i64
++;  %sub = sub i64 %e_ptr, %b_ptr
++;  %gep = getelementptr inbounds i8, i8* %b, i64 %sub
++;  ret i8* %gep
++;}
++;
++;define i64* @test3(i64* %b, i64* %e) {
++;  %e_ptr = ptrtoint i64* %e to i64
++;  %b_ptr = ptrtoint i64* %b to i64
++;  %sub = sub i64 %e_ptr, %b_ptr
++;  %ashr = ashr exact i64 %sub, 3
++;  %gep = getelementptr inbounds i64, i64* %b, i64 %ashr
++;  ret i64* %gep
++;}
++;
++;define %struct.A* @test4(%struct.A* %b) {
++;  %b_ptr = ptrtoint %struct.A* %b to i64
++;  %sub = sub i64 0, %b_ptr
++;  %sdiv = sdiv exact i64 %sub, 7
++;  %gep = getelementptr inbounds %struct.A, %struct.A* %b, i64 %sdiv
++;  ret %struct.A* %gep
++;}
++;
++;define i8* @test5(i8* %b) {
++;  %b_ptr = ptrtoint i8* %b to i64
++;  %sub = sub i64 0, %b_ptr
++;  %gep = getelementptr inbounds i8, i8* %b, i64 %sub
++;  ret i8* %gep
++;}
++;
++;define i64* @test6(i64* %b) {
++;  %b_ptr = ptrtoint i64* %b to i64
++;  %sub = sub i64 0, %b_ptr
++;  %ashr = ashr exact i64 %sub, 3
++;  %gep = getelementptr inbounds i64, i64* %b, i64 %ashr
++;  ret i64* %gep
++;}
+ 
+ define i8* @test7(i8* %b, i8** %e) {
+   %e_ptr = ptrtoint i8** %e to i64
+diff --git a/utils/TableGen/CodeGenIntrinsics.h b/utils/TableGen/CodeGenIntrinsics.h
+index 24374127f53..58f13d970d3 100644
+--- a/utils/TableGen/CodeGenIntrinsics.h
++++ b/utils/TableGen/CodeGenIntrinsics.h
+@@ -130,6 +130,9 @@ struct CodeGenIntrinsic {
+   // True if the intrinsic is marked as speculatable.
+   bool isSpeculatable;
+ 
++  // True if the intrinsic is marked as norecurse.
++  bool isNoRecurse;
++
+   enum ArgAttribute { NoCapture, Returned, ReadOnly, WriteOnly, ReadNone };
+   std::vector<std::pair<unsigned, ArgAttribute>> ArgumentAttributes;
+ 
+diff --git a/utils/TableGen/CodeGenTarget.cpp b/utils/TableGen/CodeGenTarget.cpp
+index 0577e29dc03..7a2baae5e2e 100644
+--- a/utils/TableGen/CodeGenTarget.cpp
++++ b/utils/TableGen/CodeGenTarget.cpp
+@@ -519,6 +519,7 @@ CodeGenIntrinsic::CodeGenIntrinsic(Record *R) {
+   isConvergent = false;
+   isSpeculatable = false;
+   hasSideEffects = false;
++  isNoRecurse = false;
+ 
+   if (DefName.size() <= 4 ||
+       std::string(DefName.begin(), DefName.begin() + 4) != "int_")
+@@ -661,6 +662,8 @@ CodeGenIntrinsic::CodeGenIntrinsic(Record *R) {
+       isSpeculatable = true;
+     else if (Property->getName() == "IntrHasSideEffects")
+       hasSideEffects = true;
++    else if (Property->getName() == "InstrNoRecurse")
++      isNoRecurse = true;
+     else if (Property->isSubClassOf("NoCapture")) {
+       unsigned ArgNo = Property->getValueAsInt("ArgNo");
+       ArgumentAttributes.push_back(std::make_pair(ArgNo, NoCapture));
+diff --git a/utils/TableGen/IntrinsicEmitter.cpp b/utils/TableGen/IntrinsicEmitter.cpp
+index caa52d28f77..ec8de7364c6 100644
+--- a/utils/TableGen/IntrinsicEmitter.cpp
++++ b/utils/TableGen/IntrinsicEmitter.cpp
+@@ -479,7 +479,7 @@ struct AttributeComparator {
+     if (L->isNoReturn != R->isNoReturn)
+       return R->isNoReturn;
+ 
+-    if (L->isConvergent != R->isConvergent)
++   if (L->isConvergent != R->isConvergent)
+       return R->isConvergent;
+ 
+     if (L->isSpeculatable != R->isSpeculatable)
+@@ -488,7 +488,10 @@ struct AttributeComparator {
+     if (L->hasSideEffects != R->hasSideEffects)
+       return R->hasSideEffects;
+ 
+-    // Try to order by readonly/readnone attribute.
++    if (L->isNoRecurse != R->isNoRecurse)
++      return R->isNoRecurse;
++
++     // Try to order by readonly/readnone attribute.
+     CodeGenIntrinsic::ModRefBehavior LK = L->ModRef;
+     CodeGenIntrinsic::ModRefBehavior RK = R->ModRef;
+     if (LK != RK) return (LK > RK);
+@@ -613,7 +616,8 @@ void IntrinsicEmitter::EmitAttributes(const CodeGenIntrinsicTable &Ints,
+     if (!intrinsic.canThrow ||
+         intrinsic.ModRef != CodeGenIntrinsic::ReadWriteMem ||
+         intrinsic.isNoReturn || intrinsic.isNoDuplicate ||
+-        intrinsic.isConvergent || intrinsic.isSpeculatable) {
++        intrinsic.isConvergent || intrinsic.isSpeculatable ||
++        intrinsic.isNoRecurse) {
+       OS << "      const Attribute::AttrKind Atts[] = {";
+       bool addComma = false;
+       if (!intrinsic.canThrow) {
+@@ -644,6 +648,12 @@ void IntrinsicEmitter::EmitAttributes(const CodeGenIntrinsicTable &Ints,
+         OS << "Attribute::Speculatable";
+         addComma = true;
+       }
++      if (intrinsic.isNoRecurse) {
++        if (addComma)
++          OS << ",";
++        OS << "Attribute::NoRecurse";
++        addComma = true;
++      }
+ 
+       switch (intrinsic.ModRef) {
+       case CodeGenIntrinsic::NoMem:
+-- 
+2.17.0
+

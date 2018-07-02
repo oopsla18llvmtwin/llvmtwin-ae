@@ -1,0 +1,2042 @@
+runcpu v5825 started at 2017-11-01 20:41:05 on "freeze4"
+runcpu is: /mnt/freezedisk/speccpu2017-intptr/bin/harness/runcpu
+runcpu: runcpu --config linux64-amd64-clang-base-5.0-o3-release.cfg --noreportable --rebuild --iterations 3 510.parest_r
+toolset: linux-x86_64
+
+Locating benchmarks...found 47 benchmarks in 53 benchsets.
+Reading config file '/mnt/freezedisk/speccpu2017-intptr/config/linux64-amd64-clang-base-5.0-o3-release.cfg'
+
+1 configuration selected:
+
+ Action    Run Mode   Workload     Report Type     Benchmarks
+--------   --------   --------   ---------------   ----------------------------
+validate   rate       refrate    SPECrate2017_fp   510.parest_r                
+-------------------------------------------------------------------------------
+
+Setting up environment for running 510.parest_r...
+Starting runcpu for 510.parest_r...
+Running "specperl /mnt/freezedisk/speccpu2017-intptr/bin/sysinfo" to gather system information.
+sysinfo: r5797 of 2017-06-14 (96c45e4568ad54c135fd618bcc091c0f)
+sysinfo: Getting system information for Linux...
+sysinfo: ...getting CPU info
+sysinfo: ...getting info from numactl
+sysinfo: ...getting memory info
+sysinfo: ...getting OS info
+sysinfo: ...getting disk info
+sysinfo: ...trying to get DIMM info from dmidecode
+Retrieving flags file (/mnt/freezedisk/speccpu2017-intptr/config/flags/gcc.xml)...
+Retrieving flags file (/mnt/freezedisk/speccpu2017-intptr/config/flags/clang.xml)...
+Verbosity = 5
+Action    = validate
+Tune      = base
+Label     = mytest-m64
+Size      = refrate
+benchmarks= 510.parest_r
+outputs   = txt,html,cfg,pdf,csv
+username  = sflab
+Environment settings:
+LD_LIBRARY_PATH = "/mnt/freezedisk/llvm-intptr-base-5.0-release/lib"
+LIBRARY_PATH = "/mnt/freezedisk/llvm-intptr-base-5.0-release/lib"
+PATH = "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin:%{ENV_PATH}"
+
+Benchmarks selected: 510.parest_r
+When checking executables (/mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/510.parest_r/exe/parest_r_base.mytest-m64), no checksums were
+  found in the config file.  They will be installed after build.
+When checking executables (/mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/510.parest_r/exe/parest_r_base.mytest-m64), no checksums were
+  found in the config file.  They will be installed after build.
+Compiling Binaries
+------------------------------------------------------------------------
+  Building 510.parest_r base mytest-m64: (build_base_mytest-m64.0000) [2017-11-01 20:41:07]
+Wrote to makefile '/mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/510.parest_r/build/build_base_mytest-m64.0000/Makefile.deps':
+# End dependencies
+# These are the build dependencies
+Wrote to makefile '/mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/510.parest_r/build/build_base_mytest-m64.0000/Makefile.spec':
+TUNE=base
+LABEL=mytest-m64
+NUMBER=510
+NAME=parest_r
+SOURCES= source/base/auto_derivative_function.cc \
+	 source/base/boost_threads.cc source/base/conditional_ostream.cc \
+	 source/base/config.cc source/base/convergence_table.cc \
+	 source/base/data_out_base.cc source/base/exceptions.cc \
+	 source/base/flow_function.cc source/base/function.cc \
+	 source/base/function_derivative.cc source/base/function_lib.cc \
+	 source/base/function_lib_cutoff.cc source/base/function_parser.cc \
+	 source/base/function_time.cc source/base/geometry_info.cc \
+	 source/base/job_identifier.cc source/base/log.cc \
+	 source/base/memory_consumption.cc source/base/multithread_info.cc \
+	 source/base/parameter_handler.cc source/base/parsed_function.cc \
+	 source/base/path_search.cc source/base/polynomial.cc \
+	 source/base/polynomial_space.cc source/base/polynomials_abf.cc \
+	 source/base/polynomials_bdm.cc source/base/polynomials_p.cc \
+	 source/base/polynomials_raviart_thomas.cc source/base/quadrature.cc \
+	 source/base/quadrature_lib.cc source/base/quadrature_selector.cc \
+	 source/base/subscriptor.cc source/base/symmetric_tensor.cc \
+	 source/base/table_handler.cc source/base/tensor.cc \
+	 source/base/tensor_function.cc source/base/tensor_product_polynomials.cc \
+	 source/base/thread_management.cc source/base/timer.cc \
+	 source/base/utilities.cc source/dofs/dof_accessor.cc \
+	 source/dofs/dof_faces.cc source/dofs/dof_handler.cc \
+	 source/dofs/dof_levels.all_dimensions.cc \
+	 source/dofs/dof_objects.all_dimensions.cc source/dofs/dof_objects.cc \
+	 source/dofs/dof_renumbering.cc source/dofs/dof_tools.cc source/fe/fe.cc \
+	 source/fe/fe_abf.cc source/fe/fe_data.cc source/fe/fe_dgp.cc \
+	 source/fe/fe_dgp_monomial.cc source/fe/fe_dgp_nonparametric.cc \
+	 source/fe/fe_dgq.cc source/fe/fe_nedelec.cc source/fe/fe_nedelec_1d.cc \
+	 source/fe/fe_nedelec_2d.cc source/fe/fe_nedelec_3d.cc \
+	 source/fe/fe_poly.cc source/fe/fe_poly_tensor.cc source/fe/fe_q.cc \
+	 source/fe/fe_q_hierarchical.cc source/fe/fe_raviart_thomas.cc \
+	 source/fe/fe_raviart_thomas_nodal.cc source/fe/fe_system.cc \
+	 source/fe/fe_tools.all_dimensions.cc source/fe/fe_tools.cc \
+	 source/fe/fe_values.cc source/fe/mapping.cc source/fe/mapping_c1.cc \
+	 source/fe/mapping_cartesian.cc source/fe/mapping_q.cc \
+	 source/fe/mapping_q1.cc source/fe/mapping_q1_eulerian.cc \
+	 source/fe/mapping_q_eulerian.cc source/grid/grid_generator.cc \
+	 source/grid/grid_in.cc source/grid/grid_out.all_dimensions.cc \
+	 source/grid/grid_out.cc source/grid/grid_refinement.cc \
+	 source/grid/grid_reordering.cc source/grid/grid_tools.cc \
+	 source/grid/intergrid_map.cc source/grid/persistent_tria.cc \
+	 source/grid/tria.all_dimensions.cc source/grid/tria.cc \
+	 source/grid/tria_accessor.cc source/grid/tria_boundary.cc \
+	 source/grid/tria_boundary_lib.cc source/grid/tria_faces.cc \
+	 source/grid/tria_levels.cc source/grid/tria_objects.all_dimensions.cc \
+	 source/grid/tria_objects.cc source/hp/dof_faces.cc \
+	 source/hp/dof_handler.cc source/hp/dof_levels.all_dimensions.cc \
+	 source/hp/dof_levels.cc source/hp/dof_objects.all_dimensions.cc \
+	 source/hp/fe_collection.cc source/hp/fe_values.cc \
+	 source/hp/mapping_collection.cc source/lac/block_matrix_array.cc \
+	 source/lac/block_sparse_matrix.cc source/lac/block_sparse_matrix_ez.cc \
+	 source/lac/block_sparsity_pattern.cc source/lac/block_vector.cc \
+	 source/lac/chunk_sparse_matrix.cc source/lac/chunk_sparsity_pattern.cc \
+	 source/lac/compressed_set_sparsity_pattern.cc \
+	 source/lac/compressed_simple_sparsity_pattern.cc \
+	 source/lac/compressed_sparsity_pattern.cc \
+	 source/lac/constraint_matrix.cc source/lac/full_matrix.cc \
+	 source/lac/lapack_full_matrix.cc source/lac/matrix_lib.cc \
+	 source/lac/matrix_out.cc source/lac/petsc_block_sparse_matrix.cc \
+	 source/lac/petsc_full_matrix.cc source/lac/petsc_matrix_base.cc \
+	 source/lac/petsc_parallel_block_sparse_matrix.cc \
+	 source/lac/petsc_parallel_block_vector.cc \
+	 source/lac/petsc_parallel_sparse_matrix.cc \
+	 source/lac/petsc_parallel_vector.cc source/lac/petsc_precondition.cc \
+	 source/lac/petsc_solver.cc source/lac/petsc_sparse_matrix.cc \
+	 source/lac/petsc_vector.cc source/lac/petsc_vector_base.cc \
+	 source/lac/precondition_block.cc source/lac/precondition_block_ez.cc \
+	 source/lac/solver.cc source/lac/solver_control.cc \
+	 source/lac/sparse_decomposition.cc source/lac/sparse_direct.cc \
+	 source/lac/sparse_ilu.cc source/lac/sparse_matrix.cc \
+	 source/lac/sparse_matrix_ez.cc source/lac/sparse_mic.cc \
+	 source/lac/sparse_vanka.cc source/lac/sparsity_pattern.cc \
+	 source/lac/sparsity_tools.cc source/lac/swappable_vector.cc \
+	 source/lac/tridiagonal_matrix.cc \
+	 source/lac/trilinos_block_sparse_matrix.cc \
+	 source/lac/trilinos_block_vector.cc source/lac/trilinos_precondition.cc* \
+	 source/lac/trilinos_precondition_block.cc* source/lac/trilinos_solver.cc \
+	 source/lac/trilinos_solver_block.cc \
+	 source/lac/trilinos_sparse_matrix.cc* \
+	 source/lac/trilinos_sparsity_pattern.cc* source/lac/trilinos_vector.cc* \
+	 source/lac/trilinos_vector_base.cc source/lac/vector.cc \
+	 source/lac/vector_memory.cc source/lac/vector_view.cc \
+	 source/libparest/global_parameters.cc \
+	 source/libparest/graphical_display.cc source/libparest/grid_transfer.cc \
+	 source/libparest/message_log.cc source/libparest/statistics.cc \
+	 source/libparest/top_level.cc source/libparest/utilities.cc \
+	 source/me-tomography/boundary_sources_phantom.cc \
+	 source/me-tomography/boundary_sources_planarz8.cc \
+	 source/me-tomography/coefficient.cc source/me-tomography/evaluations.cc \
+	 source/me-tomography/experiment_description.cc \
+	 source/me-tomography/factories.cc source/me-tomography/forward.cc \
+	 source/me-tomography/forward_solver_evaluators.cc \
+	 source/me-tomography/forward_solver_parameters.cc \
+	 source/me-tomography/geometry.cc source/me-tomography/me_parameters.cc \
+	 source/me-tomography/me_slave.cc source/me-tomography/me_tomography.cc \
+	 source/me-tomography/measurement_weights.cc \
+	 source/me-tomography/measurements.cc \
+	 source/me-tomography/problem_description.cc \
+	 source/me-tomography/solver.cc \
+	 source/me-tomography/state_discretization.cc \
+	 source/me-tomography/synthetic_data.cc source/me-tomography/targets.cc \
+	 source/multigrid/mg_base.cc source/multigrid/mg_dof_accessor.cc \
+	 source/multigrid/mg_dof_handler.cc source/multigrid/mg_dof_tools.cc \
+	 source/multigrid/mg_smoother.cc \
+	 source/multigrid/mg_tools.all_dimensions.cc \
+	 source/multigrid/mg_transfer_block.cc \
+	 source/multigrid/mg_transfer_component.cc \
+	 source/multigrid/mg_transfer_prebuilt.cc \
+	 source/multigrid/multigrid.all_dimensions.cc source/numerics/data_out.cc \
+	 source/numerics/data_out_faces.cc source/numerics/data_out_rotation.cc \
+	 source/numerics/data_out_stack.cc source/numerics/data_postprocessor.cc \
+	 source/numerics/derivative_approximation.cc \
+	 source/numerics/error_estimator.cc source/numerics/fe_field_function.cc \
+	 source/numerics/histogram.cc source/numerics/matrices.all_dimensions.cc \
+	 source/numerics/matrices.cc source/numerics/solution_transfer.cc \
+	 source/numerics/time_dependent.cc \
+	 source/numerics/vectors.all_dimensions.cc source/numerics/vectors.cc \
+	 source/libparest/master/master.cc \
+	 source/libparest/master/newton_method.cc \
+	 source/libparest/master/step_length_control.cc \
+	 source/libparest/parallel/control.cc \
+	 source/libparest/parallel/message_log.cc \
+	 source/libparest/parallel/multiple_experiments.cc \
+	 source/libparest/parallel/tools.cc source/libparest/parameter/base.cc \
+	 source/libparest/parameter/bounds.cc \
+	 source/libparest/parameter/factory.cc \
+	 source/libparest/parameter/field.cc \
+	 source/libparest/parameter/field_discretization.cc \
+	 source/libparest/parameter/regularization.cc \
+	 source/libparest/slave/factory.cc source/libparest/slave/slave.cc \
+	 source/libparest/slave/stationary/boundary_values.cc \
+	 source/libparest/slave/stationary/evaluations.cc \
+	 source/libparest/slave/stationary/global_matrix.cc \
+	 source/libparest/slave/stationary/grid_refinement.cc \
+	 source/libparest/slave/stationary/measurements.cc \
+	 source/libparest/slave/stationary/problem_description.cc \
+	 source/libparest/slave/stationary/slave.cc \
+	 source/libparest/slave/stationary/state_discretization.cc \
+	 source/libparest/slave/stationary/synthetic_data.cc
+EXEBASE=parest_r
+NEED_MATH=
+BENCHLANG=CXX
+BASE_DIR         = /mnt/freezedisk
+BENCH_FLAGS      = -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP
+CC               = $(LLVM_BIN_PATH)/clang -m64
+CC_VERSION_OPTION = -v
+CLD              = $(LLVM_BIN_PATH)/clang -m64
+COPTIMIZE        = -O3 -mavx
+CXX              = $(LLVM_BIN_PATH)/clang++ -m64
+CXXOPTIMIZE      = -O3 -mavx
+CXX_VERSION_OPTION = -v
+DRAGONEGG_PATH   = /mnt/freezedisk/llvm-intptr-base-5.0-release/dragonegg
+DRAGONEGG_SPECS  = /mnt/freezedisk/llvm-intptr-base-5.0-release/dragonegg/integrated-as.specs
+EXTRA_FFLAGS     = 
+EXTRA_FLIBS      = -lgfortran -lm
+EXTRA_PORTABILITY = -DSPEC_LP64
+FC               = $(FORTRAN_COMP) -m64
+FC_VERSION_OPTION = -v
+FLD              = $(LLVM_BIN_PATH)/clang -m64
+FOPTIMIZE        = -O3 -mavx -funroll-loops
+FORTRAN_COMP     = $(GFORTRAN_DIR)/gfortran
+GFORTRAN_DIR     = /usr/bin
+LDOPTIMIZE       = -z muldefs
+LLVM_BIN_PATH    = /mnt/freezedisk/llvm-intptr-base-5.0-release/bin
+LLVM_GCC_DIR     = /mnt/freezedisk/llvm-intptr-base-5.0-release/gcc-4.8.2
+LLVM_INCLUDE_PATH = /mnt/freezedisk/llvm-intptr-base-5.0-release/include
+LLVM_LIB_PATH    = /mnt/freezedisk/llvm-intptr-base-5.0-release/lib
+LLVM_PATH        = /mnt/freezedisk/llvm-intptr-base-5.0-release
+LLVM_ROOT_PATH   = /mnt/freezedisk/llvm-intptr-base-5.0-release
+OPENMP_DIR       = /mnt/freezedisk/lib/libomp_oss/exports
+OS               = unix
+absolutely_no_locking = 0
+action           = validate
+allow_label_override = 0
+backup_config    = 1
+baseexe          = parest_r
+basepeak         = 0
+benchdir         = benchspec
+benchmark        = 510.parest_r
+binary           = 
+bindir           = exe
+builddir         = build
+bundleaction     = 
+bundlename       = 
+calctol          = 1
+changedhash      = 0
+check_version    = 0
+clean_between_builds = no
+command_add_redirect = 0
+commanderrfile   = speccmds.err
+commandexe       = parest_r_base.mytest-m64
+commandfile      = speccmds.cmd
+commandoutfile   = speccmds.out
+commandstdoutfile = speccmds.stdout
+comparedir       = compare
+compareerrfile   = compare.err
+comparefile      = compare.cmd
+compareoutfile   = compare.out
+comparestdoutfile = compare.stdout
+compile_error    = 0
+compwhite        = 
+configdir        = config
+configfile       = linux64-amd64-clang-base-5.0-o3-release.cfg
+configpath       = /mnt/freezedisk/speccpu2017-intptr/config/linux64-amd64-clang-base-5.0-o3-release.cfg
+copies           = 1
+current_range    = 
+datadir          = data
+default_size     = ref
+default_submit   = $command
+delay            = 0
+deletebinaries   = 0
+deletework       = 0
+dependent_workloads = 0
+device           = 
+difflines        = 10
+dirprot          = 511
+discard_power_samples = 0
+enable_monitor   = 1
+endian           = 12345678
+env_vars         = 0
+expand_notes     = 0
+expid            = 
+exthash_bits     = 256
+failflags        = 0
+fake             = 0
+feedback         = 1
+flag_url_base    = https://www.spec.org/auto/cpu2017/Docs/benchmarks/flags/
+floatcompare     = 1
+force_monitor    = 0
+from_runcpu      = 2
+fw_bios          = 
+hostname         = freeze4
+http_proxy       = 
+http_timeout     = 30
+hw_avail         = 
+hw_cpu_max_mhz   = 
+hw_cpu_name      = Intel Core i3-6100
+hw_cpu_nominal_mhz = 
+hw_disk          = 230 GB  add more disk info here
+hw_memory001     = 7.497 GB fixme: If using DDR3, format is:
+hw_memory002     = 'N GB (M x N GB nRxn PCn-nnnnnR-n, ECC)'
+hw_model         = 
+hw_nchips        = 1
+hw_ncores        = 
+hw_ncpuorder     = 
+hw_nthreadspercore = 
+hw_ocache        = 
+hw_other         = 
+hw_pcache        = 
+hw_scache        = 
+hw_tcache        = 
+hw_vendor        = My Corporation
+idle_current_range = 
+idledelay        = 10
+idleduration     = 60
+ignore_errors    = 1
+ignore_sigint    = 0
+ignorecase       = 
+info_wrap_columns = 50
+inputdir         = input
+inputgenerrfile  = inputgen.err
+inputgenfile     = inputgen.cmd
+inputgenoutfile  = inputgen.out
+inputgenstdoutfile = inputgen.stdout
+iteration        = -1
+iterations       = 3
+keeptmp          = 0
+label            = mytest-m64
+license_num      = nnn (Your SPEC license number)
+line_width       = 1020
+link_input_files = 1
+locking          = 1
+log              = CPU2017
+log_line_width   = 1020
+log_timestamp    = 0
+logfile          = /mnt/freezedisk/speccpu2017-intptr/tmp/CPU2017.011/templogs/preenv.fprate.011.0
+logname          = /mnt/freezedisk/speccpu2017-intptr/tmp/CPU2017.011/templogs/preenv.fprate.011.0
+lognum           = 011.0
+mail_reports     = all
+mailcompress     = 0
+mailmethod       = smtp
+mailport         = 25
+mailserver       = 127.0.0.1
+mailto           = 
+make             = specmake
+make_no_clobber  = 0
+makefile_template = Makefile.YYYtArGeTYYYspec
+makeflags        = --jobs=8
+max_average_uncertainty = 1
+max_hum_limit    = 0
+max_report_runs  = 3
+max_unknown_uncertainty = 1
+mean_anyway      = 1
+meter_connect_timeout = 30
+meter_errors_default = 5
+meter_errors_percentage = 5
+min_report_runs  = 2
+min_temp_limit   = 20
+minimize_builddirs = 0
+minimize_rundirs = 0
+name             = parest_r
+nansupport       = 
+need_math        = 
+no_input_handler = close
+no_monitor       = 
+noratios         = 0
+note_preenv      = 1
+notes_plat_sysinfo_000 =  Sysinfo program /mnt/freezedisk/speccpu2017-intptr/bin/sysinfo
+notes_plat_sysinfo_005 =  Rev: r5797 of 2017-06-14 96c45e4568ad54c135fd618bcc091c0f
+notes_plat_sysinfo_010 =  running on freeze4 Wed Nov  1 20:41:06 2017
+notes_plat_sysinfo_015 = 
+notes_plat_sysinfo_020 =  SUT (System Under Test) info as seen by some common utilities.
+notes_plat_sysinfo_025 =  For more information on this section, see
+notes_plat_sysinfo_030 =     https://www.spec.org/cpu2017/Docs/config.html\#sysinfo
+notes_plat_sysinfo_035 = 
+notes_plat_sysinfo_040 =  From /proc/cpuinfo
+notes_plat_sysinfo_045 =     model name : Intel(R) Core(TM) i3-6100 CPU @ 3.70GHz
+notes_plat_sysinfo_050 =        1  "physical id"s (chips)
+notes_plat_sysinfo_055 =        2 "processors"
+notes_plat_sysinfo_060 =     cores, siblings (Caution: counting these is hw and system dependent. The following
+notes_plat_sysinfo_065 =     excerpts from /proc/cpuinfo might not be reliable.  Use with caution.)
+notes_plat_sysinfo_070 =        cpu cores : 2
+notes_plat_sysinfo_075 =        siblings  : 2
+notes_plat_sysinfo_080 =        physical 0: cores 0 1
+notes_plat_sysinfo_085 = 
+notes_plat_sysinfo_090 =  From lscpu:
+notes_plat_sysinfo_095 =       Architecture:          x86_64
+notes_plat_sysinfo_100 =       CPU op-mode(s):        32-bit, 64-bit
+notes_plat_sysinfo_105 =       Byte Order:            Little Endian
+notes_plat_sysinfo_110 =       CPU(s):                2
+notes_plat_sysinfo_115 =       On-line CPU(s) list:   0,1
+notes_plat_sysinfo_120 =       Thread(s) per core:    1
+notes_plat_sysinfo_125 =       Core(s) per socket:    2
+notes_plat_sysinfo_130 =       Socket(s):             1
+notes_plat_sysinfo_135 =       NUMA node(s):          1
+notes_plat_sysinfo_140 =       Vendor ID:             GenuineIntel
+notes_plat_sysinfo_145 =       CPU family:            6
+notes_plat_sysinfo_150 =       Model:                 94
+notes_plat_sysinfo_155 =       Model name:            Intel(R) Core(TM) i3-6100 CPU @ 3.70GHz
+notes_plat_sysinfo_160 =       Stepping:              3
+notes_plat_sysinfo_165 =       CPU MHz:               3700.000
+notes_plat_sysinfo_170 =       CPU max MHz:           3700.0000
+notes_plat_sysinfo_175 =       CPU min MHz:           800.0000
+notes_plat_sysinfo_180 =       BogoMIPS:              7392.16
+notes_plat_sysinfo_185 =       Virtualization:        VT-x
+notes_plat_sysinfo_190 =       L1d cache:             32K
+notes_plat_sysinfo_195 =       L1i cache:             32K
+notes_plat_sysinfo_200 =       L2 cache:              256K
+notes_plat_sysinfo_205 =       L3 cache:              3072K
+notes_plat_sysinfo_210 =       NUMA node0 CPU(s):     0,1
+notes_plat_sysinfo_215 =       Flags:                 fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov
+notes_plat_sysinfo_220 =       pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp
+notes_plat_sysinfo_225 =       lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc
+notes_plat_sysinfo_230 =       aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma
+notes_plat_sysinfo_235 =       cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave
+notes_plat_sysinfo_240 =       avx f16c rdrand lahf_lm abm 3dnowprefetch epb intel_pt tpr_shadow vnmi flexpriority
+notes_plat_sysinfo_245 =       ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx rdseed adx smap
+notes_plat_sysinfo_250 =       clflushopt xsaveopt xsavec xgetbv1 dtherm arat pln pts hwp hwp_notify hwp_act_window
+notes_plat_sysinfo_255 =       hwp_epp
+notes_plat_sysinfo_260 = 
+notes_plat_sysinfo_265 =  /proc/cpuinfo cache data
+notes_plat_sysinfo_270 =     cache size : 3072 KB
+notes_plat_sysinfo_275 = 
+notes_plat_sysinfo_280 =  From numactl --hardware  WARNING: a numactl 'node' might or might not correspond to a
+notes_plat_sysinfo_285 =  physical chip.
+notes_plat_sysinfo_290 =    available: 1 nodes (0)
+notes_plat_sysinfo_295 =    node 0 cpus: 0 1
+notes_plat_sysinfo_300 =    node 0 size: 7676 MB
+notes_plat_sysinfo_305 =    node 0 free: 7241 MB
+notes_plat_sysinfo_310 =    node distances:
+notes_plat_sysinfo_315 =    node   0
+notes_plat_sysinfo_320 =      0:  10
+notes_plat_sysinfo_325 = 
+notes_plat_sysinfo_330 =  From /proc/meminfo
+notes_plat_sysinfo_335 =     MemTotal:        7860684 kB
+notes_plat_sysinfo_340 =     HugePages_Total:       0
+notes_plat_sysinfo_345 =     Hugepagesize:       2048 kB
+notes_plat_sysinfo_350 = 
+notes_plat_sysinfo_355 =  /usr/bin/lsb_release -d
+notes_plat_sysinfo_360 =     Ubuntu 16.04.3 LTS
+notes_plat_sysinfo_365 = 
+notes_plat_sysinfo_370 =  From /etc/*release* /etc/*version*
+notes_plat_sysinfo_375 =     debian_version: stretch/sid
+notes_plat_sysinfo_380 =     os-release:
+notes_plat_sysinfo_385 =        NAME="Ubuntu"
+notes_plat_sysinfo_390 =        VERSION="16.04.3 LTS (Xenial Xerus)"
+notes_plat_sysinfo_395 =        ID=ubuntu
+notes_plat_sysinfo_400 =        ID_LIKE=debian
+notes_plat_sysinfo_405 =        PRETTY_NAME="Ubuntu 16.04.3 LTS"
+notes_plat_sysinfo_410 =        VERSION_ID="16.04"
+notes_plat_sysinfo_415 =        HOME_URL="http://www.ubuntu.com/"
+notes_plat_sysinfo_420 =        SUPPORT_URL="http://help.ubuntu.com/"
+notes_plat_sysinfo_425 = 
+notes_plat_sysinfo_430 =  uname -a:
+notes_plat_sysinfo_435 =     Linux freeze4 4.4.0-97-generic \#120-Ubuntu SMP Tue Sep 19 17:28:18 UTC 2017 x86_64
+notes_plat_sysinfo_440 =     x86_64 x86_64 GNU/Linux
+notes_plat_sysinfo_445 = 
+notes_plat_sysinfo_450 =  run-level 3 Oct 30 07:30
+notes_plat_sysinfo_455 = 
+notes_plat_sysinfo_460 =  SPEC is set to: /mnt/freezedisk/speccpu2017-intptr
+notes_plat_sysinfo_465 =     Filesystem     Type  Size  Used Avail Use% Mounted on
+notes_plat_sysinfo_470 =     /dev/sda1      ext4  230G   56G  162G  26% /mnt/freezedisk
+notes_plat_sysinfo_475 = 
+notes_plat_sysinfo_480 =  Additional information from dmidecode follows.  WARNING: Use caution when you interpret
+notes_plat_sysinfo_485 =  this section. The 'dmidecode' program reads system data which is "intended to allow
+notes_plat_sysinfo_490 =  hardware to be accurately determined", but the intent may not be met, as there are
+notes_plat_sysinfo_495 =  frequent changes to hardware, firmware, and the "DMTF SMBIOS" standard.
+notes_plat_sysinfo_500 = 
+notes_plat_sysinfo_505 =  (End of data from sysinfo program)
+notes_wrap_columns = 0
+notes_wrap_indent =   
+num              = 510
+obiwan           = 
+os_exe_ext       = 
+output_format    = txt,html,cfg,pdf,csv
+output_root      = 
+outputdir        = output
+parallel_test    = 0
+parallel_test_submit = 0
+parallel_test_workloads = 
+path             = /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/510.parest_r
+plain_train      = 1
+platform         = 
+power            = 0
+preENV_LD_LIBRARY_PATH = /mnt/freezedisk/llvm-intptr-base-5.0-release/lib
+preENV_LIBRARY_PATH = /mnt/freezedisk/llvm-intptr-base-5.0-release/lib
+preENV_PATH      = /mnt/freezedisk/llvm-intptr-base-5.0-release/bin:%{ENV_PATH}
+preenv           = 0
+prefix           = 
+prepared_by      = sflab  (is never output, only tags rawfile)
+ranks            = 1
+rawhash_bits     = 256
+rebuild          = 1
+reftime          = reftime
+reltol           = 
+reportable       = 0
+resultdir        = result
+review           = 0
+run              = all
+runcpu           = /mnt/freezedisk/speccpu2017-intptr/bin/harness/runcpu --configfile linux64-amd64-clang-base-5.0-o3-release.cfg --noreportable --rebuild --iterations 3 --noreportable --nopower --runmode rate --tune base --size refrate 510.parest_r --nopreenv --note-preenv --logfile /mnt/freezedisk/speccpu2017-intptr/tmp/CPU2017.011/templogs/preenv.fprate.011.0 --lognum 011.0 --from_runcpu 2
+rundir           = run
+runmode          = rate
+safe_eval        = 1
+save_build_files = 
+section_specifier_fatal = 1
+setprocgroup     = 1
+setup_error      = 0
+sigint           = 2
+size             = refrate
+size_class       = ref
+skipabstol       = 
+skipobiwan       = 
+skipreltol       = 
+skiptol          = 
+smarttune        = base
+specdiff         = specdiff
+specrun          = specinvoke
+srcalt           = 
+srcdir           = src
+srcsource        = /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/510.parest_r/src
+stagger          = 10
+strict_rundir_verify = 1
+submit_default   = echo "$command" > run.sh ; $BIND bash run.sh
+sw_avail         = 
+sw_base_ptrsize  = 64-bit
+sw_compiler001   = C/C++: Version 3.9.0 of Clang, the
+sw_compiler002   = LLVM Compiler Infrastructure
+sw_compiler003   = Fortran: Version 4.8.2 of GCC, the
+sw_compiler004   = GNU Compiler Collection
+sw_compiler005   = DragonEgg: Version 3.5.2, the
+sw_compiler006   = LLVM Compiler Infrastructure
+sw_file          = ext4
+sw_os001         = Ubuntu 16.04.3 LTS
+sw_os002         = 4.4.0-97-generic
+sw_other         = 
+sw_peak_ptrsize  = 64-bit
+sw_state         = Run level 3 (add definition here)
+sysinfo_hash_bits = 256
+sysinfo_program  = specperl /mnt/freezedisk/speccpu2017-intptr/bin/sysinfo
+sysinfo_program_hash = sysinfo:SHA:ecd2bef08f316af97f5a7768b641e2a3307c1b4b68efb5a57fa76367d790d233
+table            = 1
+teeout           = 0
+test_date        = Nov-2017
+test_sponsor     = My Corporation
+tester           = My Corporation
+threads          = 1
+top              = /mnt/freezedisk/speccpu2017-intptr
+train_single_thread = 0
+train_with       = train
+tune             = base
+uid              = 1000
+unbuffer         = 1
+uncertainty_exception = 5
+update           = 0
+update_url       = http://www.spec.org/auto/cpu2017/updates/
+use_submit_for_compare = 0
+use_submit_for_speed = 0
+username         = sflab
+verbose          = 5
+verify_binaries  = 1
+version          = 0.904000
+version_url      = http://www.spec.org/auto/cpu2017/current_version
+voltage_range    = 
+worklist         = list
+OUTPUT_RMFILES   = 001-m0.vtk 002-m0.vtk log me.prm statistics
+  Compile for '510.parest_r' started at: 2017-11-01 20:41:08 (1509536468)
+Issuing make.clean command 'specmake --output-sync --jobs=8 clean'
+Start make.clean command: 2017-11-01 20:41:08 (1509536468.14154)
+rm -rf *.o  001-m0.vtk 002-m0.vtk log me.prm statistics
+find . \( -name \*.o -o -name '*.fppized.f*' -o -name '*.i' -o -name '*.mod' \) -print | xargs rm -rf
+rm -rf parest_r
+rm -rf parest_r.exe
+rm -rf core
+Stop make.clean command: 2017-11-01 20:41:08 (1509536468.30682)
+Elapsed time for make.clean command: 00:00:00 (0.165275096893311)
+Issuing make command 'specmake --output-sync --jobs=8 build'
+Start make command: 2017-11-01 20:41:08 (1509536468.30748)
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/boost_threads.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/boost_threads.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/conditional_ostream.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/conditional_ostream.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/config.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/config.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/exceptions.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/exceptions.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/convergence_table.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/convergence_table.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/function_parser.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/function_parser.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/auto_derivative_function.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/auto_derivative_function.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/function.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/function.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/function_lib_cutoff.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/function_lib_cutoff.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/function_time.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/function_time.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/job_identifier.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/job_identifier.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/flow_function.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/flow_function.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/function_derivative.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/function_derivative.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/memory_consumption.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/memory_consumption.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/multithread_info.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/multithread_info.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/geometry_info.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/geometry_info.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/function_lib.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/function_lib.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/parsed_function.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/parsed_function.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/log.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/log.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/path_search.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/path_search.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/polynomial_space.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/polynomial_space.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/polynomials_p.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/polynomials_p.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/parameter_handler.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/parameter_handler.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/polynomials_abf.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/polynomials_abf.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/polynomial.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/polynomial.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/polynomials_bdm.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/polynomials_bdm.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/quadrature_lib.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/quadrature_lib.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/symmetric_tensor.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/symmetric_tensor.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/quadrature_selector.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/quadrature_selector.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/polynomials_raviart_thomas.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/polynomials_raviart_thomas.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/subscriptor.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/subscriptor.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/quadrature.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/quadrature.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/thread_management.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/thread_management.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/tensor_function.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/tensor_function.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/tensor.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/tensor.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/dofs/dof_faces.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/dofs/dof_faces.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/timer.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/timer.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/table_handler.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/table_handler.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/dofs/dof_levels.all_dimensions.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/dofs/dof_levels.all_dimensions.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/utilities.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/utilities.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/tensor_product_polynomials.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/tensor_product_polynomials.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/dofs/dof_objects.all_dimensions.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/dofs/dof_objects.all_dimensions.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/dofs/dof_objects.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/dofs/dof_objects.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/fe/fe_data.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/fe/fe_data.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/dofs/dof_handler.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/dofs/dof_handler.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/fe/fe.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/fe/fe.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/fe/fe_dgp.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/fe/fe_dgp.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/fe/fe_dgp_monomial.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/fe/fe_dgp_monomial.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/fe/fe_abf.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/fe/fe_abf.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/fe/fe_nedelec_1d.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/fe/fe_nedelec_1d.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/fe/fe_nedelec_2d.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/fe/fe_nedelec_2d.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/fe/fe_nedelec_3d.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/fe/fe_nedelec_3d.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/fe/fe_dgq.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/fe/fe_dgq.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/fe/fe_dgp_nonparametric.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/fe/fe_dgp_nonparametric.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/dofs/dof_accessor.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/dofs/dof_accessor.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/fe/fe_nedelec.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/fe/fe_nedelec.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/fe/fe_poly.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/fe/fe_poly.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/fe/fe_q_hierarchical.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/fe/fe_q_hierarchical.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/fe/fe_q.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/fe/fe_q.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/dofs/dof_renumbering.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/dofs/dof_renumbering.cc
+In file included from source/dofs/dof_renumbering.cc:35:
+In file included from ./boost/graph/adjacency_list.hpp:38:
+In file included from ./boost/property_map.hpp:15:
+./boost/concept_check.hpp:139:9: warning: assigning field to itself [-Wself-assign-field]
+      a = a;             // require assignment operator
+        ^
+./boost/concept/usage.hpp:21:43: note: in instantiation of member function 'boost::Assignable<unsigned long>::~Assignable' requested here
+    ~usage_requirements() { ((Model*)0)->~Model(); }
+                                          ^
+./boost/concept/detail/general.hpp:29:42: note: in instantiation of member function 'boost::concept::usage_requirements<boost::Assignable<unsigned long> >::~usage_requirements' requested here
+    static void failed() { ((Model*)0)->~Model(); }
+                                         ^
+./boost/concept_check.hpp:137:5: note: in instantiation of member function 'boost::concept::requirement<boost::concept::usage_requirements<boost::Assignable<unsigned long> > >::failed' requested here
+    BOOST_CONCEPT_USAGE(Assignable) {
+    ^
+./boost/concept/usage.hpp:34:7: note: expanded from macro 'BOOST_CONCEPT_USAGE'
+      BOOST_CONCEPT_ASSERT((boost::concept::usage_requirements<model>)); \
+      ^
+./boost/concept/assert.hpp:44:5: note: expanded from macro 'BOOST_CONCEPT_ASSERT'
+    BOOST_CONCEPT_ASSERT_FN(void(*)ModelInParens)
+    ^
+./boost/concept/detail/general.hpp:61:50: note: expanded from macro 'BOOST_CONCEPT_ASSERT_FN'
+    &::boost::concept::requirement_<ModelFnPtr>::failed>    \
+                                                 ^
+./boost/concept/usage.hpp:21:43: note: in instantiation of member function 'boost::concepts::Graph<boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS, boost::property<boost::vertex_color_t, boost::default_color_type, boost::property<boost::vertex_degree_t, int, boost::no_property> >, boost::no_property, boost::no_property, boost::listS> >::~Graph' requested here
+    ~usage_requirements() { ((Model*)0)->~Model(); }
+                                          ^
+./boost/concept/detail/general.hpp:29:42: note: in instantiation of member function 'boost::concept::usage_requirements<boost::concepts::Graph<boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS, boost::property<boost::vertex_color_t, boost::default_color_type, boost::property<boost::vertex_degree_t, int, boost::no_property> >, boost::no_property, boost::no_property, boost::listS> > >::~usage_requirements' requested here
+    static void failed() { ((Model*)0)->~Model(); }
+                                         ^
+./boost/graph/graph_concepts.hpp:61:7: note: in instantiation of member function 'boost::concept::requirement<boost::concept::usage_requirements<boost::concepts::Graph<boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS, boost::property<boost::vertex_color_t, boost::default_color_type, boost::property<boost::vertex_degree_t, int, boost::no_property> >, boost::no_property, boost::no_property, boost::listS> > > >::failed' requested here
+      BOOST_CONCEPT_USAGE(Graph)
+      ^
+./boost/concept/usage.hpp:34:7: note: expanded from macro 'BOOST_CONCEPT_USAGE'
+      BOOST_CONCEPT_ASSERT((boost::concept::usage_requirements<model>)); \
+      ^
+./boost/concept/assert.hpp:44:5: note: expanded from macro 'BOOST_CONCEPT_ASSERT'
+    BOOST_CONCEPT_ASSERT_FN(void(*)ModelInParens)
+    ^
+./boost/concept/detail/general.hpp:61:50: note: expanded from macro 'BOOST_CONCEPT_ASSERT_FN'
+    &::boost::concept::requirement_<ModelFnPtr>::failed>    \
+                                                 ^
+./boost/graph/depth_first_search.hpp:84:7: note: in instantiation of function template specialization 'boost::function_requires<boost::concepts::IncidenceGraphConcept<boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS, boost::property<boost::vertex_color_t, boost::default_color_type, boost::property<boost::vertex_degree_t, int, boost::no_property> >, boost::no_property, boost::no_property, boost::listS> > >' requested here
+      function_requires<IncidenceGraphConcept<IncidenceGraph> >();
+      ^
+./boost/graph/depth_first_search.hpp:347:13: note: in instantiation of function template specialization 'boost::detail::depth_first_visit_impl<boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS, boost::property<boost::vertex_color_t, boost::default_color_type, boost::property<boost::vertex_degree_t, int, boost::no_property> >, boost::no_property, boost::no_property, boost::listS>, boost::dfs_visitor<boost::null_visitor>, boost::vec_adj_list_vertex_property_map<boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS, boost::property<boost::vertex_color_t, boost::default_color_type, boost::property<boost::vertex_degree_t, int, boost::no_property> >, boost::no_property, boost::no_property, boost::listS>, boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS, boost::property<boost::vertex_color_t, boost::default_color_type, boost::property<boost::vertex_degree_t, int, boost::no_property> >, boost::no_property, boost::no_property, boost::listS> *, boost::default_color_ty
+pe, boost::default_color_type &, boost::vertex_color_t>, boost::detail::nontruth2>' requested here
+    detail::depth_first_visit_impl(g, u, vis, color, detail::nontruth2());
+            ^
+./boost/graph/cuthill_mckee_ordering.hpp:151:9: note: in instantiation of function template specialization 'boost::depth_first_visit<boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS, boost::property<boost::vertex_color_t, boost::default_color_type, boost::property<boost::vertex_degree_t, int, boost::no_property> >, boost::no_property, boost::no_property, boost::listS>, boost::dfs_visitor<boost::null_visitor>, boost::vec_adj_list_vertex_property_map<boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS, boost::property<boost::vertex_color_t, boost::default_color_type, boost::property<boost::vertex_degree_t, int, boost::no_property> >, boost::no_property, boost::no_property, boost::listS>, boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS, boost::property<boost::vertex_color_t, boost::default_color_type, boost::property<boost::vertex_degree_t, int, boost::no_property> >, boost::no_property, boost::no_property, boost::listS> *, boost::default_color_type, boost:
+:default_color_type &, boost::vertex_color_t> >' requested here
+        depth_first_visit(G, v, dfs_visitor<>(), color);
+        ^
+source/dofs/dof_renumbering.cc:208:11: note: in instantiation of function template specialization 'boost::cuthill_mckee_ordering<boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS, boost::property<boost::vertex_color_t, boost::default_color_type, boost::property<boost::vertex_degree_t, int, boost::no_property> >, boost::no_property, boost::no_property, boost::listS>, std::reverse_iterator<__gnu_cxx::__normal_iterator<unsigned long *, std::vector<unsigned long, std::allocator<unsigned long> > > >, boost::vec_adj_list_vertex_property_map<boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS, boost::property<boost::vertex_color_t, boost::default_color_type, boost::property<boost::vertex_degree_t, int, boost::no_property> >, boost::no_property, boost::no_property, boost::listS>, boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS, boost::property<boost::vertex_color_t, boost::default_color_type, boost::property<boost::vertex_degree_t, int, boost::no_property> >, boo
+st::no_property, boost::no_property, boost::listS> *, boost::default_color_type, boost::default_color_type &, boost::vertex_color_t>, boost::degree_property_map<boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS, boost::property<boost::vertex_color_t, boost::default_color_type, boost::property<boost::vertex_degree_t, int, boost::no_property> >, boost::no_property, boost::no_property, boost::listS> > >' requested here
+        ::boost::cuthill_mckee_ordering(graph, inv_perm.rbegin(),
+                 ^
+In file included from source/dofs/dof_renumbering.cc:35:
+In file included from ./boost/graph/adjacency_list.hpp:38:
+In file included from ./boost/property_map.hpp:15:
+./boost/concept_check.hpp:139:9: warning: assigning field to itself [-Wself-assign-field]
+      a = a;             // require assignment operator
+        ^
+./boost/concept/usage.hpp:21:43: note: in instantiation of member function 'boost::Assignable<boost::default_color_type *>::~Assignable' requested here
+    ~usage_requirements() { ((Model*)0)->~Model(); }
+                                          ^
+./boost/concept/detail/general.hpp:29:42: note: in instantiation of member function 'boost::concept::usage_requirements<boost::Assignable<boost::default_color_type *> >::~usage_requirements' requested here
+    static void failed() { ((Model*)0)->~Model(); }
+                                         ^
+./boost/concept_check.hpp:137:5: note: in instantiation of member function 'boost::concept::requirement<boost::concept::usage_requirements<boost::Assignable<boost::default_color_type *> > >::failed' requested here
+    BOOST_CONCEPT_USAGE(Assignable) {
+    ^
+./boost/concept/usage.hpp:34:7: note: expanded from macro 'BOOST_CONCEPT_USAGE'
+      BOOST_CONCEPT_ASSERT((boost::concept::usage_requirements<model>)); \
+      ^
+./boost/concept/assert.hpp:44:5: note: expanded from macro 'BOOST_CONCEPT_ASSERT'
+    BOOST_CONCEPT_ASSERT_FN(void(*)ModelInParens)
+    ^
+./boost/concept/detail/general.hpp:61:50: note: expanded from macro 'BOOST_CONCEPT_ASSERT_FN'
+    &::boost::concept::requirement_<ModelFnPtr>::failed>    \
+                                                 ^
+./boost/property_map.hpp:375:5: note: in instantiation of function template specialization 'boost::function_requires<boost::RandomAccessIteratorConcept<boost::default_color_type *> >' requested here
+    function_requires< RandomAccessIteratorConcept<RAIter> >();
+    ^
+./boost/graph/king_ordering.hpp:307:26: note: in instantiation of function template specialization 'boost::make_iterator_property_map<boost::default_color_type *, boost::default_color_type, boost::vec_adj_list_vertex_id_map<boost::property<boost::vertex_color_t, boost::default_color_type, boost::property<boost::vertex_degree_t, int, boost::no_property> >, unsigned long> >' requested here
+                         make_iterator_property_map(&colors[0], index_map,
+                         ^
+./boost/graph/king_ordering.hpp:315:12: note: in instantiation of function template specialization 'boost::king_ordering<boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS, boost::property<boost::vertex_color_t, boost::default_color_type, boost::property<boost::vertex_degree_t, int, boost::no_property> >, boost::no_property, boost::no_property, boost::listS>, std::reverse_iterator<__gnu_cxx::__normal_iterator<unsigned long *, std::vector<unsigned long, std::allocator<unsigned long> > > >, boost::vec_adj_list_vertex_id_map<boost::property<boost::vertex_color_t, boost::default_color_type, boost::property<boost::vertex_degree_t, int, boost::no_property> >, unsigned long> >' requested here
+  { return king_ordering(G, permutation, get(vertex_index, G)); }
+           ^
+source/dofs/dof_renumbering.cc:265:11: note: in instantiation of function template specialization 'boost::king_ordering<boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS, boost::property<boost::vertex_color_t, boost::default_color_type, boost::property<boost::vertex_degree_t, int, boost::no_property> >, boost::no_property, boost::no_property, boost::listS>, std::reverse_iterator<__gnu_cxx::__normal_iterator<unsigned long *, std::vector<unsigned long, std::allocator<unsigned long> > > > >' requested here
+        ::boost::king_ordering(graph, inv_perm.rbegin());
+                 ^
+In file included from source/dofs/dof_renumbering.cc:35:
+In file included from ./boost/graph/adjacency_list.hpp:38:
+In file included from ./boost/property_map.hpp:15:
+./boost/concept_check.hpp:139:9: warning: assigning field to itself [-Wself-assign-field]
+      a = a;             // require assignment operator
+        ^
+./boost/concept/usage.hpp:21:43: note: in instantiation of member function 'boost::Assignable<int *>::~Assignable' requested here
+    ~usage_requirements() { ((Model*)0)->~Model(); }
+                                          ^
+./boost/concept/detail/general.hpp:29:42: note: in instantiation of member function 'boost::concept::usage_requirements<boost::Assignable<int *> >::~usage_requirements' requested here
+    static void failed() { ((Model*)0)->~Model(); }
+                                         ^
+./boost/concept_check.hpp:137:5: note: in instantiation of member function 'boost::concept::requirement<boost::concept::usage_requirements<boost::Assignable<int *> > >::failed' requested here
+    BOOST_CONCEPT_USAGE(Assignable) {
+    ^
+./boost/concept/usage.hpp:34:7: note: expanded from macro 'BOOST_CONCEPT_USAGE'
+      BOOST_CONCEPT_ASSERT((boost::concept::usage_requirements<model>)); \
+      ^
+./boost/concept/assert.hpp:44:5: note: expanded from macro 'BOOST_CONCEPT_ASSERT'
+    BOOST_CONCEPT_ASSERT_FN(void(*)ModelInParens)
+    ^
+./boost/concept/detail/general.hpp:61:50: note: expanded from macro 'BOOST_CONCEPT_ASSERT_FN'
+    &::boost::concept::requirement_<ModelFnPtr>::failed>    \
+                                                 ^
+./boost/property_map.hpp:375:5: note: in instantiation of function template specialization 'boost::function_requires<boost::RandomAccessIteratorConcept<int *> >' requested here
+    function_requires< RandomAccessIteratorConcept<RAIter> >();
+    ^
+source/dofs/dof_renumbering.cc:369:3: note: in instantiation of function template specialization 'boost::make_iterator_property_map<int *, int, boost::vec_adj_list_vertex_id_map<boost::no_property, unsigned long> >' requested here
+         make_iterator_property_map(&degree[0], id, degree[0]),
+         ^
+3 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/fe/fe_raviart_thomas.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/fe/fe_raviart_thomas.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/fe/fe_tools.all_dimensions.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/fe/fe_tools.all_dimensions.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/fe/fe_raviart_thomas_nodal.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/fe/fe_raviart_thomas_nodal.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/fe/mapping.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/fe/mapping.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/fe/fe_poly_tensor.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/fe/fe_poly_tensor.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/fe/mapping_c1.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/fe/mapping_c1.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/base/data_out_base.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/base/data_out_base.cc
+source/base/data_out_base.cc:649:30: warning: instantiation of variable 'dealii::GeometryInfo<1>::dx_to_deal' required here, but no definition is available [-Wundefined-var-template]
+    nodes[GeometryInfo<dim>::dx_to_deal[0]] = start;
+                             ^
+source/base/data_out_base.cc:1733:21: note: in instantiation of function template specialization 'dealii::(anonymous namespace)::DXStream::write_cell<1>' requested here
+              out.template write_cell<dim>(count++, offset, d1, d2, d3);
+                           ^
+source/base/data_out_base.cc:1932:7: note: in instantiation of function template specialization 'dealii::DataOutBase::write_cells<1, 1, dealii::(anonymous namespace)::DXStream>' requested here
+      write_cells(patches, dx_out);
+      ^
+source/base/data_out_base.cc:4107:16: note: in instantiation of function template specialization 'dealii::DataOutBase::write_dx<1, 1>' requested here
+  DataOutBase::write_dx (get_patches(), get_dataset_names(),
+               ^
+include/base/geometry_info.h:1545:31: note: forward declaration of template entity is here
+    static const unsigned int dx_to_deal[vertices_per_cell];
+                              ^
+source/base/data_out_base.cc:4718:46: warning: instantiation of variable 'dealii::GeometryInfo<1>::ucd_to_deal' required here, but no definition is available [-Wundefined-var-template]
+    out << patch.vertices[GeometryInfo<dim>::ucd_to_deal[i]] << ' ';
+                                             ^
+include/base/geometry_info.h:1524:31: note: forward declaration of template entity is here
+    static const unsigned int ucd_to_deal[vertices_per_cell];
+                              ^
+source/base/data_out_base.cc:649:30: warning: instantiation of variable 'dealii::GeometryInfo<2>::dx_to_deal' required here, but no definition is available [-Wundefined-var-template]
+    nodes[GeometryInfo<dim>::dx_to_deal[0]] = start;
+                             ^
+source/base/data_out_base.cc:1733:21: note: in instantiation of function template specialization 'dealii::(anonymous namespace)::DXStream::write_cell<2>' requested here
+              out.template write_cell<dim>(count++, offset, d1, d2, d3);
+                           ^
+source/base/data_out_base.cc:1932:7: note: in instantiation of function template specialization 'dealii::DataOutBase::write_cells<2, 2, dealii::(anonymous namespace)::DXStream>' requested here
+      write_cells(patches, dx_out);
+      ^
+source/base/data_out_base.cc:4107:16: note: in instantiation of function template specialization 'dealii::DataOutBase::write_dx<2, 2>' requested here
+  DataOutBase::write_dx (get_patches(), get_dataset_names(),
+               ^
+include/base/geometry_info.h:1545:31: note: forward declaration of template entity is here
+    static const unsigned int dx_to_deal[vertices_per_cell];
+                              ^
+source/base/data_out_base.cc:4718:46: warning: instantiation of variable 'dealii::GeometryInfo<2>::ucd_to_deal' required here, but no definition is available [-Wundefined-var-template]
+    out << patch.vertices[GeometryInfo<dim>::ucd_to_deal[i]] << ' ';
+                                             ^
+include/base/geometry_info.h:1524:31: note: forward declaration of template entity is here
+    static const unsigned int ucd_to_deal[vertices_per_cell];
+                              ^
+source/base/data_out_base.cc:649:30: warning: instantiation of variable 'dealii::GeometryInfo<3>::dx_to_deal' required here, but no definition is available [-Wundefined-var-template]
+    nodes[GeometryInfo<dim>::dx_to_deal[0]] = start;
+                             ^
+source/base/data_out_base.cc:1733:21: note: in instantiation of function template specialization 'dealii::(anonymous namespace)::DXStream::write_cell<3>' requested here
+              out.template write_cell<dim>(count++, offset, d1, d2, d3);
+                           ^
+source/base/data_out_base.cc:1932:7: note: in instantiation of function template specialization 'dealii::DataOutBase::write_cells<3, 3, dealii::(anonymous namespace)::DXStream>' requested here
+      write_cells(patches, dx_out);
+      ^
+source/base/data_out_base.cc:4107:16: note: in instantiation of function template specialization 'dealii::DataOutBase::write_dx<3, 3>' requested here
+  DataOutBase::write_dx (get_patches(), get_dataset_names(),
+               ^
+include/base/geometry_info.h:1545:31: note: forward declaration of template entity is here
+    static const unsigned int dx_to_deal[vertices_per_cell];
+                              ^
+source/base/data_out_base.cc:4718:46: warning: instantiation of variable 'dealii::GeometryInfo<3>::ucd_to_deal' required here, but no definition is available [-Wundefined-var-template]
+    out << patch.vertices[GeometryInfo<dim>::ucd_to_deal[i]] << ' ';
+                                             ^
+include/base/geometry_info.h:1524:31: note: forward declaration of template entity is here
+    static const unsigned int ucd_to_deal[vertices_per_cell];
+                              ^
+source/base/data_out_base.cc:134:10: warning: no case matching constant switch condition '4'
+        switch (dim)
+                ^~~
+source/base/data_out_base.cc:1690:8: note: in instantiation of function template specialization 'dealii::(anonymous namespace)::compute_node<4, 4>' requested here
+              compute_node(node, &*patch,
+              ^
+source/base/data_out_base.cc:1912:7: note: in instantiation of function template specialization 'dealii::DataOutBase::write_nodes<4, 4, dealii::(anonymous namespace)::DXStream>' requested here
+      write_nodes(patches, dx_out);
+      ^
+source/base/data_out_base.cc:4107:16: note: in instantiation of function template specialization 'dealii::DataOutBase::write_dx<4, 4>' requested here
+  DataOutBase::write_dx (get_patches(), get_dataset_names(),
+               ^
+source/base/data_out_base.cc:674:12: warning: array index 15 is past the end of the array (which contains 8 elements) [-Warray-bounds]
+        stream << nodes[final] << '\n';
+                  ^     ~~~~~
+source/base/data_out_base.cc:1733:21: note: in instantiation of function template specialization 'dealii::(anonymous namespace)::DXStream::write_cell<4>' requested here
+              out.template write_cell<dim>(count++, offset, d1, d2, d3);
+                           ^
+source/base/data_out_base.cc:1932:7: note: in instantiation of function template specialization 'dealii::DataOutBase::write_cells<4, 4, dealii::(anonymous namespace)::DXStream>' requested here
+      write_cells(patches, dx_out);
+      ^
+source/base/data_out_base.cc:4107:16: note: in instantiation of function template specialization 'dealii::DataOutBase::write_dx<4, 4>' requested here
+  DataOutBase::write_dx (get_patches(), get_dataset_names(),
+               ^
+source/base/data_out_base.cc:648:5: note: array 'nodes' declared here
+    int nodes[8];
+    ^
+source/base/data_out_base.cc:649:30: warning: instantiation of variable 'dealii::GeometryInfo<4>::dx_to_deal' required here, but no definition is available [-Wundefined-var-template]
+    nodes[GeometryInfo<dim>::dx_to_deal[0]] = start;
+                             ^
+include/base/geometry_info.h:1545:31: note: forward declaration of template entity is here
+    static const unsigned int dx_to_deal[vertices_per_cell];
+                              ^
+source/base/data_out_base.cc:733:15: warning: array index 4 is past the end of the array (which contains 4 elements) [-Warray-bounds]
+    stream << gmv_cell_type[dim] << '\n';
+              ^             ~~~
+source/base/data_out_base.cc:1733:21: note: in instantiation of function template specialization 'dealii::(anonymous namespace)::GmvStream::write_cell<4>' requested here
+              out.template write_cell<dim>(count++, offset, d1, d2, d3);
+                           ^
+source/base/data_out_base.cc:3157:3: note: in instantiation of function template specialization 'dealii::DataOutBase::write_cells<4, 4, dealii::(anonymous namespace)::GmvStream>' requested here
+  write_cells(patches, gmv_out);
+  ^
+source/base/data_out_base.cc:4157:16: note: in instantiation of function template specialization 'dealii::DataOutBase::write_gmv<4, 4>' requested here
+  DataOutBase::write_gmv (get_patches(), get_dataset_names(),
+               ^
+source/base/data_out_base.cc:85:3: note: array 'gmv_cell_type' declared here
+  static const char* gmv_cell_type[4] =
+  ^
+source/base/data_out_base.cc:3281:16: warning: array index 4 is past the end of the array (which contains 4 elements) [-Warray-bounds]
+        << ", et=" << tecplot_cell_type[dim] << '\n';
+                      ^                 ~~~
+source/base/data_out_base.cc:4167:16: note: in instantiation of function template specialization 'dealii::DataOutBase::write_tecplot<4, 4>' requested here
+  DataOutBase::write_tecplot (get_patches(), get_dataset_names(),
+               ^
+source/base/data_out_base.cc:95:3: note: array 'tecplot_cell_type' declared here
+  static const char* tecplot_cell_type[4] =
+  ^
+source/base/data_out_base.cc:859:36: warning: array index 4 is past the end of the array (which contains 4 elements) [-Warray-bounds]
+    stream << index+1 << "\t0 " << ucd_cell_type[dim];
+                                   ^             ~~~
+source/base/data_out_base.cc:1733:21: note: in instantiation of function template specialization 'dealii::(anonymous namespace)::UcdStream::write_cell<4>' requested here
+              out.template write_cell<dim>(count++, offset, d1, d2, d3);
+                           ^
+source/base/data_out_base.cc:1845:3: note: in instantiation of function template specialization 'dealii::DataOutBase::write_cells<4, 4, dealii::(anonymous namespace)::UcdStream>' requested here
+  write_cells(patches, ucd_out);
+  ^
+source/base/data_out_base.cc:4117:16: note: in instantiation of function template specialization 'dealii::DataOutBase::write_ucd<4, 4>' requested here
+  DataOutBase::write_ucd (get_patches(), get_dataset_names(),
+               ^
+source/base/data_out_base.cc:90:3: note: array 'ucd_cell_type' declared here
+  static const char* ucd_cell_type[4] =
+  ^
+source/base/data_out_base.cc:3849:19: warning: array index 4 is past the end of the array (which contains 4 elements) [-Warray-bounds]
+    out << ' ' << vtk_cell_type[dim];
+                  ^             ~~~
+source/base/data_out_base.cc:4187:16: note: in instantiation of function template specialization 'dealii::DataOutBase::write_vtk<4, 4>' requested here
+  DataOutBase::write_vtk (get_patches(), get_dataset_names(),
+               ^
+source/base/data_out_base.cc:107:3: note: array 'vtk_cell_type' declared here
+  static unsigned int vtk_cell_type[4] =
+  ^
+source/base/data_out_base.cc:4718:46: warning: instantiation of variable 'dealii::GeometryInfo<4>::ucd_to_deal' required here, but no definition is available [-Wundefined-var-template]
+    out << patch.vertices[GeometryInfo<dim>::ucd_to_deal[i]] << ' ';
+                                             ^
+include/base/geometry_info.h:1524:31: note: forward declaration of template entity is here
+    static const unsigned int ucd_to_deal[vertices_per_cell];
+                              ^
+14 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/fe/mapping_cartesian.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/fe/mapping_cartesian.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/fe/fe_system.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/fe/fe_system.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/fe/mapping_q1_eulerian.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/fe/mapping_q1_eulerian.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/fe/mapping_q.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/fe/mapping_q.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/fe/mapping_q_eulerian.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/fe/mapping_q_eulerian.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/fe/mapping_q1.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/fe/mapping_q1.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/grid/grid_out.all_dimensions.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/grid/grid_out.all_dimensions.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/grid/grid_in.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/grid/grid_in.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/grid/grid_reordering.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/grid/grid_reordering.cc
+source/grid/grid_reordering.cc:1544:32: warning: instantiation of variable 'dealii::GeometryInfo<3>::ucd_to_deal' required here, but no definition is available [-Wundefined-var-template]
+        vertices_lex[GeometryInfo<3>::ucd_to_deal[i]]=cells[cell_no].vertices[i];
+                                      ^
+include/base/geometry_info.h:1524:31: note: forward declaration of template entity is here
+    static const unsigned int ucd_to_deal[vertices_per_cell];
+                              ^
+1 warning generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/grid/grid_refinement.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/grid/grid_refinement.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/grid/grid_out.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/grid/grid_out.cc
+source/grid/grid_out.cc:110:68: warning: instantiation of variable 'dealii::GeometryInfo<3>::dx_to_deal' required here, but no definition is available [-Wundefined-var-template]
+            out << '\t' << renumber[cell->vertex_index(GeometryInfo<dim>::dx_to_deal[v])];
+                                                                          ^
+include/base/geometry_info.h:1545:31: note: forward declaration of template entity is here
+    static const unsigned int dx_to_deal[vertices_per_cell];
+                              ^
+source/grid/grid_out.cc:171:67: warning: instantiation of variable 'dealii::GeometryInfo<2>::dx_to_deal' required here, but no definition is available [-Wundefined-var-template]
+                out << '\t' << renumber[face->vertex_index(GeometryInfo<dim-1>::dx_to_deal[v])];
+                                                                                ^
+include/base/geometry_info.h:1545:31: note: forward declaration of template entity is here
+    static const unsigned int dx_to_deal[vertices_per_cell];
+                              ^
+source/grid/grid_out.cc:406:47: warning: instantiation of variable 'dealii::GeometryInfo<3>::ucd_to_deal' required here, but no definition is available [-Wundefined-var-template]
+        out << cell->vertex_index(GeometryInfo<dim>::ucd_to_deal[vertex])+1 << ' ';
+                                                     ^
+include/base/geometry_info.h:1524:31: note: forward declaration of template entity is here
+    static const unsigned int ucd_to_deal[vertices_per_cell];
+                              ^
+source/grid/grid_out.cc:848:51: warning: instantiation of variable 'dealii::GeometryInfo<2>::ucd_to_deal' required here, but no definition is available [-Wundefined-var-template]
+              << face->vertex_index(GeometryInfo<dim-1>::ucd_to_deal[vertex])+1;
+                                                         ^
+source/grid/grid_out.cc:413:5: note: in instantiation of function template specialization 'dealii::GridOut::write_msh_faces<3, 3>' requested here
+    write_msh_faces (tria, cell_index, out);
+    ^
+include/base/geometry_info.h:1524:31: note: forward declaration of template entity is here
+    static const unsigned int ucd_to_deal[vertices_per_cell];
+                              ^
+source/grid/grid_out.cc:877:51: warning: instantiation of variable 'dealii::GeometryInfo<1>::ucd_to_deal' required here, but no definition is available [-Wundefined-var-template]
+              << line->vertex_index(GeometryInfo<dim-2>::ucd_to_deal[vertex])+1;
+                                                         ^
+source/grid/grid_out.cc:415:5: note: in instantiation of function template specialization 'dealii::GridOut::write_msh_lines<3, 3>' requested here
+    write_msh_lines (tria, cell_index, out);
+    ^
+include/base/geometry_info.h:1524:31: note: forward declaration of template entity is here
+    static const unsigned int ucd_to_deal[vertices_per_cell];
+                              ^
+5 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/grid/tria.all_dimensions.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/grid/tria.all_dimensions.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/fe/fe_tools.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/fe/fe_tools.cc
+In file included from source/fe/fe_tools.cc:20:
+In file included from include/lac/full_matrix.h:22:
+In file included from include/lac/lapack_full_matrix.h:21:
+include/lac/vector_memory.h:507:41: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<double> >::mutex' required here, but no definition is available [-Wundefined-var-template]
+  Threads::ThreadMutex::ScopedLock lock(mutex);
+                                        ^
+include/lac/householder.h:189:41: note: in instantiation of member function 'dealii::GrowingVectorMemory<dealii::Vector<double> >::GrowingVectorMemory' requested here
+  GrowingVectorMemory<Vector<number2> > mem;
+                                        ^
+source/fe/fe_tools.cc:684:32: note: in instantiation of function template specialization 'dealii::Householder<double>::least_squares<double>' requested here
+              const double result = H.least_squares(v_fine, v_coarse);
+                                      ^
+include/lac/vector_memory.h:393:33: note: forward declaration of template entity is here
+    static Threads::ThreadMutex mutex;
+                                ^
+include/lac/vector_memory.h:508:3: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<double> >::pool' required here, but no definition is available [-Wundefined-var-template]
+  pool.initialize(initial_size);
+  ^
+include/lac/vector_memory.h:364:17: note: forward declaration of template entity is here
+    static Pool pool;
+                ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/grid/persistent_tria.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/grid/persistent_tria.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/grid/tria_boundary.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/grid/tria_boundary.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/grid/grid_generator.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/grid/grid_generator.cc
+In file included from source/grid/grid_generator.cc:18:
+include/lac/vector_memory.h:507:41: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<double> >::mutex' required here, but no definition is available [-Wundefined-var-template]
+  Threads::ThreadMutex::ScopedLock lock(mutex);
+                                        ^
+source/grid/grid_generator.cc:2464:40: note: in instantiation of member function 'dealii::GrowingVectorMemory<dealii::Vector<double> >::GrowingVectorMemory' requested here
+  GrowingVectorMemory<Vector<double> > mem;
+                                       ^
+include/lac/vector_memory.h:393:33: note: forward declaration of template entity is here
+    static Threads::ThreadMutex mutex;
+                                ^
+include/lac/vector_memory.h:508:3: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<double> >::pool' required here, but no definition is available [-Wundefined-var-template]
+  pool.initialize(initial_size);
+  ^
+include/lac/vector_memory.h:364:17: note: forward declaration of template entity is here
+    static Pool pool;
+                ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/grid/tria_faces.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/grid/tria_faces.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/grid/tria_boundary_lib.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/grid/tria_boundary_lib.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/grid/intergrid_map.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/grid/intergrid_map.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/grid/tria_levels.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/grid/tria_levels.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/grid/tria_objects.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/grid/tria_objects.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/grid/grid_tools.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/grid/grid_tools.cc
+source/grid/grid_tools.cc:644:44: warning: instantiation of variable 'dealii::GeometryInfo<3>::vertex_to_face' required here, but no definition is available [-Wundefined-var-template]
+                        GeometryInfo<dim>::vertex_to_face[v][vface];
+                                           ^
+include/base/geometry_info.h:1557:31: note: forward declaration of template entity is here
+    static const unsigned int vertex_to_face[vertices_per_cell][dim];
+                              ^
+source/grid/grid_tools.cc:711:72: warning: instantiation of variable 'dealii::StaticMappingQ1<3, 3>::mapping' required here, but no definition is available [-Wundefined-var-template]
+   return find_active_cell_around_point(StaticMappingQ1<dim,spacedim>::mapping,
+                                                                       ^
+include/fe/mapping_q1.h:612:37: note: forward declaration of template entity is here
+    static MappingQ1<dim, spacedim> mapping;
+                                    ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/hp/dof_faces.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/hp/dof_faces.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/grid/tria_accessor.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/grid/tria_accessor.cc
+source/grid/tria_accessor.cc:1440:6: warning: add explicit braces to avoid dangling else [-Wdangling-else]
+            else if (face_guess->child(subface_no)->has_children())
+            ^
+source/grid/tria_accessor.cc:1470:7: warning: add explicit braces to avoid dangling else [-Wdangling-else]
+                    else if (face->child(subface_no)->has_children())
+                    ^
+source/grid/tria_accessor.cc:1153:39: warning: instantiation of variable 'dealii::StaticMappingQ1<3, 3>::mapping' required here, but no definition is available [-Wundefined-var-template]
+              StaticMappingQ1<dim,spacedim>::mapping.transform_real_to_unit_cell(cell_iterator, p)));
+                                             ^
+include/fe/mapping_q1.h:612:37: note: forward declaration of template entity is here
+    static MappingQ1<dim, spacedim> mapping;
+                                    ^
+3 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/hp/dof_levels.all_dimensions.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/hp/dof_levels.all_dimensions.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/grid/tria_objects.all_dimensions.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/grid/tria_objects.all_dimensions.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/hp/dof_levels.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/hp/dof_levels.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/hp/dof_objects.all_dimensions.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/hp/dof_objects.all_dimensions.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/dofs/dof_tools.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/dofs/dof_tools.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/hp/fe_collection.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/hp/fe_collection.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/hp/mapping_collection.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/hp/mapping_collection.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/hp/fe_values.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/hp/fe_values.cc
+source/hp/fe_values.cc:55:11: warning: instantiation of variable 'dealii::hp::StaticMappingQ1<3, 3>::mapping_collection' required here, but no definition is available [-Wundefined-var-template]
+                                      mapping_collection),
+                                      ^
+include/hp/mapping_collection.h:164:46: note: forward declaration of template entity is here
+      static MappingCollection<dim,spacedim> mapping_collection;
+                                             ^
+1 warning generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/block_matrix_array.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/block_matrix_array.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/block_sparse_matrix.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/block_sparse_matrix.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/block_sparse_matrix_ez.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/block_sparse_matrix_ez.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/hp/dof_handler.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/hp/dof_handler.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/compressed_set_sparsity_pattern.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/compressed_set_sparsity_pattern.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/compressed_simple_sparsity_pattern.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/compressed_simple_sparsity_pattern.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/block_sparsity_pattern.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/block_sparsity_pattern.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/chunk_sparsity_pattern.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/chunk_sparsity_pattern.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/fe/fe_values.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/fe/fe_values.cc
+source/fe/fe_values.cc:109:16: warning: binding dereferenced null pointer to reference has undefined behavior [-Wnull-dereference]
+                  fe_values (*static_cast<dealii::FEValuesBase<dim,spacedim>*>(0)),
+                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/lib/gcc/x86_64-linux-gnu/5.4.0/../../../../include/c++/5.4.0/bits/stl_vector.h:713:53: note: in instantiation of member function 'dealii::FEValuesViews::Scalar<3, 3>::Scalar' requested here
+      resize(size_type __new_size, value_type __x = value_type())
+                                                    ^
+source/fe/fe_values.cc:1710:3: note: in instantiation of member function 'dealii::internal::FEValuesViews::Cache<3, 3>::Cache' requested here
+                fe_values_views_cache (*this)
+                ^
+source/fe/fe_values.cc:211:16: warning: binding dereferenced null pointer to reference has undefined behavior [-Wnull-dereference]
+                  fe_values (*static_cast<dealii::FEValuesBase<dim,spacedim>*>(0)),
+                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/lib/gcc/x86_64-linux-gnu/5.4.0/../../../../include/c++/5.4.0/bits/stl_vector.h:713:53: note: in instantiation of member function 'dealii::FEValuesViews::Vector<3, 3>::Vector' requested here
+      resize(size_type __new_size, value_type __x = value_type())
+                                                    ^
+source/fe/fe_values.cc:1710:3: note: in instantiation of member function 'dealii::internal::FEValuesViews::Cache<3, 3>::Cache' requested here
+                fe_values_views_cache (*this)
+                ^
+source/fe/fe_values.cc:3363:41: warning: instantiation of variable 'dealii::StaticMappingQ1<3, 3>::mapping' required here, but no definition is available [-Wundefined-var-template]
+                                            StaticMappingQ1<dim,spacedim>::mapping,
+                                                                           ^
+include/fe/mapping_q1.h:612:37: note: forward declaration of template entity is here
+    static MappingQ1<dim, spacedim> mapping;
+                                    ^
+3 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/compressed_sparsity_pattern.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/compressed_sparsity_pattern.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/lapack_full_matrix.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/lapack_full_matrix.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/matrix_out.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/matrix_out.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/block_vector.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/block_vector.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/petsc_full_matrix.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/petsc_full_matrix.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/petsc_block_sparse_matrix.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/petsc_block_sparse_matrix.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/petsc_matrix_base.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/petsc_matrix_base.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/petsc_parallel_block_vector.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/petsc_parallel_block_vector.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/matrix_lib.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/matrix_lib.cc
+In file included from source/lac/matrix_lib.cc:15:
+In file included from include/lac/matrix_lib.templates.h:16:
+In file included from include/lac/matrix_lib.h:17:
+include/lac/vector_memory.h:507:41: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<float> >::mutex' required here, but no definition is available [-Wundefined-var-template]
+  Threads::ThreadMutex::ScopedLock lock(mutex);
+                                        ^
+include/lac/solver.h:159:5: note: in instantiation of member function 'dealii::GrowingVectorMemory<dealii::Vector<float> >::GrowingVectorMemory' requested here
+    Solver (SolverControl        &solver_control,
+    ^
+include/lac/solver_richardson.h:206:3: note: in instantiation of member function 'dealii::Solver<dealii::Vector<float> >::Solver' requested here
+                Solver<VECTOR> (cn,mem),
+                ^
+include/lac/matrix_lib.templates.h:130:3: note: in instantiation of member function 'dealii::SolverRichardson<dealii::Vector<float> >::SolverRichardson' requested here
+                solver(c,m),
+                ^
+include/lac/vector_memory.h:393:33: note: forward declaration of template entity is here
+    static Threads::ThreadMutex mutex;
+                                ^
+include/lac/vector_memory.h:508:3: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<float> >::pool' required here, but no definition is available [-Wundefined-var-template]
+  pool.initialize(initial_size);
+  ^
+include/lac/vector_memory.h:364:17: note: forward declaration of template entity is here
+    static Pool pool;
+                ^
+include/lac/vector_memory.h:507:41: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<double> >::mutex' required here, but no definition is available [-Wundefined-var-template]
+  Threads::ThreadMutex::ScopedLock lock(mutex);
+                                        ^
+include/lac/solver.h:159:5: note: in instantiation of member function 'dealii::GrowingVectorMemory<dealii::Vector<double> >::GrowingVectorMemory' requested here
+    Solver (SolverControl        &solver_control,
+    ^
+include/lac/solver_richardson.h:206:3: note: in instantiation of member function 'dealii::Solver<dealii::Vector<double> >::Solver' requested here
+                Solver<VECTOR> (cn,mem),
+                ^
+include/lac/matrix_lib.templates.h:130:3: note: in instantiation of member function 'dealii::SolverRichardson<dealii::Vector<double> >::SolverRichardson' requested here
+                solver(c,m),
+                ^
+include/lac/vector_memory.h:393:33: note: forward declaration of template entity is here
+    static Threads::ThreadMutex mutex;
+                                ^
+include/lac/vector_memory.h:508:3: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<double> >::pool' required here, but no definition is available [-Wundefined-var-template]
+  pool.initialize(initial_size);
+  ^
+include/lac/vector_memory.h:364:17: note: forward declaration of template entity is here
+    static Pool pool;
+                ^
+include/lac/vector_memory.h:507:41: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::BlockVector<float> >::mutex' required here, but no definition is available [-Wundefined-var-template]
+  Threads::ThreadMutex::ScopedLock lock(mutex);
+                                        ^
+include/lac/solver.h:159:5: note: in instantiation of member function 'dealii::GrowingVectorMemory<dealii::BlockVector<float> >::GrowingVectorMemory' requested here
+    Solver (SolverControl        &solver_control,
+    ^
+include/lac/solver_richardson.h:206:3: note: in instantiation of member function 'dealii::Solver<dealii::BlockVector<float> >::Solver' requested here
+                Solver<VECTOR> (cn,mem),
+                ^
+include/lac/matrix_lib.templates.h:130:3: note: in instantiation of member function 'dealii::SolverRichardson<dealii::BlockVector<float> >::SolverRichardson' requested here
+                solver(c,m),
+                ^
+include/lac/vector_memory.h:393:33: note: forward declaration of template entity is here
+    static Threads::ThreadMutex mutex;
+                                ^
+include/lac/vector_memory.h:508:3: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::BlockVector<float> >::pool' required here, but no definition is available [-Wundefined-var-template]
+  pool.initialize(initial_size);
+  ^
+include/lac/vector_memory.h:364:17: note: forward declaration of template entity is here
+    static Pool pool;
+                ^
+include/lac/vector_memory.h:507:41: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::BlockVector<double> >::mutex' required here, but no definition is available [-Wundefined-var-template]
+  Threads::ThreadMutex::ScopedLock lock(mutex);
+                                        ^
+include/lac/solver.h:159:5: note: in instantiation of member function 'dealii::GrowingVectorMemory<dealii::BlockVector<double> >::GrowingVectorMemory' requested here
+    Solver (SolverControl        &solver_control,
+    ^
+include/lac/solver_richardson.h:206:3: note: in instantiation of member function 'dealii::Solver<dealii::BlockVector<double> >::Solver' requested here
+                Solver<VECTOR> (cn,mem),
+                ^
+include/lac/matrix_lib.templates.h:130:3: note: in instantiation of member function 'dealii::SolverRichardson<dealii::BlockVector<double> >::SolverRichardson' requested here
+                solver(c,m),
+                ^
+include/lac/vector_memory.h:393:33: note: forward declaration of template entity is here
+    static Threads::ThreadMutex mutex;
+                                ^
+include/lac/vector_memory.h:508:3: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::BlockVector<double> >::pool' required here, but no definition is available [-Wundefined-var-template]
+  pool.initialize(initial_size);
+  ^
+include/lac/vector_memory.h:364:17: note: forward declaration of template entity is here
+    static Pool pool;
+                ^
+8 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/petsc_parallel_vector.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/petsc_parallel_vector.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/petsc_parallel_block_sparse_matrix.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/petsc_parallel_block_sparse_matrix.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/petsc_parallel_sparse_matrix.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/petsc_parallel_sparse_matrix.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/petsc_vector.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/petsc_vector.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/petsc_precondition.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/petsc_precondition.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/petsc_vector_base.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/petsc_vector_base.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/petsc_solver.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/petsc_solver.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/petsc_sparse_matrix.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/petsc_sparse_matrix.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/solver_control.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/solver_control.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/solver.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/solver.cc
+In file included from source/lac/solver.cc:14:
+In file included from include/lac/solver.h:17:
+include/lac/vector_memory.h:507:41: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<double> >::mutex' required here, but no definition is available [-Wundefined-var-template]
+  Threads::ThreadMutex::ScopedLock lock(mutex);
+                                        ^
+include/lac/solver.h:159:5: note: in instantiation of member function 'dealii::GrowingVectorMemory<dealii::Vector<double> >::GrowingVectorMemory' requested here
+    Solver (SolverControl        &solver_control,
+    ^
+include/lac/vector_memory.h:393:33: note: forward declaration of template entity is here
+    static Threads::ThreadMutex mutex;
+                                ^
+include/lac/vector_memory.h:508:3: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<double> >::pool' required here, but no definition is available [-Wundefined-var-template]
+  pool.initialize(initial_size);
+  ^
+include/lac/vector_memory.h:364:17: note: forward declaration of template entity is here
+    static Pool pool;
+                ^
+include/lac/vector_memory.h:507:41: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::BlockVector<double> >::mutex' required here, but no definition is available [-Wundefined-var-template]
+  Threads::ThreadMutex::ScopedLock lock(mutex);
+                                        ^
+include/lac/solver.h:159:5: note: in instantiation of member function 'dealii::GrowingVectorMemory<dealii::BlockVector<double> >::GrowingVectorMemory' requested here
+    Solver (SolverControl        &solver_control,
+    ^
+include/lac/vector_memory.h:393:33: note: forward declaration of template entity is here
+    static Threads::ThreadMutex mutex;
+                                ^
+include/lac/vector_memory.h:508:3: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::BlockVector<double> >::pool' required here, but no definition is available [-Wundefined-var-template]
+  pool.initialize(initial_size);
+  ^
+include/lac/vector_memory.h:364:17: note: forward declaration of template entity is here
+    static Pool pool;
+                ^
+include/lac/vector_memory.h:507:41: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<float> >::mutex' required here, but no definition is available [-Wundefined-var-template]
+  Threads::ThreadMutex::ScopedLock lock(mutex);
+                                        ^
+include/lac/solver.h:159:5: note: in instantiation of member function 'dealii::GrowingVectorMemory<dealii::Vector<float> >::GrowingVectorMemory' requested here
+    Solver (SolverControl        &solver_control,
+    ^
+include/lac/vector_memory.h:393:33: note: forward declaration of template entity is here
+    static Threads::ThreadMutex mutex;
+                                ^
+include/lac/vector_memory.h:508:3: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<float> >::pool' required here, but no definition is available [-Wundefined-var-template]
+  pool.initialize(initial_size);
+  ^
+include/lac/vector_memory.h:364:17: note: forward declaration of template entity is here
+    static Pool pool;
+                ^
+include/lac/vector_memory.h:507:41: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::BlockVector<float> >::mutex' required here, but no definition is available [-Wundefined-var-template]
+  Threads::ThreadMutex::ScopedLock lock(mutex);
+                                        ^
+include/lac/solver.h:159:5: note: in instantiation of member function 'dealii::GrowingVectorMemory<dealii::BlockVector<float> >::GrowingVectorMemory' requested here
+    Solver (SolverControl        &solver_control,
+    ^
+include/lac/vector_memory.h:393:33: note: forward declaration of template entity is here
+    static Threads::ThreadMutex mutex;
+                                ^
+include/lac/vector_memory.h:508:3: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::BlockVector<float> >::pool' required here, but no definition is available [-Wundefined-var-template]
+  pool.initialize(initial_size);
+  ^
+include/lac/vector_memory.h:364:17: note: forward declaration of template entity is here
+    static Pool pool;
+                ^
+8 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/sparse_decomposition.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/sparse_decomposition.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/sparse_ilu.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/sparse_ilu.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/sparse_direct.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/sparse_direct.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/grid/tria.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/grid/tria.cc
+source/grid/tria.cc:1044:42: warning: instantiation of variable 'dealii::GeometryInfo<3>::ucd_to_deal' required here, but no definition is available [-Wundefined-var-template]
+          cells[cell].vertices[GeometryInfo<3>::ucd_to_deal[i]] = tmp[i];
+                                                ^
+include/base/geometry_info.h:1524:31: note: forward declaration of template entity is here
+    static const unsigned int ucd_to_deal[vertices_per_cell];
+                              ^
+source/grid/tria.cc:9312:43: warning: instantiation of variable 'dealii::StaticMappingQ1<3, 3>::mapping' required here, but no definition is available [-Wundefined-var-template]
+                              = StaticMappingQ1<dim,spacedim>::mapping.
+                                                               ^
+source/grid/tria.cc:13915:48: note: in instantiation of function template specialization 'dealii::internal::Triangulation::Implementation::prevent_distorted_boundary_cells<3, 3>' requested here
+      internal::Triangulation::Implementation::prevent_distorted_boundary_cells(*this);
+                                               ^
+include/fe/mapping_q1.h:612:37: note: forward declaration of template entity is here
+    static MappingQ1<dim, spacedim> mapping;
+                                    ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/sparse_mic.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/sparse_mic.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/precondition_block_ez.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/precondition_block_ez.cc
+In file included from source/lac/precondition_block_ez.cc:15:
+In file included from include/lac/precondition_block.templates.h:21:
+In file included from include/lac/householder.h:19:
+In file included from include/lac/full_matrix.h:22:
+In file included from include/lac/lapack_full_matrix.h:21:
+include/lac/vector_memory.h:507:41: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<float> >::mutex' required here, but no definition is available [-Wundefined-var-template]
+  Threads::ThreadMutex::ScopedLock lock(mutex);
+                                        ^
+include/lac/householder.h:189:41: note: in instantiation of member function 'dealii::GrowingVectorMemory<dealii::Vector<float> >::GrowingVectorMemory' requested here
+  GrowingVectorMemory<Vector<number2> > mem;
+                                        ^
+include/lac/precondition_block.templates.h:451:10: note: in instantiation of function template specialization 'dealii::Householder<float>::least_squares<float>' requested here
+          house.least_squares(x_cell,b_cell);
+                ^
+include/lac/precondition_block.templates.h:495:3: note: in instantiation of function template specialization 'dealii::PreconditionBlockJacobi<dealii::SparseMatrixEZ<float>, float>::do_vmult<float>' requested here
+  do_vmult(dst, src, false);
+  ^
+include/lac/vector_memory.h:393:33: note: forward declaration of template entity is here
+    static Threads::ThreadMutex mutex;
+                                ^
+include/lac/vector_memory.h:508:3: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<float> >::pool' required here, but no definition is available [-Wundefined-var-template]
+  pool.initialize(initial_size);
+  ^
+include/lac/vector_memory.h:364:17: note: forward declaration of template entity is here
+    static Pool pool;
+                ^
+include/lac/vector_memory.h:507:41: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<double> >::mutex' required here, but no definition is available [-Wundefined-var-template]
+  Threads::ThreadMutex::ScopedLock lock(mutex);
+                                        ^
+include/lac/householder.h:189:41: note: in instantiation of member function 'dealii::GrowingVectorMemory<dealii::Vector<double> >::GrowingVectorMemory' requested here
+  GrowingVectorMemory<Vector<number2> > mem;
+                                        ^
+include/lac/precondition_block.templates.h:451:10: note: in instantiation of function template specialization 'dealii::Householder<float>::least_squares<double>' requested here
+          house.least_squares(x_cell,b_cell);
+                ^
+include/lac/precondition_block.templates.h:495:3: note: in instantiation of function template specialization 'dealii::PreconditionBlockJacobi<dealii::SparseMatrixEZ<float>, float>::do_vmult<double>' requested here
+  do_vmult(dst, src, false);
+  ^
+include/lac/vector_memory.h:393:33: note: forward declaration of template entity is here
+    static Threads::ThreadMutex mutex;
+                                ^
+include/lac/vector_memory.h:508:3: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<double> >::pool' required here, but no definition is available [-Wundefined-var-template]
+  pool.initialize(initial_size);
+  ^
+include/lac/vector_memory.h:364:17: note: forward declaration of template entity is here
+    static Pool pool;
+                ^
+4 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/sparse_vanka.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/sparse_vanka.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/sparse_matrix_ez.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/sparse_matrix_ez.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/sparsity_tools.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/sparsity_tools.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/tridiagonal_matrix.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/tridiagonal_matrix.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/swappable_vector.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/swappable_vector.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/sparsity_pattern.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/sparsity_pattern.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/constraint_matrix.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/constraint_matrix.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/trilinos_block_vector.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/trilinos_block_vector.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/trilinos_precondition.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/trilinos_precondition.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/trilinos_block_sparse_matrix.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/trilinos_block_sparse_matrix.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/trilinos_precondition_block.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/trilinos_precondition_block.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/trilinos_sparsity_pattern.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/trilinos_sparsity_pattern.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/trilinos_solver.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/trilinos_solver.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/trilinos_solver_block.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/trilinos_solver_block.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/trilinos_sparse_matrix.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/trilinos_sparse_matrix.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/trilinos_vector_base.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/trilinos_vector_base.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/trilinos_vector.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/trilinos_vector.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/vector_view.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/vector_view.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/global_parameters.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/global_parameters.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/graphical_display.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/graphical_display.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/grid_transfer.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/grid_transfer.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/message_log.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/message_log.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/statistics.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/statistics.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/vector_memory.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/vector_memory.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/vector.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/vector.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/me-tomography/boundary_sources_phantom.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/me-tomography/boundary_sources_phantom.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/me-tomography/boundary_sources_planarz8.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/me-tomography/boundary_sources_planarz8.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/top_level.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/top_level.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/me-tomography/coefficient.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/me-tomography/coefficient.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/utilities.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/utilities.cc
+In file included from source/libparest/utilities.cc:5:
+In file included from include/base/quadrature_lib.h:18:
+In file included from include/base/quadrature.h:18:
+include/base/point.h:227:3: warning: array index 1 is past the end of the array (which contains 1 element) [-Warray-bounds]
+  this->values[1] = y;
+  ^            ~
+source/libparest/utilities.cc:449:24: note: in instantiation of member function 'dealii::Point<1>::Point' requested here
+                  lattice.push_back (Point<dim>(1.*i,1.*j));
+                                     ^
+include/base/tensor_base.h:331:5: note: array 'values' declared here
+    double values[(dim!=0) ? (dim) : 1];
+    ^
+In file included from source/libparest/utilities.cc:5:
+In file included from include/base/quadrature_lib.h:18:
+In file included from include/base/quadrature.h:18:
+include/base/point.h:238:3: warning: array index 1 is past the end of the array (which contains 1 element) [-Warray-bounds]
+  this->values[1] = y;
+  ^            ~
+source/libparest/utilities.cc:455:26: note: in instantiation of member function 'dealii::Point<1>::Point' requested here
+                    lattice.push_back (Point<dim>(1.*i,1.*j,1.*k));
+                                       ^
+include/base/tensor_base.h:331:5: note: array 'values' declared here
+    double values[(dim!=0) ? (dim) : 1];
+    ^
+In file included from source/libparest/utilities.cc:5:
+In file included from include/base/quadrature_lib.h:18:
+In file included from include/base/quadrature.h:18:
+include/base/point.h:239:3: warning: array index 2 is past the end of the array (which contains 1 element) [-Warray-bounds]
+  this->values[2] = z;
+  ^            ~
+include/base/tensor_base.h:331:5: note: array 'values' declared here
+    double values[(dim!=0) ? (dim) : 1];
+    ^
+In file included from source/libparest/utilities.cc:5:
+In file included from include/base/quadrature_lib.h:18:
+In file included from include/base/quadrature.h:18:
+include/base/point.h:239:3: warning: array index 2 is past the end of the array (which contains 2 elements) [-Warray-bounds]
+  this->values[2] = z;
+  ^            ~
+source/libparest/utilities.cc:455:26: note: in instantiation of member function 'dealii::Point<2>::Point' requested here
+                    lattice.push_back (Point<dim>(1.*i,1.*j,1.*k));
+                                       ^
+include/base/tensor_base.h:331:5: note: array 'values' declared here
+    double values[(dim!=0) ? (dim) : 1];
+    ^
+4 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/me-tomography/evaluations.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/me-tomography/evaluations.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/me-tomography/experiment_description.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/me-tomography/experiment_description.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/sparse_matrix.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/sparse_matrix.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/me-tomography/factories.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/me-tomography/factories.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/me-tomography/forward_solver_parameters.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/me-tomography/forward_solver_parameters.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/me-tomography/forward.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/me-tomography/forward.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/me-tomography/forward_solver_evaluators.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/me-tomography/forward_solver_evaluators.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/me-tomography/geometry.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/me-tomography/geometry.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/me-tomography/me_parameters.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/me-tomography/me_parameters.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/me-tomography/problem_description.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/me-tomography/problem_description.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/chunk_sparse_matrix.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/chunk_sparse_matrix.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/me-tomography/measurement_weights.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/me-tomography/measurement_weights.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/me-tomography/me_tomography.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/me-tomography/me_tomography.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/me-tomography/targets.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/me-tomography/targets.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/precondition_block.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/precondition_block.cc
+In file included from source/lac/precondition_block.cc:15:
+In file included from include/lac/precondition_block.templates.h:21:
+In file included from include/lac/householder.h:19:
+In file included from include/lac/full_matrix.h:22:
+In file included from include/lac/lapack_full_matrix.h:21:
+include/lac/vector_memory.h:507:41: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<double> >::mutex' required here, but no definition is available [-Wundefined-var-template]
+  Threads::ThreadMutex::ScopedLock lock(mutex);
+                                        ^
+include/lac/householder.h:189:41: note: in instantiation of member function 'dealii::GrowingVectorMemory<dealii::Vector<double> >::GrowingVectorMemory' requested here
+  GrowingVectorMemory<Vector<number2> > mem;
+                                        ^
+include/lac/precondition_block.templates.h:451:10: note: in instantiation of function template specialization 'dealii::Householder<double>::least_squares<double>' requested here
+          house.least_squares(x_cell,b_cell);
+                ^
+include/lac/precondition_block.templates.h:495:3: note: in instantiation of function template specialization 'dealii::PreconditionBlockJacobi<dealii::SparseMatrix<double>, double>::do_vmult<double>' requested here
+  do_vmult(dst, src, false);
+  ^
+include/lac/vector_memory.h:393:33: note: forward declaration of template entity is here
+    static Threads::ThreadMutex mutex;
+                                ^
+include/lac/vector_memory.h:508:3: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<double> >::pool' required here, but no definition is available [-Wundefined-var-template]
+  pool.initialize(initial_size);
+  ^
+include/lac/vector_memory.h:364:17: note: forward declaration of template entity is here
+    static Pool pool;
+                ^
+include/lac/vector_memory.h:507:41: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<float> >::mutex' required here, but no definition is available [-Wundefined-var-template]
+  Threads::ThreadMutex::ScopedLock lock(mutex);
+                                        ^
+include/lac/householder.h:189:41: note: in instantiation of member function 'dealii::GrowingVectorMemory<dealii::Vector<float> >::GrowingVectorMemory' requested here
+  GrowingVectorMemory<Vector<number2> > mem;
+                                        ^
+include/lac/precondition_block.templates.h:451:10: note: in instantiation of function template specialization 'dealii::Householder<double>::least_squares<float>' requested here
+          house.least_squares(x_cell,b_cell);
+                ^
+include/lac/precondition_block.templates.h:495:3: note: in instantiation of function template specialization 'dealii::PreconditionBlockJacobi<dealii::SparseMatrix<double>, double>::do_vmult<float>' requested here
+  do_vmult(dst, src, false);
+  ^
+include/lac/vector_memory.h:393:33: note: forward declaration of template entity is here
+    static Threads::ThreadMutex mutex;
+                                ^
+include/lac/vector_memory.h:508:3: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<float> >::pool' required here, but no definition is available [-Wundefined-var-template]
+  pool.initialize(initial_size);
+  ^
+include/lac/vector_memory.h:364:17: note: forward declaration of template entity is here
+    static Pool pool;
+                ^
+include/lac/vector_memory.h:507:41: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<long double> >::mutex' required here, but no definition is available [-Wundefined-var-template]
+  Threads::ThreadMutex::ScopedLock lock(mutex);
+                                        ^
+include/lac/householder.h:189:41: note: in instantiation of member function 'dealii::GrowingVectorMemory<dealii::Vector<long double> >::GrowingVectorMemory' requested here
+  GrowingVectorMemory<Vector<number2> > mem;
+                                        ^
+include/lac/precondition_block.templates.h:451:10: note: in instantiation of function template specialization 'dealii::Householder<double>::least_squares<long double>' requested here
+          house.least_squares(x_cell,b_cell);
+                ^
+include/lac/precondition_block.templates.h:495:3: note: in instantiation of function template specialization 'dealii::PreconditionBlockJacobi<dealii::SparseMatrix<double>, double>::do_vmult<long double>' requested here
+  do_vmult(dst, src, false);
+  ^
+include/lac/vector_memory.h:393:33: note: forward declaration of template entity is here
+    static Threads::ThreadMutex mutex;
+                                ^
+include/lac/vector_memory.h:508:3: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<long double> >::pool' required here, but no definition is available [-Wundefined-var-template]
+  pool.initialize(initial_size);
+  ^
+include/lac/vector_memory.h:364:17: note: forward declaration of template entity is here
+    static Pool pool;
+                ^
+6 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/lac/full_matrix.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/lac/full_matrix.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/multigrid/mg_base.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/multigrid/mg_base.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/me-tomography/state_discretization.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/me-tomography/state_discretization.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/me-tomography/synthetic_data.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/me-tomography/synthetic_data.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/me-tomography/solver.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/me-tomography/solver.cc
+In file included from source/me-tomography/solver.cc:5:
+In file included from include/lac/solver_bicgstab.h:19:
+In file included from include/lac/solver.h:17:
+include/lac/vector_memory.h:507:41: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<double> >::mutex' required here, but no definition is available [-Wundefined-var-template]
+  Threads::ThreadMutex::ScopedLock lock(mutex);
+                                        ^
+include/lac/solver.h:159:5: note: in instantiation of member function 'dealii::GrowingVectorMemory<dealii::Vector<double> >::GrowingVectorMemory' requested here
+    Solver (SolverControl        &solver_control,
+    ^
+include/lac/solver_gmres.h:469:3: note: in instantiation of member function 'dealii::Solver<dealii::Vector<double> >::Solver' requested here
+                Solver<VECTOR> (cn,mem),
+                ^
+source/me-tomography/solver.cc:76:31: note: in instantiation of member function 'dealii::SolverGMRES<dealii::Vector<double> >::SolverGMRES' requested here
+      Solver                  solver (solver_control, vector_memory);
+                              ^
+include/lac/vector_memory.h:393:33: note: forward declaration of template entity is here
+    static Threads::ThreadMutex mutex;
+                                ^
+include/lac/vector_memory.h:508:3: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<double> >::pool' required here, but no definition is available [-Wundefined-var-template]
+  pool.initialize(initial_size);
+  ^
+include/lac/vector_memory.h:364:17: note: forward declaration of template entity is here
+    static Pool pool;
+                ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/multigrid/mg_tools.all_dimensions.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/multigrid/mg_tools.all_dimensions.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/multigrid/mg_dof_accessor.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/multigrid/mg_dof_accessor.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/multigrid/mg_smoother.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/multigrid/mg_smoother.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/multigrid/mg_dof_handler.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/multigrid/mg_dof_handler.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/me-tomography/measurements.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/me-tomography/measurements.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/multigrid/mg_transfer_block.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/multigrid/mg_transfer_block.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/multigrid/mg_transfer_component.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/multigrid/mg_transfer_component.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/me-tomography/me_slave.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/me-tomography/me_slave.cc
+source/me-tomography/me_slave.cc:113:21: warning: binding dereferenced null pointer to reference has undefined behavior [-Wnull-dereference]
+                          output_vector (*static_cast<BlockVector<double>*>(0)),
+                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+source/me-tomography/me_slave.cc:2383:2: note: in instantiation of member function 'METomography::Slave::internal::AssemblerData<3>::AssemblerData' requested here
+        data (linearization_point,
+        ^
+In file included from source/me-tomography/me_slave.cc:1:
+In file included from include/me-tomography/me_slave.h:14:
+In file included from include/lac/block_sparse_matrix.h:19:
+In file included from include/lac/block_matrix_base.h:22:
+In file included from include/lac/full_matrix.h:22:
+In file included from include/lac/lapack_full_matrix.h:21:
+include/lac/vector_memory.h:507:41: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<double> >::mutex' required here, but no definition is available [-Wundefined-var-template]
+  Threads::ThreadMutex::ScopedLock lock(mutex);
+                                        ^
+include/lac/solver.h:180:5: note: in instantiation of member function 'dealii::GrowingVectorMemory<dealii::Vector<double> >::GrowingVectorMemory' requested here
+    Solver (SolverControl        &solver_control);
+    ^
+include/lac/solver_gmres.h:478:3: note: in instantiation of member function 'dealii::Solver<dealii::Vector<double> >::Solver' requested here
+                Solver<VECTOR> (cn),
+                ^
+source/me-tomography/me_slave.cc:78:16: note: in instantiation of member function 'dealii::SolverGMRES<dealii::Vector<double> >::SolverGMRES' requested here
+        SolverGMRES<> solver (control);
+                      ^
+source/me-tomography/me_slave.cc:3534:24: note: in instantiation of function template specialization 'METomography::Slave::internal::SparseDirectSPEC::solve<double>' requested here
+      inverse_matrix_1.solve (tmp.block(0));
+                       ^
+source/me-tomography/me_slave.cc:3479:7: note: in instantiation of function template specialization 'METomography::Slave::Sparse_A_BlockInverse<double>::do_vmult<double>' requested here
+      do_vmult (v);
+      ^
+include/me-tomography/me_slave.h:75:9: note: in instantiation of member function 'METomography::Slave::Sparse_A_BlockInverse<double>::vmult' requested here
+        Sparse_A_BlockInverse (const SparseMatrix<number> &all_of_A);
+        ^
+source/me-tomography/me_slave.cc:3345:23: note: in instantiation of member function 'METomography::Slave::Sparse_A_BlockInverse<double>::Sparse_A_BlockInverse' requested here
+      A_inverse = new Sparse_A_BlockInverse<float_type> (global_matrix.block(1,0));
+                      ^
+include/lac/vector_memory.h:393:33: note: forward declaration of template entity is here
+    static Threads::ThreadMutex mutex;
+                                ^
+include/lac/vector_memory.h:508:3: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<double> >::pool' required here, but no definition is available [-Wundefined-var-template]
+  pool.initialize(initial_size);
+  ^
+include/lac/vector_memory.h:364:17: note: forward declaration of template entity is here
+    static Pool pool;
+                ^
+3 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/multigrid/mg_transfer_prebuilt.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/multigrid/mg_transfer_prebuilt.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/numerics/data_postprocessor.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/numerics/data_postprocessor.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/multigrid/multigrid.all_dimensions.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/multigrid/multigrid.all_dimensions.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/multigrid/mg_dof_tools.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/multigrid/mg_dof_tools.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/numerics/histogram.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/numerics/histogram.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/numerics/data_out_rotation.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/numerics/data_out_rotation.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/numerics/data_out_faces.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/numerics/data_out_faces.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/numerics/data_out_stack.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/numerics/data_out_stack.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/numerics/matrices.all_dimensions.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/numerics/matrices.all_dimensions.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/numerics/vectors.all_dimensions.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/numerics/vectors.all_dimensions.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/numerics/time_dependent.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/numerics/time_dependent.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/numerics/derivative_approximation.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/numerics/derivative_approximation.cc
+source/numerics/derivative_approximation.cc:533:68: warning: instantiation of variable 'dealii::StaticMappingQ1<3, 3>::mapping' required here, but no definition is available [-Wundefined-var-template]
+  approximate_derivative<Gradient<dim>,dim> (StaticMappingQ1<dim>::mapping,
+                                                                   ^
+include/fe/mapping_q1.h:612:37: note: forward declaration of template entity is here
+    static MappingQ1<dim, spacedim> mapping;
+                                    ^
+1 warning generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/numerics/fe_field_function.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/numerics/fe_field_function.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/numerics/data_out.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/numerics/data_out.cc
+source/numerics/data_out.cc:942:70: warning: instantiation of variable 'dealii::StaticMappingQ1<3, 3>::mapping' required here, but no definition is available [-Wundefined-var-template]
+  build_patches (StaticMappingQ1<DH::dimension,DH::space_dimension>::mapping,
+                                                                     ^
+include/fe/mapping_q1.h:612:37: note: forward declaration of template entity is here
+    static MappingQ1<dim, spacedim> mapping;
+                                    ^
+1 warning generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/master/step_length_control.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/master/step_length_control.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/parallel/message_log.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/parallel/message_log.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/parallel/multiple_experiments.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/parallel/multiple_experiments.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/parallel/tools.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/parallel/tools.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/numerics/solution_transfer.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/numerics/solution_transfer.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/parameter/base.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/parameter/base.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/parallel/control.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/parallel/control.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/parameter/factory.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/parameter/factory.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/parameter/bounds.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/parameter/bounds.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/numerics/error_estimator.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/numerics/error_estimator.cc
+source/numerics/error_estimator.cc:594:34: warning: instantiation of variable 'dealii::StaticMappingQ1<3, 3>::mapping' required here, but no definition is available [-Wundefined-var-template]
+  estimate(StaticMappingQ1<dim>::mapping, dof_handler, quadrature, neumann_bc, solution,
+                                 ^
+include/fe/mapping_q1.h:612:37: note: forward declaration of template entity is here
+    static MappingQ1<dim, spacedim> mapping;
+                                    ^
+1 warning generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/parameter/field_discretization.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/parameter/field_discretization.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/master/newton_method.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/master/newton_method.cc
+In file included from source/libparest/master/newton_method.cc:1:
+In file included from include/libparest/utilities.h:18:
+In file included from include/fe/fe.h:18:
+In file included from include/fe/fe_base.h:24:
+In file included from include/lac/full_matrix.h:22:
+In file included from include/lac/lapack_full_matrix.h:21:
+include/lac/vector_memory.h:507:41: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<double> >::mutex' required here, but no definition is available [-Wundefined-var-template]
+  Threads::ThreadMutex::ScopedLock lock(mutex);
+                                        ^
+include/lac/solver.h:159:5: note: in instantiation of member function 'dealii::GrowingVectorMemory<dealii::Vector<double> >::GrowingVectorMemory' requested here
+    Solver (SolverControl        &solver_control,
+    ^
+include/lac/solver_richardson.h:206:3: note: in instantiation of member function 'dealii::Solver<dealii::Vector<double> >::Solver' requested here
+                Solver<VECTOR> (cn,mem),
+                ^
+include/lac/solver_selector.h:251:32: note: in instantiation of member function 'dealii::SolverRichardson<dealii::Vector<double> >::SolverRichardson' requested here
+      SolverRichardson<VECTOR> solver(*control,*vector_memory,
+                               ^
+source/libparest/master/newton_method.cc:681:11: note: in instantiation of function template specialization 'dealii::SolverSelector<dealii::Vector<double> >::solve<libparest::Master::Master::SchurComplementMatrix, dealii::PreconditionIdentity>' requested here
+              cg.solve (schur_matrix, update, schur_rhs,
+                 ^
+include/lac/vector_memory.h:393:33: note: forward declaration of template entity is here
+    static Threads::ThreadMutex mutex;
+                                ^
+include/lac/vector_memory.h:508:3: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<double> >::pool' required here, but no definition is available [-Wundefined-var-template]
+  pool.initialize(initial_size);
+  ^
+include/lac/vector_memory.h:364:17: note: forward declaration of template entity is here
+    static Pool pool;
+                ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/numerics/matrices.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/numerics/matrices.cc
+source/numerics/matrices.cc:293:53: warning: instantiation of variable 'dealii::StaticMappingQ1<3, 3>::mapping' required here, but no definition is available [-Wundefined-var-template]
+  create_mass_matrix(StaticMappingQ1<dim,spacedim>::mapping, dof, q, matrix, coefficient);
+                                                    ^
+include/fe/mapping_q1.h:612:37: note: forward declaration of template entity is here
+    static MappingQ1<dim, spacedim> mapping;
+                                    ^
+source/numerics/matrices.cc:775:48: warning: instantiation of variable 'dealii::hp::StaticMappingQ1<3, 3>::mapping_collection' required here, but no definition is available [-Wundefined-var-template]
+  create_mass_matrix(hp::StaticMappingQ1<dim>::mapping_collection, dof, q, matrix, coefficient);
+                                               ^
+include/hp/mapping_collection.h:164:46: note: forward declaration of template entity is here
+      static MappingCollection<dim,spacedim> mapping_collection;
+                                             ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/slave/factory.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/slave/factory.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/slave/stationary/boundary_values.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/slave/stationary/boundary_values.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/master/master.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/master/master.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/slave/slave.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/slave/slave.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/slave/stationary/problem_description.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/slave/stationary/problem_description.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/slave/stationary/global_matrix.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/slave/stationary/global_matrix.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/slave/stationary/evaluations.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/slave/stationary/evaluations.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/slave/stationary/grid_refinement.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/slave/stationary/grid_refinement.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/parameter/regularization.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/parameter/regularization.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/slave/stationary/slave.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/slave/stationary/slave.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/slave/stationary/synthetic_data.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/slave/stationary/synthetic_data.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/parameter/field.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/parameter/field.cc
+In file included from source/libparest/parameter/field.cc:3:
+In file included from include/libparest/parameter/field.h:16:
+In file included from include/grid/intergrid_map.h:18:
+In file included from include/dofs/dof_accessor.h:20:
+In file included from include/hp/dof_handler.h:24:
+In file included from include/hp/fe_collection.h:18:
+In file included from include/fe/fe.h:18:
+In file included from include/fe/fe_base.h:24:
+In file included from include/lac/full_matrix.h:22:
+In file included from include/lac/lapack_full_matrix.h:21:
+include/lac/vector_memory.h:507:41: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<double> >::mutex' required here, but no definition is available [-Wundefined-var-template]
+  Threads::ThreadMutex::ScopedLock lock(mutex);
+                                        ^
+include/lac/filtered_matrix.h:929:31: note: in instantiation of member function 'dealii::GrowingVectorMemory<dealii::Vector<double> >::GrowingVectorMemory' requested here
+  GrowingVectorMemory<VECTOR> mem;
+                              ^
+source/libparest/parameter/field.cc:1215:18: note: in instantiation of member function 'dealii::FilteredMatrix<dealii::Vector<double> >::apply_constraints' requested here
+        filtered_matrix.apply_constraints (modified_rhs, true);
+                        ^
+include/lac/vector_memory.h:393:33: note: forward declaration of template entity is here
+    static Threads::ThreadMutex mutex;
+                                ^
+include/lac/vector_memory.h:508:3: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<double> >::pool' required here, but no definition is available [-Wundefined-var-template]
+  pool.initialize(initial_size);
+  ^
+include/lac/vector_memory.h:364:17: note: forward declaration of template entity is here
+    static Pool pool;
+                ^
+2 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/slave/stationary/state_discretization.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/slave/stationary/state_discretization.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/libparest/slave/stationary/measurements.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/libparest/slave/stationary/measurements.cc
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o source/numerics/vectors.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  source/numerics/vectors.cc
+In file included from source/numerics/vectors.cc:17:
+include/numerics/vectors.templates.h:252:68: warning: instantiation of variable 'dealii::StaticMappingQ1<3, 3>::mapping' required here, but no definition is available [-Wundefined-var-template]
+  interpolate(StaticMappingQ1<DH::dimension, DH::space_dimension>::mapping, 
+                                                                   ^
+include/fe/mapping_q1.h:612:37: note: forward declaration of template entity is here
+    static MappingQ1<dim, spacedim> mapping;
+                                    ^
+In file included from source/numerics/vectors.cc:17:
+include/numerics/vectors.templates.h:3822:68: warning: instantiation of variable 'dealii::hp::StaticMappingQ1<3, 3>::mapping_collection' required here, but no definition is available [-Wundefined-var-template]
+      ::do_integrate_difference(hp::StaticMappingQ1<dim,spacedim>::mapping_collection,
+                                                                   ^
+include/hp/mapping_collection.h:164:46: note: forward declaration of template entity is here
+      static MappingCollection<dim,spacedim> mapping_collection;
+                                             ^
+In file included from source/numerics/vectors.cc:15:
+In file included from include/hp/dof_handler.h:24:
+In file included from include/hp/fe_collection.h:18:
+In file included from include/fe/fe.h:18:
+In file included from include/fe/fe_base.h:24:
+In file included from include/lac/full_matrix.h:22:
+In file included from include/lac/lapack_full_matrix.h:21:
+include/lac/vector_memory.h:507:41: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<double> >::mutex' required here, but no definition is available [-Wundefined-var-template]
+  Threads::ThreadMutex::ScopedLock lock(mutex);
+                                        ^
+include/numerics/vectors.templates.h:496:25: note: in instantiation of member function 'dealii::GrowingVectorMemory<dealii::Vector<double> >::GrowingVectorMemory' requested here
+  GrowingVectorMemory<> memory;
+                        ^
+include/lac/vector_memory.h:393:33: note: forward declaration of template entity is here
+    static Threads::ThreadMutex mutex;
+                                ^
+include/lac/vector_memory.h:508:3: warning: instantiation of variable 'dealii::GrowingVectorMemory<dealii::Vector<double> >::pool' required here, but no definition is available [-Wundefined-var-template]
+  pool.initialize(initial_size);
+  ^
+include/lac/vector_memory.h:364:17: note: forward declaration of template entity is here
+    static Pool pool;
+                ^
+4 warnings generated.
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64       -O3 -mavx   -z muldefs      source/base/auto_derivative_function.o source/base/boost_threads.o source/base/conditional_ostream.o source/base/config.o source/base/convergence_table.o source/base/data_out_base.o source/base/exceptions.o source/base/flow_function.o source/base/function.o source/base/function_derivative.o source/base/function_lib.o source/base/function_lib_cutoff.o source/base/function_parser.o source/base/function_time.o source/base/geometry_info.o source/base/job_identifier.o source/base/log.o source/base/memory_consumption.o source/base/multithread_info.o source/base/parameter_handler.o source/base/parsed_function.o source/base/path_search.o source/base/polynomial.o source/base/polynomial_space.o source/base/polynomials_abf.o source/base/polynomials_bdm.o source/base/polynomials_p.o source/base/polynomials_raviart_thomas.o source/base/quadrature.o source/base/quadrature_lib.o source/base/quadrature_selector.o source/base/s
+ubscriptor.o source/base/symmetric_tensor.o source/base/table_handler.o source/base/tensor.o source/base/tensor_function.o source/base/tensor_product_polynomials.o source/base/thread_management.o source/base/timer.o source/base/utilities.o source/dofs/dof_accessor.o source/dofs/dof_faces.o source/dofs/dof_handler.o source/dofs/dof_levels.all_dimensions.o source/dofs/dof_objects.all_dimensions.o source/dofs/dof_objects.o source/dofs/dof_renumbering.o source/dofs/dof_tools.o source/fe/fe.o source/fe/fe_abf.o source/fe/fe_data.o source/fe/fe_dgp.o source/fe/fe_dgp_monomial.o source/fe/fe_dgp_nonparametric.o source/fe/fe_dgq.o source/fe/fe_nedelec.o source/fe/fe_nedelec_1d.o source/fe/fe_nedelec_2d.o source/fe/fe_nedelec_3d.o source/fe/fe_poly.o source/fe/fe_poly_tensor.o source/fe/fe_q.o source/fe/fe_q_hierarchical.o source/fe/fe_raviart_thomas.o source/fe/fe_raviart_thomas_nodal.o source/fe/fe_system.o source/fe/fe_tools.all_dimensions.o source/fe/fe_tools.o source/fe/fe_values.o source/fe/mapping.o source/
+fe/mapping_c1.o source/fe/mapping_cartesian.o source/fe/mapping_q.o source/fe/mapping_q1.o source/fe/mapping_q1_eulerian.o source/fe/mapping_q_eulerian.o source/grid/grid_generator.o source/grid/grid_in.o source/grid/grid_out.all_dimensions.o source/grid/grid_out.o source/grid/grid_refinement.o source/grid/grid_reordering.o source/grid/grid_tools.o source/grid/intergrid_map.o source/grid/persistent_tria.o source/grid/tria.all_dimensions.o source/grid/tria.o source/grid/tria_accessor.o source/grid/tria_boundary.o source/grid/tria_boundary_lib.o source/grid/tria_faces.o source/grid/tria_levels.o source/grid/tria_objects.all_dimensions.o source/grid/tria_objects.o source/hp/dof_faces.o source/hp/dof_handler.o source/hp/dof_levels.all_dimensions.o source/hp/dof_levels.o source/hp/dof_objects.all_dimensions.o source/hp/fe_collection.o source/hp/fe_values.o source/hp/mapping_collection.o source/lac/block_matrix_array.o source/lac/block_sparse_matrix.o source/lac/block_sparse_matrix_ez.o source/lac/block_sparsit
+y_pattern.o source/lac/block_vector.o source/lac/chunk_sparse_matrix.o source/lac/chunk_sparsity_pattern.o source/lac/compressed_set_sparsity_pattern.o source/lac/compressed_simple_sparsity_pattern.o source/lac/compressed_sparsity_pattern.o source/lac/constraint_matrix.o source/lac/full_matrix.o source/lac/lapack_full_matrix.o source/lac/matrix_lib.o source/lac/matrix_out.o source/lac/petsc_block_sparse_matrix.o source/lac/petsc_full_matrix.o source/lac/petsc_matrix_base.o source/lac/petsc_parallel_block_sparse_matrix.o source/lac/petsc_parallel_block_vector.o source/lac/petsc_parallel_sparse_matrix.o source/lac/petsc_parallel_vector.o source/lac/petsc_precondition.o source/lac/petsc_solver.o source/lac/petsc_sparse_matrix.o source/lac/petsc_vector.o source/lac/petsc_vector_base.o source/lac/precondition_block.o source/lac/precondition_block_ez.o source/lac/solver.o source/lac/solver_control.o source/lac/sparse_decomposition.o source/lac/sparse_direct.o source/lac/sparse_ilu.o source/lac/sparse_matrix.o s
+ource/lac/sparse_matrix_ez.o source/lac/sparse_mic.o source/lac/sparse_vanka.o source/lac/sparsity_pattern.o source/lac/sparsity_tools.o source/lac/swappable_vector.o source/lac/tridiagonal_matrix.o source/lac/trilinos_block_sparse_matrix.o source/lac/trilinos_block_vector.o source/lac/trilinos_precondition.o source/lac/trilinos_precondition_block.o source/lac/trilinos_solver.o source/lac/trilinos_solver_block.o source/lac/trilinos_sparse_matrix.o source/lac/trilinos_sparsity_pattern.o source/lac/trilinos_vector.o source/lac/trilinos_vector_base.o source/lac/vector.o source/lac/vector_memory.o source/lac/vector_view.o source/libparest/global_parameters.o source/libparest/graphical_display.o source/libparest/grid_transfer.o source/libparest/message_log.o source/libparest/statistics.o source/libparest/top_level.o source/libparest/utilities.o source/me-tomography/boundary_sources_phantom.o source/me-tomography/boundary_sources_planarz8.o source/me-tomography/coefficient.o source/me-tomography/evaluations.o s
+ource/me-tomography/experiment_description.o source/me-tomography/factories.o source/me-tomography/forward.o source/me-tomography/forward_solver_evaluators.o source/me-tomography/forward_solver_parameters.o source/me-tomography/geometry.o source/me-tomography/me_parameters.o source/me-tomography/me_slave.o source/me-tomography/me_tomography.o source/me-tomography/measurement_weights.o source/me-tomography/measurements.o source/me-tomography/problem_description.o source/me-tomography/solver.o source/me-tomography/state_discretization.o source/me-tomography/synthetic_data.o source/me-tomography/targets.o source/multigrid/mg_base.o source/multigrid/mg_dof_accessor.o source/multigrid/mg_dof_handler.o source/multigrid/mg_dof_tools.o source/multigrid/mg_smoother.o source/multigrid/mg_tools.all_dimensions.o source/multigrid/mg_transfer_block.o source/multigrid/mg_transfer_component.o source/multigrid/mg_transfer_prebuilt.o source/multigrid/multigrid.all_dimensions.o source/numerics/data_out.o source/numerics/dat
+a_out_faces.o source/numerics/data_out_rotation.o source/numerics/data_out_stack.o source/numerics/data_postprocessor.o source/numerics/derivative_approximation.o source/numerics/error_estimator.o source/numerics/fe_field_function.o source/numerics/histogram.o source/numerics/matrices.all_dimensions.o source/numerics/matrices.o source/numerics/solution_transfer.o source/numerics/time_dependent.o source/numerics/vectors.all_dimensions.o source/numerics/vectors.o source/libparest/master/master.o source/libparest/master/newton_method.o source/libparest/master/step_length_control.o source/libparest/parallel/control.o source/libparest/parallel/message_log.o source/libparest/parallel/multiple_experiments.o source/libparest/parallel/tools.o source/libparest/parameter/base.o source/libparest/parameter/bounds.o source/libparest/parameter/factory.o source/libparest/parameter/field.o source/libparest/parameter/field_discretization.o source/libparest/parameter/regularization.o source/libparest/slave/factory.o source/
+libparest/slave/slave.o source/libparest/slave/stationary/boundary_values.o source/libparest/slave/stationary/evaluations.o source/libparest/slave/stationary/global_matrix.o source/libparest/slave/stationary/grid_refinement.o source/libparest/slave/stationary/measurements.o source/libparest/slave/stationary/problem_description.o source/libparest/slave/stationary/slave.o source/libparest/slave/stationary/state_discretization.o source/libparest/slave/stationary/synthetic_data.o                      -o parest_r  
+Stop make command: 2017-11-01 20:43:55 (1509536635.88121)
+Elapsed time for make command: 00:02:47 (167.573729991913)
+Issuing options command 'specmake --output-sync --jobs=8 options'
+Start options command: 2017-11-01 20:43:55 (1509536635.88186)
+COMP: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o options.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  <source>"
+C: CXXC="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64"
+C: CXXOBJOPT="-c -o options"
+P: CPUFLAGS="-DSPEC -DNDEBUG"
+P: BENCH_FLAGS="-Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP"
+P: BENCH_CXXFLAGS=""
+O: OPTIMIZE=""
+O: CXXOPTIMIZE="-O3 -mavx"
+P: PORTABILITY=""
+P: CXXPORTABILITY=""
+O: EXTRA_CXXFLAGS=""
+O: EXTRA_OPTIMIZE=""
+O: EXTRA_CXXOPTIMIZE=""
+P: EXTRA_PORTABILITY="-DSPEC_LP64"
+P: EXTRA_CXXPORTABILITY=""
+LINK: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64       -O3 -mavx   -z muldefs      <objects>            -o options  "
+C: LD="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64"
+O: CXXOPTIMIZE="-O3 -mavx"
+O: LDOPTIMIZE="-z muldefs"
+C: LDOUT="-o options"
+Stop options command: 2017-11-01 20:43:56 (1509536636.04032)
+Elapsed time for options command: 00:00:00 (0.158459901809692)
+Issuing compiler-version command 'specmake --output-sync --jobs=8 compiler-version'
+Start compiler-version command: 2017-11-01 20:43:56 (1509536636.04118)
+ CXXC_VERSION_OPTION:
+clang version 6.0.0 (https://github.com/aqjune/clang-intptr.git b099f9b86954800bcbdee427fc703eb8a30389da) (https://github.com/aqjune/llvm-intptr.git d3762c4675cbe5178acef79f01c813bcbfc58cf5)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: /mnt/freezedisk/llvm-intptr-base-5.0-release/bin
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6.0.0
+Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Candidate multilib: .;@m64
+Selected multilib: .;@m64
+clang-6.0: warning: argument unused during compilation: '-D SPEC' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D NDEBUG' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I include' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I .' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_AUTO_SUPPRESS_OPENMP' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-O3' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-mavx' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_LP64' [-Wunused-command-line-argument]
+Stop compiler-version command: 2017-11-01 20:43:56 (1509536636.20299)
+Elapsed time for compiler-version command: 00:00:00 (0.161802053451538)
+  Compile for '510.parest_r' ended at: 2017-11-01 20:43:56 (1509536636)
+  Elapsed compile for '510.parest_r': 00:02:48 (168)
+COMP: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64 -c -o options.o -DSPEC -DNDEBUG -Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx        -DSPEC_LP64  <source>"
+C: CXXC="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64"
+C: CXXOBJOPT="-c -o options"
+P: CPUFLAGS="-DSPEC -DNDEBUG"
+P: BENCH_FLAGS="-Iinclude -I. -DSPEC_AUTO_SUPPRESS_OPENMP"
+P: BENCH_CXXFLAGS=""
+O: OPTIMIZE=""
+O: CXXOPTIMIZE="-O3 -mavx"
+P: PORTABILITY=""
+P: CXXPORTABILITY=""
+O: EXTRA_CXXFLAGS=""
+O: EXTRA_OPTIMIZE=""
+O: EXTRA_CXXOPTIMIZE=""
+P: EXTRA_PORTABILITY="-DSPEC_LP64"
+P: EXTRA_CXXPORTABILITY=""
+LINK: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64       -O3 -mavx   -z muldefs      <objects>            -o options  "
+C: LD="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang++ -m64"
+O: CXXOPTIMIZE="-O3 -mavx"
+O: LDOPTIMIZE="-z muldefs"
+C: LDOUT="-o options"
+ CXXC_VERSION_OPTION:
+clang version 6.0.0 (https://github.com/aqjune/clang-intptr.git b099f9b86954800bcbdee427fc703eb8a30389da) (https://github.com/aqjune/llvm-intptr.git d3762c4675cbe5178acef79f01c813bcbfc58cf5)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: /mnt/freezedisk/llvm-intptr-base-5.0-release/bin
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6.0.0
+Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Candidate multilib: .;@m64
+Selected multilib: .;@m64
+clang-6.0: warning: argument unused during compilation: '-D SPEC' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D NDEBUG' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I include' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-I .' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_AUTO_SUPPRESS_OPENMP' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-O3' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-mavx' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_LP64' [-Wunused-command-line-argument]
+
+Build successes for fprate: 510.parest_r(base)
+Build errors for fprate: None
+
+Setting Up Run Directories
+  Setting up 510.parest_r refrate (ref) base mytest-m64 (1 copy): run_base_refrate_mytest-m64.0000
+-----------------------------------
+Running Benchmarks
+-----------------------------------
+  Running (#1) 510.parest_r refrate (ref) base mytest-m64 (1 copy) [2017-11-01 20:43:56]
+OpenMP environment variables removed: None
+OpenMP environment variables in effect:
+	OMP_NUM_THREADS	=> '1'
+	OMP_THREAD_LIMIT	=> '1'
+Pre-run environment changes:
+	'OMP_NUM_THREADS' added: (value now '1')
+	'OMP_THREAD_LIMIT' added: (value now '1')
+Commands to run (specinvoke command file):
+    -N C
+    -b numactl -m 0 --physcpubind=0
+    -C /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/510.parest_r/run/run_base_refrate_mytest-m64.0000
+    -o ref.out -e ref.err echo "../run_base_refrate_mytest-m64.0000/parest_r_base.mytest-m64 ref.prm" > run.sh ; $BIND bash run.sh (timed)
+Specinvoke: /mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/510.parest_r/run/run_base_refrate_mytest-m64.0000 -f speccmds.cmd -q -e speccmds.err -o speccmds.stdout
+Issuing command '/mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/510.parest_r/run/run_base_refrate_mytest-m64.0000 -f speccmds.cmd -q -e speccmds.err -o speccmds.stdout'
+Start command: 2017-11-01 20:43:56 (1509536636.96705)
+Stop command: 2017-11-01 20:51:42 (1509537102.36514)
+Elapsed time for command: 00:07:45 (465.398092031479)
+Workload elapsed time (copy 0 workload 1) = 465.243577 seconds
+Copy 0 of 510.parest_r (base refrate) run 1 finished at 2017-11-01 20:51:42.  Total elapsed time: 465.243577
+OpenMP environment variables removed: None
+OpenMP environment variables in effect:
+	OMP_NUM_THREADS	=> '1'
+	OMP_THREAD_LIMIT	=> '1'
+Pre-run environment changes:
+	'OMP_NUM_THREADS' added: (value now '1')
+	'OMP_THREAD_LIMIT' added: (value now '1')
+comparing '001-m00.vtk' with abstol=0.001, floatcompare=1
+comparing '002-m00.vtk' with abstol=0.001, floatcompare=1
+comparing '003-m00.vtk' with abstol=0.001, floatcompare=1
+comparing '004-m00.vtk' with abstol=0.001, floatcompare=1
+comparing '005-m00.vtk' with abstol=0.001, floatcompare=1
+comparing '006-m00.vtk' with abstol=0.001, floatcompare=1
+comparing '007-m00.vtk' with abstol=0.001, floatcompare=1
+comparing 'log' with abstol=0.001, floatcompare=1
+comparing 'me.prm' with abstol=0.001, floatcompare=1
+comparing 'statistics' with abstol=0.004, floatcompare=1
+Specinvoke: /mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/510.parest_r/run/run_base_refrate_mytest-m64.0000 -f compare.cmd -E -e compare.err -o compare.stdout
+Issuing command '/mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/510.parest_r/run/run_base_refrate_mytest-m64.0000 -f compare.cmd -E -e compare.err -o compare.stdout'
+Start command: 2017-11-01 20:51:42 (1509537102.40344)
+Stop command: 2017-11-01 20:51:43 (1509537103.62144)
+Elapsed time for command: 00:00:01 (1.2179970741272)
+Benchmark Times:
+  Run Start:    2017-11-01 20:43:56 (1509536636)
+  Rate Start:   2017-11-01 20:43:56 (1509536636.9699)
+  Rate End:     2017-11-01 20:51:42 (1509537102.21348)
+  Run Stop:     2017-11-01 20:51:42 (1509537102)
+  Run Elapsed:  00:07:46 (466)
+  Run Reported: 00:07:45 (465 243577003 465.243577)
+ Success 510.parest_r base refrate ratio=5.62, runtime=465.243577, copies=1, threads=1, power=0.00W, temp=0.00 degC, humidity=0.00%
+-----------------------------------
+  Running (#2) 510.parest_r refrate (ref) base mytest-m64 (1 copy) [2017-11-01 20:51:43]
+OpenMP environment variables removed: None
+OpenMP environment variables in effect:
+	OMP_NUM_THREADS	=> '1'
+	OMP_THREAD_LIMIT	=> '1'
+Pre-run environment changes:
+	'OMP_NUM_THREADS' added: (value now '1')
+	'OMP_THREAD_LIMIT' added: (value now '1')
+Commands to run (specinvoke command file):
+    -N C
+    -b numactl -m 0 --physcpubind=0
+    -C /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/510.parest_r/run/run_base_refrate_mytest-m64.0000
+    -o ref.out -e ref.err echo "../run_base_refrate_mytest-m64.0000/parest_r_base.mytest-m64 ref.prm" > run.sh ; $BIND bash run.sh (timed)
+Specinvoke: /mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/510.parest_r/run/run_base_refrate_mytest-m64.0000 -f speccmds.cmd -q -e speccmds.err -o speccmds.stdout
+Issuing command '/mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/510.parest_r/run/run_base_refrate_mytest-m64.0000 -f speccmds.cmd -q -e speccmds.err -o speccmds.stdout'
+Start command: 2017-11-01 20:51:43 (1509537103.77139)
+Stop command: 2017-11-01 20:59:28 (1509537568.73901)
+Elapsed time for command: 00:07:44 (464.967628002167)
+Workload elapsed time (copy 0 workload 1) = 464.813059 seconds
+Copy 0 of 510.parest_r (base refrate) run 2 finished at 2017-11-01 20:59:28.  Total elapsed time: 464.813059
+OpenMP environment variables removed: None
+OpenMP environment variables in effect:
+	OMP_NUM_THREADS	=> '1'
+	OMP_THREAD_LIMIT	=> '1'
+Pre-run environment changes:
+	'OMP_NUM_THREADS' added: (value now '1')
+	'OMP_THREAD_LIMIT' added: (value now '1')
+comparing '001-m00.vtk' with abstol=0.001, floatcompare=1
+comparing '002-m00.vtk' with abstol=0.001, floatcompare=1
+comparing '003-m00.vtk' with abstol=0.001, floatcompare=1
+comparing '004-m00.vtk' with abstol=0.001, floatcompare=1
+comparing '005-m00.vtk' with abstol=0.001, floatcompare=1
+comparing '006-m00.vtk' with abstol=0.001, floatcompare=1
+comparing '007-m00.vtk' with abstol=0.001, floatcompare=1
+comparing 'log' with abstol=0.001, floatcompare=1
+comparing 'me.prm' with abstol=0.001, floatcompare=1
+comparing 'statistics' with abstol=0.004, floatcompare=1
+Specinvoke: /mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/510.parest_r/run/run_base_refrate_mytest-m64.0000 -f compare.cmd -E -e compare.err -o compare.stdout
+Issuing command '/mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/510.parest_r/run/run_base_refrate_mytest-m64.0000 -f compare.cmd -E -e compare.err -o compare.stdout'
+Start command: 2017-11-01 20:59:28 (1509537568.77554)
+Stop command: 2017-11-01 20:59:29 (1509537569.97769)
+Elapsed time for command: 00:00:01 (1.20215606689453)
+Benchmark Times:
+  Run Start:    2017-11-01 20:51:43 (1509537103)
+  Rate Start:   2017-11-01 20:51:43 (1509537103.77425)
+  Rate End:     2017-11-01 20:59:28 (1509537568.58731)
+  Run Stop:     2017-11-01 20:59:28 (1509537568)
+  Run Elapsed:  00:07:45 (465)
+  Run Reported: 00:07:44 (464 813059091 464.813059)
+ Success 510.parest_r base refrate ratio=5.63, runtime=464.813059, copies=1, threads=1, power=0.00W, temp=0.00 degC, humidity=0.00%
+-----------------------------------
+  Running (#3) 510.parest_r refrate (ref) base mytest-m64 (1 copy) [2017-11-01 20:59:30]
+OpenMP environment variables removed: None
+OpenMP environment variables in effect:
+	OMP_NUM_THREADS	=> '1'
+	OMP_THREAD_LIMIT	=> '1'
+Pre-run environment changes:
+	'OMP_NUM_THREADS' added: (value now '1')
+	'OMP_THREAD_LIMIT' added: (value now '1')
+Commands to run (specinvoke command file):
+    -N C
+    -b numactl -m 0 --physcpubind=0
+    -C /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/510.parest_r/run/run_base_refrate_mytest-m64.0000
+    -o ref.out -e ref.err echo "../run_base_refrate_mytest-m64.0000/parest_r_base.mytest-m64 ref.prm" > run.sh ; $BIND bash run.sh (timed)
+Specinvoke: /mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/510.parest_r/run/run_base_refrate_mytest-m64.0000 -f speccmds.cmd -q -e speccmds.err -o speccmds.stdout
+Issuing command '/mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/510.parest_r/run/run_base_refrate_mytest-m64.0000 -f speccmds.cmd -q -e speccmds.err -o speccmds.stdout'
+Start command: 2017-11-01 20:59:30 (1509537570.12708)
+Stop command: 2017-11-01 21:07:15 (1509538035.32837)
+Elapsed time for command: 00:07:45 (465.201285839081)
+Workload elapsed time (copy 0 workload 1) = 465.04677 seconds
+Copy 0 of 510.parest_r (base refrate) run 3 finished at 2017-11-01 21:07:15.  Total elapsed time: 465.04677
+OpenMP environment variables removed: None
+OpenMP environment variables in effect:
+	OMP_NUM_THREADS	=> '1'
+	OMP_THREAD_LIMIT	=> '1'
+Pre-run environment changes:
+	'OMP_NUM_THREADS' added: (value now '1')
+	'OMP_THREAD_LIMIT' added: (value now '1')
+comparing '001-m00.vtk' with abstol=0.001, floatcompare=1
+comparing '002-m00.vtk' with abstol=0.001, floatcompare=1
+comparing '003-m00.vtk' with abstol=0.001, floatcompare=1
+comparing '004-m00.vtk' with abstol=0.001, floatcompare=1
+comparing '005-m00.vtk' with abstol=0.001, floatcompare=1
+comparing '006-m00.vtk' with abstol=0.001, floatcompare=1
+comparing '007-m00.vtk' with abstol=0.001, floatcompare=1
+comparing 'log' with abstol=0.001, floatcompare=1
+comparing 'me.prm' with abstol=0.001, floatcompare=1
+comparing 'statistics' with abstol=0.004, floatcompare=1
+Specinvoke: /mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/510.parest_r/run/run_base_refrate_mytest-m64.0000 -f compare.cmd -E -e compare.err -o compare.stdout
+Issuing command '/mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/510.parest_r/run/run_base_refrate_mytest-m64.0000 -f compare.cmd -E -e compare.err -o compare.stdout'
+Start command: 2017-11-01 21:07:15 (1509538035.36486)
+Stop command: 2017-11-01 21:07:16 (1509538036.56578)
+Elapsed time for command: 00:00:01 (1.20092105865479)
+Benchmark Times:
+  Run Start:    2017-11-01 20:59:30 (1509537570)
+  Rate Start:   2017-11-01 20:59:30 (1509537570.12989)
+  Rate End:     2017-11-01 21:07:15 (1509538035.17666)
+  Run Stop:     2017-11-01 21:07:15 (1509538035)
+  Run Elapsed:  00:07:45 (465)
+  Run Reported: 00:07:45 (465 46769857 465.04677)
+ Success 510.parest_r base refrate ratio=5.63, runtime=465.046770, copies=1, threads=1, power=0.00W, temp=0.00 degC, humidity=0.00%
+Success: 3x510.parest_r
+Producing Raw Reports
+ label: mytest-m64
+  workload: refrate (ref)
+   benchset: intspeed
+   benchset: intrate
+   benchset: fpspeed
+   benchset: fprate
+   metric: SPECrate2017_fp_base
+    format: raw -> /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.011.fprate.refrate.rsf
+Parsing flags for 510.parest_r base: done
+Doing flag reduction: done
+    format: flags -> /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.011.fprate.refrate.flags.html
+    format: cfg -> /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.011.fprate.refrate.cfg, /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.011.fprate.refrate.orig.cfg
+    format: CSV -> /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.011.fprate.refrate.csv
+    format: PDF -> 
+A line in your General Notes section is too long!
+
+/mnt/freezedisk/speccpu2017-intptr/result/CPU2017.011.fprate.refrate.pdf
+    format: HTML -> /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.011.fprate.refrate.html
+    format: Text -> /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.011.fprate.refrate.txt
+runcpu finished at 2017-11-01 21:07:21; 1575 total seconds elapsed
+Info: file_tail(3216): file '/mnt/freezedisk/speccpu2017-intptr/tmp/CPU2017.011/templogs/preenv.fprate.011.0.debug' was removed and will no longer be followed.  No action is required.
+The log for this run is in /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.011.log
+
+runcpu finished at 2017-11-01 21:07:21; 1576 total seconds elapsed

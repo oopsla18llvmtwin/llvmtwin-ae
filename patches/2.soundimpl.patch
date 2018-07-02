@@ -1,0 +1,1073 @@
+From 5d2d9b1f66f28f50691500e96aeb27378cbb8c2f Mon Sep 17 00:00:00 2001
+From: aqjune <aqjune@gmail.com>
+Date: Mon, 28 Aug 2017 08:19:40 +0900
+Subject: [PATCH] Sound implementation of twin memory model
+
+---
+ lib/Analysis/BasicAliasAnalysis.cpp           |  18 ++-
+ lib/Analysis/CaptureTracking.cpp              |   9 +-
+ lib/Analysis/ConstantFolding.cpp              |  22 +--
+ lib/Analysis/InstructionSimplify.cpp          | 129 ++++++++---------
+ lib/IR/Instructions.cpp                       |   4 +-
+ .../InstCombine/InstCombineCalls.cpp          | 133 +++++++++---------
+ .../InstCombine/InstCombineCompares.cpp       |  17 ++-
+ .../InstCombineLoadStoreAlloca.cpp            |  24 +++-
+ .../InstCombine/InstructionCombining.cpp      |  16 +--
+ lib/Transforms/Scalar/GVN.cpp                 |  20 ++-
+ lib/Transforms/Utils/SimplifyCFG.cpp          |  45 ++++--
+ lib/Transforms/Utils/VNCoercion.cpp           |   9 +-
+ lib/Transforms/Vectorize/LoopVectorize.cpp    |   4 +
+ test/Transforms/InstSimplify/cast.ll          |  48 +++----
+ test/Transforms/InstSimplify/compare.ll       | 100 ++++++-------
+ test/Transforms/InstSimplify/gep.ll           | 108 +++++++-------
+ 16 files changed, 385 insertions(+), 321 deletions(-)
+
+diff --git a/lib/Analysis/BasicAliasAnalysis.cpp b/lib/Analysis/BasicAliasAnalysis.cpp
+index 3909e6b44aa..bcffc2b60e2 100644
+--- a/lib/Analysis/BasicAliasAnalysis.cpp
++++ b/lib/Analysis/BasicAliasAnalysis.cpp
+@@ -938,6 +938,12 @@ ModRefInfo BasicAAResult::getModRefInfo(ImmutableCallSite CS1,
+   return AAResultBase::getModRefInfo(CS1, CS2);
+ }
+ 
++static bool isStrippedPointerInBounds(const Value *V) {
++  const Value *V2 = V->stripPointerCasts();
++  const GEPOperator *Op = dyn_cast<GEPOperator>(V2);
++  return Op && Op->isInBounds();
++}
++
+ /// Provide ad-hoc rules to disambiguate accesses through two GEP operators,
+ /// both having the exact same pointer operand.
+ static AliasResult aliasSameBasePointerGEPs(const GEPOperator *GEP1,
+@@ -1568,10 +1574,12 @@ AliasResult BasicAAResult::aliasCheck(const Value *V1, uint64_t V1Size,
+   // Null values in the default address space don't point to any object, so they
+   // don't alias any other pointer.
+   if (const ConstantPointerNull *CPN = dyn_cast<ConstantPointerNull>(O1))
+-    if (CPN->getType()->getAddressSpace() == 0)
++    if (CPN->getType()->getAddressSpace() == 0 &&
++        (isStrippedPointerInBounds(V1) || V1 == O1))
+       return NoAlias;
+   if (const ConstantPointerNull *CPN = dyn_cast<ConstantPointerNull>(O2))
+-    if (CPN->getType()->getAddressSpace() == 0)
++    if (CPN->getType()->getAddressSpace() == 0 &&
++        (isStrippedPointerInBounds(V2) || V2 == O2))
+       return NoAlias;
+ 
+   if (O1 != O2) {
+@@ -1580,8 +1588,10 @@ AliasResult BasicAAResult::aliasCheck(const Value *V1, uint64_t V1Size,
+       return NoAlias;
+ 
+     // Constant pointers can't alias with non-const isIdentifiedObject objects.
+-    if ((isa<Constant>(O1) && isIdentifiedObject(O2) && !isa<Constant>(O2)) ||
+-        (isa<Constant>(O2) && isIdentifiedObject(O1) && !isa<Constant>(O1)))
++    if ((isa<Constant>(O1) && isNonEscapingLocalObject(O2) &&
++         !isa<Constant>(O2)) ||
++        (isa<Constant>(O2) && isNonEscapingLocalObject(O1) &&
++         !isa<Constant>(O1)))
+       return NoAlias;
+ 
+     // Function arguments can't alias with things that are known to be
+diff --git a/lib/Analysis/CaptureTracking.cpp b/lib/Analysis/CaptureTracking.cpp
+index 3b0026ba10e..08328206b77 100644
+--- a/lib/Analysis/CaptureTracking.cpp
++++ b/lib/Analysis/CaptureTracking.cpp
+@@ -311,7 +311,6 @@ void llvm::PointerMayBeCaptured(const Value *V, CaptureTracker *Tracker) {
+     case Instruction::GetElementPtr:
+     case Instruction::PHI:
+     case Instruction::Select:
+-    case Instruction::AddrSpaceCast:
+       // The original value is not captured via this if the new value isn't.
+       Count = 0;
+       for (Use &UU : I->uses()) {
+@@ -337,10 +336,10 @@ void llvm::PointerMayBeCaptured(const Value *V, CaptureTracker *Tracker) {
+       // Comparison against value stored in global variable. Given the pointer
+       // does not escape, its value cannot be guessed and stored separately in a
+       // global variable.
+-      unsigned OtherIndex = (I->getOperand(0) == V) ? 1 : 0;
+-      auto *LI = dyn_cast<LoadInst>(I->getOperand(OtherIndex));
+-      if (LI && isa<GlobalVariable>(LI->getPointerOperand()))
+-        break;
++      //unsigned OtherIndex = (I->getOperand(0) == V) ? 1 : 0;
++      //auto *LI = dyn_cast<LoadInst>(I->getOperand(OtherIndex));
++      //if (LI && isa<GlobalVariable>(LI->getPointerOperand()))
++      //  break;
+       // Otherwise, be conservative. There are crazy ways to capture pointers
+       // using comparisons.
+       if (Tracker->captured(U))
+diff --git a/lib/Analysis/ConstantFolding.cpp b/lib/Analysis/ConstantFolding.cpp
+index e88b8f14d54..f2020467078 100644
+--- a/lib/Analysis/ConstantFolding.cpp
++++ b/lib/Analysis/ConstantFolding.cpp
+@@ -1296,17 +1296,17 @@ Constant *llvm::ConstantFoldCastOperand(unsigned Opcode, Constant *C,
+     // This requires knowing the width of a pointer, so it can't be done in
+     // ConstantExpr::getCast.
+     if (auto *CE = dyn_cast<ConstantExpr>(C)) {
+-      if (CE->getOpcode() == Instruction::PtrToInt) {
+-        Constant *SrcPtr = CE->getOperand(0);
+-        unsigned SrcPtrSize = DL.getPointerTypeSizeInBits(SrcPtr->getType());
+-        unsigned MidIntSize = CE->getType()->getScalarSizeInBits();
+-
+-        if (MidIntSize >= SrcPtrSize) {
+-          unsigned SrcAS = SrcPtr->getType()->getPointerAddressSpace();
+-          if (SrcAS == DestTy->getPointerAddressSpace())
+-            return FoldBitCast(CE->getOperand(0), DestTy, DL);
+-        }
+-      }
++      //if (CE->getOpcode() == Instruction::PtrToInt) {
++      //  Constant *SrcPtr = CE->getOperand(0);
++      //  unsigned SrcPtrSize = DL.getPointerTypeSizeInBits(SrcPtr->getType());
++      //  unsigned MidIntSize = CE->getType()->getScalarSizeInBits();
++
++      //  if (MidIntSize >= SrcPtrSize) {
++      //    unsigned SrcAS = SrcPtr->getType()->getPointerAddressSpace();
++      //    if (SrcAS == DestTy->getPointerAddressSpace())
++      //      return FoldBitCast(CE->getOperand(0), DestTy, DL);
++      //  }
++      //}
+     }
+ 
+     return ConstantExpr::getCast(Opcode, C, DestTy);
+diff --git a/lib/Analysis/InstructionSimplify.cpp b/lib/Analysis/InstructionSimplify.cpp
+index 05afc4f5501..1d8b5c2b47b 100644
+--- a/lib/Analysis/InstructionSimplify.cpp
++++ b/lib/Analysis/InstructionSimplify.cpp
+@@ -765,6 +765,9 @@ static Value *SimplifySubInst(Value *Op0, Value *Op1, bool isNSW, bool isNUW,
+           return W;
+ 
+   // Variations on GEP(base, I, ...) - GEP(base, i, ...) -> GEP(null, I-i, ...).
++  // This is actually "GEP(base, I, ..) - GEP(base, i, ..) -> I-i".
++  // This optimization is allowed. Note that PtrToInt should not be removed
++  // (if PtrToInt contains capturing effect as well)
+   if (match(Op0, m_PtrToInt(m_Value(X))) &&
+       match(Op1, m_PtrToInt(m_Value(Y))))
+     if (Constant *Result = computePointerDifference(Q.DL, X, Y))
+@@ -3014,22 +3017,22 @@ static Value *SimplifyICmpInst(unsigned Predicate, Value *LHS, Value *RHS,
+ 
+     // Turn icmp (ptrtoint x), (ptrtoint/constant) into a compare of the input
+     // if the integer type is the same size as the pointer type.
+-    if (MaxRecurse && isa<PtrToIntInst>(LI) &&
+-        Q.DL.getTypeSizeInBits(SrcTy) == DstTy->getPrimitiveSizeInBits()) {
+-      if (Constant *RHSC = dyn_cast<Constant>(RHS)) {
+-        // Transfer the cast to the constant.
+-        if (Value *V = SimplifyICmpInst(Pred, SrcOp,
+-                                        ConstantExpr::getIntToPtr(RHSC, SrcTy),
+-                                        Q, MaxRecurse-1))
+-          return V;
+-      } else if (PtrToIntInst *RI = dyn_cast<PtrToIntInst>(RHS)) {
+-        if (RI->getOperand(0)->getType() == SrcTy)
+-          // Compare without the cast.
+-          if (Value *V = SimplifyICmpInst(Pred, SrcOp, RI->getOperand(0),
+-                                          Q, MaxRecurse-1))
+-            return V;
+-      }
+-    }
++    //if (MaxRecurse && isa<PtrToIntInst>(LI) &&
++    //    Q.DL.getTypeSizeInBits(SrcTy) == DstTy->getPrimitiveSizeInBits()) {
++    //  if (Constant *RHSC = dyn_cast<Constant>(RHS)) {
++    //    // Transfer the cast to the constant.
++    //    if (Value *V = SimplifyICmpInst(Pred, SrcOp,
++    //                                    ConstantExpr::getIntToPtr(RHSC, SrcTy),
++    //                                    Q, MaxRecurse-1))
++    //      return V;
++    //  } else if (PtrToIntInst *RI = dyn_cast<PtrToIntInst>(RHS)) {
++    //    if (RI->getOperand(0)->getType() == SrcTy)
++    //      // Compare without the cast.
++    //      if (Value *V = SimplifyICmpInst(Pred, SrcOp, RI->getOperand(0),
++    //                                      Q, MaxRecurse-1))
++    //        return V;
++    //  }
++    //}
+ 
+     if (isa<ZExtInst>(LHS)) {
+       // Turn icmp (zext X), (zext Y) into a compare of X and Y if they have the
+@@ -3182,16 +3185,16 @@ static Value *SimplifyICmpInst(unsigned Predicate, Value *LHS, Value *RHS,
+     if (auto *C = computePointerICmp(Q.DL, Q.TLI, Q.DT, Pred, Q.AC, Q.CxtI, LHS,
+                                      RHS))
+       return C;
+-  if (auto *CLHS = dyn_cast<PtrToIntOperator>(LHS))
+-    if (auto *CRHS = dyn_cast<PtrToIntOperator>(RHS))
+-      if (Q.DL.getTypeSizeInBits(CLHS->getPointerOperandType()) ==
+-              Q.DL.getTypeSizeInBits(CLHS->getType()) &&
+-          Q.DL.getTypeSizeInBits(CRHS->getPointerOperandType()) ==
+-              Q.DL.getTypeSizeInBits(CRHS->getType()))
+-        if (auto *C = computePointerICmp(Q.DL, Q.TLI, Q.DT, Pred, Q.AC, Q.CxtI,
+-                                         CLHS->getPointerOperand(),
+-                                         CRHS->getPointerOperand()))
+-          return C;
++  //if (auto *CLHS = dyn_cast<PtrToIntOperator>(LHS))
++  //  if (auto *CRHS = dyn_cast<PtrToIntOperator>(RHS))
++  //    if (Q.DL.getTypeSizeInBits(CLHS->getPointerOperandType()) ==
++  //            Q.DL.getTypeSizeInBits(CLHS->getType()) &&
++  //        Q.DL.getTypeSizeInBits(CRHS->getPointerOperandType()) ==
++  //            Q.DL.getTypeSizeInBits(CRHS->getType()))
++  //      if (auto *C = computePointerICmp(Q.DL, Q.TLI, Q.DT, Pred, Q.AC, Q.CxtI,
++  //                                       CLHS->getPointerOperand(),
++  //                                       CRHS->getPointerOperand()))
++  //        return C;
+ 
+   if (GetElementPtrInst *GLHS = dyn_cast<GetElementPtrInst>(LHS)) {
+     if (GEPOperator *GRHS = dyn_cast<GEPOperator>(RHS)) {
+@@ -3545,7 +3548,7 @@ static Value *simplifySelectWithICmpCond(Value *CondVal, Value *TrueVal,
+   // If we have an equality comparison, then we know the value in one of the
+   // arms of the select. See if substituting this value into the arm and
+   // simplifying the result yields the same value as the other arm.
+-  if (Pred == ICmpInst::ICMP_EQ) {
++  if (Pred == ICmpInst::ICMP_EQ && !CmpLHS->getType()->isPtrOrPtrVectorTy()) {
+     if (SimplifyWithOpReplaced(FalseVal, CmpLHS, CmpRHS, Q, MaxRecurse) ==
+             TrueVal ||
+         SimplifyWithOpReplaced(FalseVal, CmpRHS, CmpLHS, Q, MaxRecurse) ==
+@@ -3556,7 +3559,7 @@ static Value *simplifySelectWithICmpCond(Value *CondVal, Value *TrueVal,
+         SimplifyWithOpReplaced(TrueVal, CmpRHS, CmpLHS, Q, MaxRecurse) ==
+             FalseVal)
+       return FalseVal;
+-  } else if (Pred == ICmpInst::ICMP_NE) {
++  } else if (Pred == ICmpInst::ICMP_NE && !CmpLHS->getType()->isPtrOrPtrVectorTy()) {
+     if (SimplifyWithOpReplaced(TrueVal, CmpLHS, CmpRHS, Q, MaxRecurse) ==
+             FalseVal ||
+         SimplifyWithOpReplaced(TrueVal, CmpRHS, CmpLHS, Q, MaxRecurse) ==
+@@ -3651,41 +3654,41 @@ static Value *SimplifyGEPInst(Type *SrcTy, ArrayRef<Value *> Ops,
+ 
+       // The following transforms are only safe if the ptrtoint cast
+       // doesn't truncate the pointers.
+-      if (Ops[1]->getType()->getScalarSizeInBits() ==
+-          Q.DL.getPointerSizeInBits(AS)) {
+-        auto PtrToIntOrZero = [GEPTy](Value *P) -> Value * {
+-          if (match(P, m_Zero()))
+-            return Constant::getNullValue(GEPTy);
+-          Value *Temp;
+-          if (match(P, m_PtrToInt(m_Value(Temp))))
+-            if (Temp->getType() == GEPTy)
+-              return Temp;
+-          return nullptr;
+-        };
+-
+-        // getelementptr V, (sub P, V) -> P if P points to a type of size 1.
+-        if (TyAllocSize == 1 &&
+-            match(Ops[1], m_Sub(m_Value(P), m_PtrToInt(m_Specific(Ops[0])))))
+-          if (Value *R = PtrToIntOrZero(P))
+-            return R;
+-
+-        // getelementptr V, (ashr (sub P, V), C) -> Q
+-        // if P points to a type of size 1 << C.
+-        if (match(Ops[1],
+-                  m_AShr(m_Sub(m_Value(P), m_PtrToInt(m_Specific(Ops[0]))),
+-                         m_ConstantInt(C))) &&
+-            TyAllocSize == 1ULL << C)
+-          if (Value *R = PtrToIntOrZero(P))
+-            return R;
+-
+-        // getelementptr V, (sdiv (sub P, V), C) -> Q
+-        // if P points to a type of size C.
+-        if (match(Ops[1],
+-                  m_SDiv(m_Sub(m_Value(P), m_PtrToInt(m_Specific(Ops[0]))),
+-                         m_SpecificInt(TyAllocSize))))
+-          if (Value *R = PtrToIntOrZero(P))
+-            return R;
+-      }
++      //if (Ops[1]->getType()->getScalarSizeInBits() ==
++      //    Q.DL.getPointerSizeInBits(AS)) {
++      //  auto PtrToIntOrZero = [GEPTy](Value *P) -> Value * {
++      //    if (match(P, m_Zero()))
++      //      return Constant::getNullValue(GEPTy);
++      //    Value *Temp;
++      //    if (match(P, m_PtrToInt(m_Value(Temp))))
++      //      if (Temp->getType() == GEPTy)
++      //        return Temp;
++      //    return nullptr;
++      //  };
++
++      //  // getelementptr V, (sub P, V) -> P if P points to a type of size 1.
++      //  if (TyAllocSize == 1 &&
++      //      match(Ops[1], m_Sub(m_Value(P), m_PtrToInt(m_Specific(Ops[0])))))
++      //    if (Value *R = PtrToIntOrZero(P))
++      //      return R;
++
++      //  // getelementptr V, (ashr (sub P, V), C) -> Q
++      //  // if P points to a type of size 1 << C.
++      //  if (match(Ops[1],
++      //            m_AShr(m_Sub(m_Value(P), m_PtrToInt(m_Specific(Ops[0]))),
++      //                   m_ConstantInt(C))) &&
++      //      TyAllocSize == 1ULL << C)
++      //    if (Value *R = PtrToIntOrZero(P))
++      //      return R;
++
++      //  // getelementptr V, (sdiv (sub P, V), C) -> Q
++      //  // if P points to a type of size C.
++      //  if (match(Ops[1],
++      //            m_SDiv(m_Sub(m_Value(P), m_PtrToInt(m_Specific(Ops[0]))),
++      //                   m_SpecificInt(TyAllocSize))))
++      //    if (Value *R = PtrToIntOrZero(P))
++      //      return R;
++      //}
+     }
+   }
+ 
+diff --git a/lib/IR/Instructions.cpp b/lib/IR/Instructions.cpp
+index 2c49564e328..eee40f15a0c 100644
+--- a/lib/IR/Instructions.cpp
++++ b/lib/IR/Instructions.cpp
+@@ -2402,7 +2402,7 @@ unsigned CastInst::isEliminableCastPair(
+     { 99,99,99, 0, 0,99,99, 0, 0,99,99, 4, 0}, // SIToFP         |
+     { 99,99,99, 0, 0,99,99, 0, 0,99,99, 4, 0}, // FPTrunc        |
+     { 99,99,99, 2, 2,99,99,10, 2,99,99, 4, 0}, // FPExt          |
+-    {  1, 0, 0,99,99, 0, 0,99,99,99, 7, 3, 0}, // PtrToInt       |
++    {  1, 0, 0,99,99, 0, 0,99,99,99, 0, 3, 0}, // PtrToInt       |
+     { 99,99,99,99,99,99,99,99,99,11,99,15, 0}, // IntToPtr       |
+     {  5, 5, 5, 6, 6, 5, 5, 6, 6,16, 5, 1,14}, // BitCast        |
+     {  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,13,12}, // AddrSpaceCast -+
+@@ -2891,12 +2891,14 @@ bool CastInst::isBitCastable(Type *SrcTy, Type *DestTy) {
+ 
+ bool CastInst::isBitOrNoopPointerCastable(Type *SrcTy, Type *DestTy,
+                                           const DataLayout &DL) {
++  /*
+   if (auto *PtrTy = dyn_cast<PointerType>(SrcTy))
+     if (auto *IntTy = dyn_cast<IntegerType>(DestTy))
+       return IntTy->getBitWidth() == DL.getPointerTypeSizeInBits(PtrTy);
+   if (auto *PtrTy = dyn_cast<PointerType>(DestTy))
+     if (auto *IntTy = dyn_cast<IntegerType>(SrcTy))
+       return IntTy->getBitWidth() == DL.getPointerTypeSizeInBits(PtrTy);
++  */
+ 
+   return isBitCastable(SrcTy, DestTy);
+ }
+diff --git a/lib/Transforms/InstCombine/InstCombineCalls.cpp b/lib/Transforms/InstCombine/InstCombineCalls.cpp
+index 61f0329f704..306aa9d3a53 100644
+--- a/lib/Transforms/InstCombine/InstCombineCalls.cpp
++++ b/lib/Transforms/InstCombine/InstCombineCalls.cpp
+@@ -181,73 +181,74 @@ Instruction *InstCombiner::SimplifyMemTransfer(MemIntrinsic *MI) {
+     MI->setAlignment(ConstantInt::get(MI->getAlignmentType(), MinAlign, false));
+     return MI;
+   }
++  return nullptr;
+ 
+-  // If MemCpyInst length is 1/2/4/8 bytes then replace memcpy with
+-  // load/store.
+-  ConstantInt *MemOpLength = dyn_cast<ConstantInt>(MI->getArgOperand(2));
+-  if (!MemOpLength) return nullptr;
+-
+-  // Source and destination pointer types are always "i8*" for intrinsic.  See
+-  // if the size is something we can handle with a single primitive load/store.
+-  // A single load+store correctly handles overlapping memory in the memmove
+-  // case.
+-  uint64_t Size = MemOpLength->getLimitedValue();
+-  assert(Size && "0-sized memory transferring should be removed already.");
+-
+-  if (Size > 8 || (Size&(Size-1)))
+-    return nullptr;  // If not 1/2/4/8 bytes, exit.
+-
+-  // Use an integer load+store unless we can find something better.
+-  unsigned SrcAddrSp =
+-    cast<PointerType>(MI->getArgOperand(1)->getType())->getAddressSpace();
+-  unsigned DstAddrSp =
+-    cast<PointerType>(MI->getArgOperand(0)->getType())->getAddressSpace();
+-
+-  IntegerType* IntType = IntegerType::get(MI->getContext(), Size<<3);
+-  Type *NewSrcPtrTy = PointerType::get(IntType, SrcAddrSp);
+-  Type *NewDstPtrTy = PointerType::get(IntType, DstAddrSp);
+-
+-  // If the memcpy has metadata describing the members, see if we can get the
+-  // TBAA tag describing our copy.
+-  MDNode *CopyMD = nullptr;
+-  if (MDNode *M = MI->getMetadata(LLVMContext::MD_tbaa_struct)) {
+-    if (M->getNumOperands() == 3 && M->getOperand(0) &&
+-        mdconst::hasa<ConstantInt>(M->getOperand(0)) &&
+-        mdconst::extract<ConstantInt>(M->getOperand(0))->isZero() &&
+-        M->getOperand(1) &&
+-        mdconst::hasa<ConstantInt>(M->getOperand(1)) &&
+-        mdconst::extract<ConstantInt>(M->getOperand(1))->getValue() ==
+-        Size &&
+-        M->getOperand(2) && isa<MDNode>(M->getOperand(2)))
+-      CopyMD = cast<MDNode>(M->getOperand(2));
+-  }
+-
+-  // If the memcpy/memmove provides better alignment info than we can
+-  // infer, use it.
+-  SrcAlign = std::max(SrcAlign, CopyAlign);
+-  DstAlign = std::max(DstAlign, CopyAlign);
+-
+-  Value *Src = Builder.CreateBitCast(MI->getArgOperand(1), NewSrcPtrTy);
+-  Value *Dest = Builder.CreateBitCast(MI->getArgOperand(0), NewDstPtrTy);
+-  LoadInst *L = Builder.CreateLoad(Src, MI->isVolatile());
+-  L->setAlignment(SrcAlign);
+-  if (CopyMD)
+-    L->setMetadata(LLVMContext::MD_tbaa, CopyMD);
+-  MDNode *LoopMemParallelMD =
+-    MI->getMetadata(LLVMContext::MD_mem_parallel_loop_access);
+-  if (LoopMemParallelMD)
+-    L->setMetadata(LLVMContext::MD_mem_parallel_loop_access, LoopMemParallelMD);
+-
+-  StoreInst *S = Builder.CreateStore(L, Dest, MI->isVolatile());
+-  S->setAlignment(DstAlign);
+-  if (CopyMD)
+-    S->setMetadata(LLVMContext::MD_tbaa, CopyMD);
+-  if (LoopMemParallelMD)
+-    S->setMetadata(LLVMContext::MD_mem_parallel_loop_access, LoopMemParallelMD);
+-
+-  // Set the size of the copy to 0, it will be deleted on the next iteration.
+-  MI->setArgOperand(2, Constant::getNullValue(MemOpLength->getType()));
+-  return MI;
++  // // If MemCpyInst length is 1/2/4/8 bytes then replace memcpy with
++  // // load/store.
++  // ConstantInt *MemOpLength = dyn_cast<ConstantInt>(MI->getArgOperand(2));
++  // if (!MemOpLength) return nullptr;
++
++  // // Source and destination pointer types are always "i8*" for intrinsic.  See
++  // // if the size is something we can handle with a single primitive load/store.
++  // // A single load+store correctly handles overlapping memory in the memmove
++  // // case.
++  // uint64_t Size = MemOpLength->getLimitedValue();
++  // assert(Size && "0-sized memory transferring should be removed already.");
++
++  // if (Size > 8 || (Size&(Size-1)))
++  //   return nullptr;  // If not 1/2/4/8 bytes, exit.
++
++  // // Use an integer load+store unless we can find something better.
++  // unsigned SrcAddrSp =
++  //   cast<PointerType>(MI->getArgOperand(1)->getType())->getAddressSpace();
++  // unsigned DstAddrSp =
++  //   cast<PointerType>(MI->getArgOperand(0)->getType())->getAddressSpace();
++
++  // IntegerType* IntType = IntegerType::get(MI->getContext(), Size<<3);
++  // Type *NewSrcPtrTy = PointerType::get(IntType, SrcAddrSp);
++  // Type *NewDstPtrTy = PointerType::get(IntType, DstAddrSp);
++
++  // // If the memcpy has metadata describing the members, see if we can get the
++  // // TBAA tag describing our copy.
++  // MDNode *CopyMD = nullptr;
++  // if (MDNode *M = MI->getMetadata(LLVMContext::MD_tbaa_struct)) {
++  //   if (M->getNumOperands() == 3 && M->getOperand(0) &&
++  //       mdconst::hasa<ConstantInt>(M->getOperand(0)) &&
++  //       mdconst::extract<ConstantInt>(M->getOperand(0))->isZero() &&
++  //       M->getOperand(1) &&
++  //       mdconst::hasa<ConstantInt>(M->getOperand(1)) &&
++  //       mdconst::extract<ConstantInt>(M->getOperand(1))->getValue() ==
++  //       Size &&
++  //       M->getOperand(2) && isa<MDNode>(M->getOperand(2)))
++  //     CopyMD = cast<MDNode>(M->getOperand(2));
++  // }
++
++  // // If the memcpy/memmove provides better alignment info than we can
++  // // infer, use it.
++  // SrcAlign = std::max(SrcAlign, CopyAlign);
++  // DstAlign = std::max(DstAlign, CopyAlign);
++
++  // Value *Src = Builder.CreateBitCast(MI->getArgOperand(1), NewSrcPtrTy);
++  // Value *Dest = Builder.CreateBitCast(MI->getArgOperand(0), NewDstPtrTy);
++  // LoadInst *L = Builder.CreateLoad(Src, MI->isVolatile());
++  // L->setAlignment(SrcAlign);
++  // if (CopyMD)
++  //   L->setMetadata(LLVMContext::MD_tbaa, CopyMD);
++  // MDNode *LoopMemParallelMD =
++  //   MI->getMetadata(LLVMContext::MD_mem_parallel_loop_access);
++  // if (LoopMemParallelMD)
++  //   L->setMetadata(LLVMContext::MD_mem_parallel_loop_access, LoopMemParallelMD);
++
++  // StoreInst *S = Builder.CreateStore(L, Dest, MI->isVolatile());
++  // S->setAlignment(DstAlign);
++  // if (CopyMD)
++  //   S->setMetadata(LLVMContext::MD_tbaa, CopyMD);
++  // if (LoopMemParallelMD)
++  //   S->setMetadata(LLVMContext::MD_mem_parallel_loop_access, LoopMemParallelMD);
++
++  // // Set the size of the copy to 0, it will be deleted on the next iteration.
++  // MI->setArgOperand(2, Constant::getNullValue(MemOpLength->getType()));
++  // return MI;
+ }
+ 
+ Instruction *InstCombiner::SimplifyMemSet(MemSetInst *MI) {
+diff --git a/lib/Transforms/InstCombine/InstCombineCompares.cpp b/lib/Transforms/InstCombine/InstCombineCompares.cpp
+index 980519bcf9c..b606ad4f55d 100644
+--- a/lib/Transforms/InstCombine/InstCombineCompares.cpp
++++ b/lib/Transforms/InstCombine/InstCombineCompares.cpp
+@@ -859,6 +859,7 @@ getAsConstantIndexedAddress(Value *V, const DataLayout &DL) {
+       }
+       break;
+     }
++    /*
+     if (auto *CI = dyn_cast<IntToPtrInst>(V)) {
+       if (!CI->isNoopCast(DL))
+         break;
+@@ -871,6 +872,7 @@ getAsConstantIndexedAddress(Value *V, const DataLayout &DL) {
+       V = CI->getOperand(0);
+       continue;
+     }
++    */
+     break;
+   }
+   return {V, Index};
+@@ -1101,6 +1103,16 @@ Instruction *InstCombiner::foldAllocaCmp(ICmpInst &ICI,
+     } else if (isa<ICmpInst>(V)) {
+       if (NumCmps++)
+         return nullptr; // Found more than one cmp.
++      // Check whether this comparison is done only once in this function.
++      const BasicBlock *ICIBB = dyn_cast<ICmpInst>(V)->getParent();
++      if (LI && LI->getLoopFor(ICIBB) != nullptr) {
++        // This comparison is in a loop.
++        return nullptr; 
++      } else {
++        // Be conservative.
++        if (Alloca->getParent() != ICIBB)
++          return nullptr;
++      }
+       continue;
+     } else if (const auto *Intrin = dyn_cast<IntrinsicInst>(V)) {
+       switch (Intrin->getIntrinsicID()) {
+@@ -3467,7 +3479,8 @@ Instruction *InstCombiner::foldICmpWithCastAndCast(ICmpInst &ICmp) {
+ 
+   // Turn icmp (ptrtoint x), (ptrtoint/c) into a compare of the input if the
+   // integer type is the same size as the pointer type.
+-  if (LHSCI->getOpcode() == Instruction::PtrToInt &&
++  /*
++   * if (LHSCI->getOpcode() == Instruction::PtrToInt &&
+       DL.getPointerTypeSizeInBits(SrcTy) == DestTy->getIntegerBitWidth()) {
+     Value *RHSOp = nullptr;
+     if (auto *RHSC = dyn_cast<PtrToIntOperator>(ICmp.getOperand(1))) {
+@@ -3485,7 +3498,7 @@ Instruction *InstCombiner::foldICmpWithCastAndCast(ICmpInst &ICmp) {
+ 
+     if (RHSOp)
+       return new ICmpInst(ICmp.getPredicate(), LHSCIOp, RHSOp);
+-  }
++  }*/
+ 
+   // The code below only handles extension cast instructions, so far.
+   // Enforce this.
+diff --git a/lib/Transforms/InstCombine/InstCombineLoadStoreAlloca.cpp b/lib/Transforms/InstCombine/InstCombineLoadStoreAlloca.cpp
+index 45103654574..7baebb8c395 100644
+--- a/lib/Transforms/InstCombine/InstCombineLoadStoreAlloca.cpp
++++ b/lib/Transforms/InstCombine/InstCombineLoadStoreAlloca.cpp
+@@ -561,6 +561,20 @@ static StoreInst *combineStoreToNewValue(InstCombiner &IC, StoreInst &SI, Value
+   return NewStore;
+ }
+ 
++static bool containsPointerType(Type *Ty) {
++  if (isa<PointerType>(Ty))
++    return true;
++  else if (StructType *ST = dyn_cast<StructType>(Ty)) {
++    for (auto itr = ST->element_begin(); itr != ST->element_end(); itr++) {
++      if (containsPointerType(*itr))
++        return true;
++    }
++  } else if (SequentialType *ST = dyn_cast<SequentialType>(Ty))
++    if (containsPointerType(ST->getElementType()))
++      return true;
++  return false;
++}
++
+ /// \brief Combine loads to match the type of their uses' value after looking
+ /// through intervening bitcasts.
+ ///
+@@ -597,11 +611,12 @@ static Instruction *combineLoadToOperationType(InstCombiner &IC, LoadInst &LI) {
+   // Try to canonicalize loads which are only ever stored to operate over
+   // integers instead of any other type. We only do this when the loaded type
+   // is sized and has a size exactly the same as its store size and the store
+-  // size is a legal integer type.
++  // size is a legal integer type and it is neither a pointer type or
++  // a struct type that has pointer in it.
+   if (!Ty->isIntegerTy() && Ty->isSized() &&
+       DL.isLegalInteger(DL.getTypeStoreSizeInBits(Ty)) &&
+       DL.getTypeStoreSizeInBits(Ty) == DL.getTypeSizeInBits(Ty) &&
+-      !DL.isNonIntegralPointerType(Ty)) {
++      !containsPointerType(Ty)) {
+     if (all_of(LI.users(), [&LI](User *U) {
+           auto *SI = dyn_cast<StoreInst>(U);
+           return SI && SI->getPointerOperand() != &LI &&
+@@ -629,7 +644,7 @@ static Instruction *combineLoadToOperationType(InstCombiner &IC, LoadInst &LI) {
+   // bitwidth as the target's pointers).
+   if (LI.hasOneUse())
+     if (auto* CI = dyn_cast<CastInst>(LI.user_back()))
+-      if (CI->isNoopCast(DL))
++      if (CI->isNoopCast(DL) && !isa<PtrToIntInst>(CI) && !isa<IntToPtrInst>(CI))
+         if (!LI.isAtomic() || isSupportedAtomicType(CI->getDestTy())) {
+           LoadInst *NewLoad = combineLoadToNewType(IC, LI, CI->getDestTy());
+           CI->replaceAllUsesWith(NewLoad);
+@@ -934,7 +949,8 @@ static Instruction *replaceGEPIdxWithZero(InstCombiner &IC, Value *Ptr,
+ static bool canSimplifyNullLoadOrGEP(LoadInst &LI, Value *Op) {
+   if (GetElementPtrInst *GEPI = dyn_cast<GetElementPtrInst>(Op)) {
+     const Value *GEPI0 = GEPI->getOperand(0);
+-    if (isa<ConstantPointerNull>(GEPI0) && GEPI->getPointerAddressSpace() == 0)
++    if (isa<ConstantPointerNull>(GEPI0) && GEPI->getPointerAddressSpace() == 0
++        && GEPI->isInBounds())
+       return true;
+   }
+   if (isa<UndefValue>(Op) ||
+diff --git a/lib/Transforms/InstCombine/InstructionCombining.cpp b/lib/Transforms/InstCombine/InstructionCombining.cpp
+index f51b8381445..0430d9950eb 100644
+--- a/lib/Transforms/InstCombine/InstructionCombining.cpp
++++ b/lib/Transforms/InstCombine/InstructionCombining.cpp
+@@ -1726,12 +1726,12 @@ Instruction *InstCombiner::visitGetElementPtrInst(GetElementPtrInst &GEP) {
+         }
+         // Canonicalize (gep i8* X, (ptrtoint Y)-(ptrtoint X))
+         // to (bitcast Y)
+-        Value *Y;
+-        if (match(V, m_Sub(m_PtrToInt(m_Value(Y)),
+-                           m_PtrToInt(m_Specific(GEP.getOperand(0)))))) {
+-          return CastInst::CreatePointerBitCastOrAddrSpaceCast(Y,
+-                                                               GEP.getType());
+-        }
++        //Value *Y;
++        //if (match(V, m_Sub(m_PtrToInt(m_Value(Y)),
++        //                   m_PtrToInt(m_Specific(GEP.getOperand(0)))))) {
++        //  return CastInst::CreatePointerBitCastOrAddrSpaceCast(Y,
++        //                                                       GEP.getType());
++        //}
+       }
+     }
+   }
+@@ -2007,8 +2007,8 @@ static bool isNeverEqualToUnescapedAlloc(Value *V, const TargetLibraryInfo *TLI,
+                                          Instruction *AI) {
+   if (isa<ConstantPointerNull>(V))
+     return true;
+-  if (auto *LI = dyn_cast<LoadInst>(V))
+-    return isa<GlobalVariable>(LI->getPointerOperand());
++  //if (auto *LI = dyn_cast<LoadInst>(V))
++  //  return isa<GlobalVariable>(LI->getPointerOperand());
+   // Two distinct allocations will never be equal.
+   // We rely on LookThroughBitCast in isAllocLikeFn being false, since looking
+   // through bitcasts of V can cause
+diff --git a/lib/Transforms/Scalar/GVN.cpp b/lib/Transforms/Scalar/GVN.cpp
+index 593aad74bd1..bc685d39e87 100644
+--- a/lib/Transforms/Scalar/GVN.cpp
++++ b/lib/Transforms/Scalar/GVN.cpp
+@@ -964,9 +964,18 @@ bool GVN::AnalyzeLoadAvailability(LoadInst *LI, MemDepResult DepInfo,
+     // If the types mismatch and we can't handle it, reject reuse of the load.
+     // If the stored value is larger or equal to the loaded value, we can reuse
+     // it.
+-    if (LD->getType() != LI->getType() &&
+-        !canCoerceMustAliasedValueToLoad(LD, LI->getType(), DL))
+-      return false;
++    if (LD->getType() != LI->getType()) {
++      // If LI has pointer type and LD has integer type
++      // (or vice versa), it cannot be transformed.
++      Type *LDTy = LD->getType();
++      Type *LITy = LI->getType();
++      if ((LDTy->isPtrOrPtrVectorTy() && LITy->isIntOrIntVectorTy()) ||
++          (LDTy->isIntOrIntVectorTy() && LITy->isPtrOrPtrVectorTy()))
++        return false;
++
++      if (!canCoerceMustAliasedValueToLoad(LD, LITy, DL))
++        return false;
++    }
+ 
+     // Can't forward from non-atomic to atomic without violating memory model.
+     if (LD->isAtomic() < LI->isAtomic())
+@@ -1767,8 +1776,9 @@ bool GVN::propagateEquality(Value *LHS, Value *RHS, const BasicBlockEdge &Root,
+ 
+       // If "A == B" is known true, or "A != B" is known false, then replace
+       // A with B everywhere in the scope.
+-      if ((isKnownTrue && Cmp->getPredicate() == CmpInst::ICMP_EQ) ||
+-          (isKnownFalse && Cmp->getPredicate() == CmpInst::ICMP_NE))
++      if (!Op0->getType()->isPtrOrPtrVectorTy() &&
++          ((isKnownTrue && Cmp->getPredicate() == CmpInst::ICMP_EQ) ||
++          (isKnownFalse && Cmp->getPredicate() == CmpInst::ICMP_NE)))
+         Worklist.push_back(std::make_pair(Op0, Op1));
+ 
+       // Handle the floating point versions of equality comparisons too.
+diff --git a/lib/Transforms/Utils/SimplifyCFG.cpp b/lib/Transforms/Utils/SimplifyCFG.cpp
+index 52e07e049a0..c67d28186d4 100644
+--- a/lib/Transforms/Utils/SimplifyCFG.cpp
++++ b/lib/Transforms/Utils/SimplifyCFG.cpp
+@@ -698,13 +698,13 @@ Value *SimplifyCFGOpt::isValueEqualityComparison(TerminatorInst *TI) {
+       }
+ 
+   // Unwrap any lossless ptrtoint cast.
+-  if (CV) {
+-    if (PtrToIntInst *PTII = dyn_cast<PtrToIntInst>(CV)) {
+-      Value *Ptr = PTII->getPointerOperand();
+-      if (PTII->getType() == DL.getIntPtrType(Ptr->getType()))
+-        CV = Ptr;
+-    }
+-  }
++  //if (CV) {
++  //  if (PtrToIntInst *PTII = dyn_cast<PtrToIntInst>(CV)) {
++  //    Value *Ptr = PTII->getPointerOperand();
++  //    if (PTII->getType() == DL.getIntPtrType(Ptr->getType()))
++  //      CV = Ptr;
++  //  }
++  //}
+   return CV;
+ }
+ 
+@@ -995,7 +995,7 @@ bool SimplifyCFGOpt::FoldValueComparisonIntoPredecessors(TerminatorInst *TI,
+     TerminatorInst *PTI = Pred->getTerminator();
+     Value *PCV = isValueEqualityComparison(PTI); // PredCondVal
+ 
+-    if (PCV == CV && TI != PTI) {
++    if (PCV == CV && TI != PTI && !PCV->getType()->isPointerTy()) {
+       SmallSetVector<BasicBlock*, 4> FailBlocks;
+       if (!SafeToMergeTerminators(TI, PTI, &FailBlocks)) {
+         for (auto *Succ : FailBlocks) {
+@@ -1148,10 +1148,31 @@ bool SimplifyCFGOpt::FoldValueComparisonIntoPredecessors(TerminatorInst *TI,
+ 
+       Builder.SetInsertPoint(PTI);
+       // Convert pointer to int before we switch.
+-      if (CV->getType()->isPointerTy()) {
+-        CV = Builder.CreatePtrToInt(CV, DL.getIntPtrType(CV->getType()),
+-                                    "magicptr");
+-      }
++      // NOTE: This should be unreachable now.
++      // This code basically tries to do this kind of thing:        
++      //
++      // PTI block:
++      // while.cond:
++      //  %cmp = icmp eq %struct._list* %current.0, null
++      //  br i1 %cmp, label %while.end, label %while.body
++      // TI block:
++      // while.end:
++      //  %cmp2 = icmp eq %struct._list* %current.0, null
++      //  br i1 %cmp2, label %if.then3, label %if.end4
++      //
++      // into:
++      // while.cond:
++      //  %magicptr = ptrtoint %struct._list* %current.0 to i64
++      //  switch i64 %magicptr, label %while.body [
++      //    i64 0, label %if.then3
++      //  ]
++      //
++      // I inserted `!PCV->getType()->isPointerTy()' at line 995,
++      // so this branch should not be executed.
++      // if (CV->getType()->isPointerTy()) {
++      //   CV = Builder.CreatePtrToInt(CV, DL.getIntPtrType(CV->getType()),
++      //                               "magicptr");
++      // }
+ 
+       // Now that the successors are updated, create the new Switch instruction.
+       SwitchInst *NewSI =
+diff --git a/lib/Transforms/Utils/VNCoercion.cpp b/lib/Transforms/Utils/VNCoercion.cpp
+index c3feea6a0a4..1327c4c5317 100644
+--- a/lib/Transforms/Utils/VNCoercion.cpp
++++ b/lib/Transforms/Utils/VNCoercion.cpp
+@@ -219,7 +219,14 @@ int analyzeLoadFromClobberingStore(Type *LoadTy, Value *LoadPtr,
+ int analyzeLoadFromClobberingLoad(Type *LoadTy, Value *LoadPtr, LoadInst *DepLI,
+                                   const DataLayout &DL) {
+   // Cannot handle reading from store of first-class aggregate yet.
+-  if (DepLI->getType()->isStructTy() || DepLI->getType()->isArrayTy())
++  Type *DepLITy = DepLI->getType();
++  if (DepLITy->isStructTy() || DepLITy->isArrayTy())
++    return -1;
++
++  // If it is loaded as a pointer type and integer value was previously
++  // written (or vice versa), it cannot be transformed.
++  if ((DepLITy->isPtrOrPtrVectorTy() && LoadTy->isIntOrIntVectorTy()) ||
++      (DepLITy->isIntOrIntVectorTy() && LoadTy->isPtrOrPtrVectorTy()))
+     return -1;
+ 
+   Value *DepPtr = DepLI->getPointerOperand();
+diff --git a/lib/Transforms/Vectorize/LoopVectorize.cpp b/lib/Transforms/Vectorize/LoopVectorize.cpp
+index c14ae0d962c..c2b4eb04017 100644
+--- a/lib/Transforms/Vectorize/LoopVectorize.cpp
++++ b/lib/Transforms/Vectorize/LoopVectorize.cpp
+@@ -3286,6 +3286,10 @@ Value *InnerLoopVectorizer::createBitOrPointerCast(Value *V, VectorType *DstVTy,
+   // Do a direct cast if element types are castable.
+   if (CastInst::isBitOrNoopPointerCastable(SrcElemTy, DstElemTy, DL)) {
+     return Builder.CreateBitOrPointerCast(V, DstVTy);
++  } else if (SrcElemTy->isPointerTy() && DstElemTy->isIntegerTy()) {
++    return Builder.CreatePtrToInt(V, DstVTy);
++  } else if (SrcElemTy->isIntegerTy() && DstElemTy->isPointerTy()) {
++    return Builder.CreateIntToPtr(V, DstVTy);
+   }
+   // V cannot be directly casted to desired vector type.
+   // May happen when V is a floating point vector but DstVTy is a vector of
+diff --git a/test/Transforms/InstSimplify/cast.ll b/test/Transforms/InstSimplify/cast.ll
+index 1ba3c76d023..10f27d98d8c 100644
+--- a/test/Transforms/InstSimplify/cast.ll
++++ b/test/Transforms/InstSimplify/cast.ll
+@@ -27,28 +27,28 @@ entry:
+ ; CHECK: ret i8* %V
+ }
+ 
+-define i32 @test4() {
+-; CHECK-LABEL: @test4(
+-  %alloca = alloca i32, align 4                                     ; alloca + 0
+-  %gep = getelementptr inbounds i32, i32* %alloca, i32 1            ; alloca + 4
+-  %bc = bitcast i32* %gep to [4 x i8]*                              ; alloca + 4
+-  %pti = ptrtoint i32* %alloca to i32                               ; alloca
+-  %sub = sub i32 0, %pti                                            ; -alloca
+-  %add = getelementptr [4 x i8], [4 x i8]* %bc, i32 0, i32 %sub     ; alloca + 4 - alloca == 4
+-  %add_to_int = ptrtoint i8* %add to i32                            ; 4
+-  ret i32 %add_to_int                                               ; 4
+-; CHECK-NEXT: ret i32 4
+-}
++; NOTE: This transformation itself is valid, but it involves optimizing
++; %add into "inttoptr 4", which is incorrect.
++;define i32 @test4() {
++;  %alloca = alloca i32, align 4                                     ; alloca + 0
++;  %gep = getelementptr inbounds i32, i32* %alloca, i32 1            ; alloca + 4
++;  %bc = bitcast i32* %gep to [4 x i8]*                              ; alloca + 4
++;  %pti = ptrtoint i32* %alloca to i32                               ; alloca
++;  %sub = sub i32 0, %pti                                            ; -alloca
++;  %add = getelementptr [4 x i8], [4 x i8]* %bc, i32 0, i32 %sub     ; alloca + 4 - alloca == 4
++;  %add_to_int = ptrtoint i8* %add to i32                            ; 4
++;  ret i32 %add_to_int                                               ; 4
++;}
+ 
+-define i32 @test5() {
+-; CHECK-LABEL: @test5(
+-  %alloca = alloca i32, align 4                                     ; alloca + 0
+-  %gep = getelementptr inbounds i32, i32* %alloca, i32 1            ; alloca + 4
+-  %bc = bitcast i32* %gep to [4 x i8]*                              ; alloca + 4
+-  %pti = ptrtoint i32* %alloca to i32                               ; alloca
+-  %sub = xor i32 %pti, -1                                           ; ~alloca
+-  %add = getelementptr [4 x i8], [4 x i8]* %bc, i32 0, i32 %sub     ; alloca + 4 - alloca - 1 == 3
+-  %add_to_int = ptrtoint i8* %add to i32                            ; 4
+-  ret i32 %add_to_int                                               ; 4
+-; CHECK-NEXT: ret i32 3
+-}
++; NOTE: This transformation itself is valid, but it involves optimizing
++; %add into "inttoptr 4", which is incorrect.
++;define i32 @test5() {
++;  %alloca = alloca i32, align 4                                     ; alloca + 0
++;  %gep = getelementptr inbounds i32, i32* %alloca, i32 1            ; alloca + 4
++;  %bc = bitcast i32* %gep to [4 x i8]*                              ; alloca + 4
++;  %pti = ptrtoint i32* %alloca to i32                               ; alloca
++;  %sub = xor i32 %pti, -1                                           ; ~alloca
++;  %add = getelementptr [4 x i8], [4 x i8]* %bc, i32 0, i32 %sub     ; alloca + 4 - alloca - 1 == 3
++;  %add_to_int = ptrtoint i8* %add to i32                            ; 4
++;  ret i32 %add_to_int                                               ; 4
++;}
+diff --git a/test/Transforms/InstSimplify/compare.ll b/test/Transforms/InstSimplify/compare.ll
+index d84e4986dbb..d86861050aa 100644
+--- a/test/Transforms/InstSimplify/compare.ll
++++ b/test/Transforms/InstSimplify/compare.ll
+@@ -1,14 +1,12 @@
+ ; RUN: opt < %s -instsimplify -S | FileCheck %s
+ target datalayout = "p:32:32"
+ 
+-define i1 @ptrtoint() {
+-; CHECK-LABEL: @ptrtoint(
+-  %a = alloca i8
+-  %tmp = ptrtoint i8* %a to i32
+-  %r = icmp eq i32 %tmp, 0
+-  ret i1 %r
+-; CHECK: ret i1 false
+-}
++;define i1 @ptrtoint() {
++;  %a = alloca i8
++;  %tmp = ptrtoint i8* %a to i32
++;  %r = icmp eq i32 %tmp, 0
++;  ret i1 %r
++;}
+ 
+ define i1 @bitcast() {
+ ; CHECK-LABEL: @bitcast(
+@@ -114,41 +112,35 @@ define i1 @gep8(%gept* %x) {
+ ; CHECK: ret i1 %equal
+ }
+ 
+-define i1 @gep9(i8* %ptr) {
+-; CHECK-LABEL: @gep9(
+-; CHECK-NOT: ret
+-; CHECK: ret i1 true
+-
+-entry:
+-  %first1 = getelementptr inbounds i8, i8* %ptr, i32 0
+-  %first2 = getelementptr inbounds i8, i8* %first1, i32 1
+-  %first3 = getelementptr inbounds i8, i8* %first2, i32 2
+-  %first4 = getelementptr inbounds i8, i8* %first3, i32 4
+-  %last1 = getelementptr inbounds i8, i8* %first2, i32 48
+-  %last2 = getelementptr inbounds i8, i8* %last1, i32 8
+-  %last3 = getelementptr inbounds i8, i8* %last2, i32 -4
+-  %last4 = getelementptr inbounds i8, i8* %last3, i32 -4
+-  %first.int = ptrtoint i8* %first4 to i32
+-  %last.int = ptrtoint i8* %last4 to i32
+-  %cmp = icmp ne i32 %last.int, %first.int
+-  ret i1 %cmp
+-}
+-
+-define i1 @gep10(i8* %ptr) {
+-; CHECK-LABEL: @gep10(
+-; CHECK-NOT: ret
+-; CHECK: ret i1 true
+-
+-entry:
+-  %first1 = getelementptr inbounds i8, i8* %ptr, i32 -2
+-  %first2 = getelementptr inbounds i8, i8* %first1, i32 44
+-  %last1 = getelementptr inbounds i8, i8* %ptr, i32 48
+-  %last2 = getelementptr inbounds i8, i8* %last1, i32 -6
+-  %first.int = ptrtoint i8* %first2 to i32
+-  %last.int = ptrtoint i8* %last2 to i32
+-  %cmp = icmp eq i32 %last.int, %first.int
+-  ret i1 %cmp
+-}
++;define i1 @gep9(i8* %ptr) {
++;
++;entry:
++;  %first1 = getelementptr inbounds i8, i8* %ptr, i32 0
++;  %first2 = getelementptr inbounds i8, i8* %first1, i32 1
++;  %first3 = getelementptr inbounds i8, i8* %first2, i32 2
++;  %first4 = getelementptr inbounds i8, i8* %first3, i32 4
++;  %last1 = getelementptr inbounds i8, i8* %first2, i32 48
++;  %last2 = getelementptr inbounds i8, i8* %last1, i32 8
++;  %last3 = getelementptr inbounds i8, i8* %last2, i32 -4
++;  %last4 = getelementptr inbounds i8, i8* %last3, i32 -4
++;  %first.int = ptrtoint i8* %first4 to i32
++;  %last.int = ptrtoint i8* %last4 to i32
++;  %cmp = icmp ne i32 %last.int, %first.int
++;  ret i1 %cmp
++;}
++
++;define i1 @gep10(i8* %ptr) {
++;
++;entry:
++;  %first1 = getelementptr inbounds i8, i8* %ptr, i32 -2
++;  %first2 = getelementptr inbounds i8, i8* %first1, i32 44
++;  %last1 = getelementptr inbounds i8, i8* %ptr, i32 48
++;  %last2 = getelementptr inbounds i8, i8* %last1, i32 -6
++;  %first.int = ptrtoint i8* %first2 to i32
++;  %last.int = ptrtoint i8* %last2 to i32
++;  %cmp = icmp eq i32 %last.int, %first.int
++;  ret i1 %cmp
++;}
+ 
+ define i1 @gep11(i8* %ptr) {
+ ; CHECK-LABEL: @gep11(
+@@ -216,18 +208,16 @@ define i1 @gep16(i8* %ptr, i32 %a) {
+ ; CHECK-NEXT: ret i1 false
+ }
+ 
+-define i1 @gep17() {
+-; CHECK-LABEL: @gep17(
+-  %alloca = alloca i32, align 4
+-  %bc = bitcast i32* %alloca to [4 x i8]*
+-  %gep1 = getelementptr inbounds i32, i32* %alloca, i32 1
+-  %pti1 = ptrtoint i32* %gep1 to i32
+-  %gep2 = getelementptr inbounds [4 x i8], [4 x i8]* %bc, i32 0, i32 1
+-  %pti2 = ptrtoint i8* %gep2 to i32
+-  %cmp = icmp ugt i32 %pti1, %pti2
+-  ret i1 %cmp
+-; CHECK-NEXT: ret i1 true
+-}
++;define i1 @gep17() {
++;  %alloca = alloca i32, align 4
++;  %bc = bitcast i32* %alloca to [4 x i8]*
++;  %gep1 = getelementptr inbounds i32, i32* %alloca, i32 1
++;  %pti1 = ptrtoint i32* %gep1 to i32
++;  %gep2 = getelementptr inbounds [4 x i8], [4 x i8]* %bc, i32 0, i32 1
++;  %pti2 = ptrtoint i8* %gep2 to i32
++;  %cmp = icmp ugt i32 %pti1, %pti2
++;  ret i1 %cmp
++;}
+ 
+ define i1 @zext(i32 %x) {
+ ; CHECK-LABEL: @zext(
+diff --git a/test/Transforms/InstSimplify/gep.ll b/test/Transforms/InstSimplify/gep.ll
+index 13640e7631d..f73667bd622 100644
+--- a/test/Transforms/InstSimplify/gep.ll
++++ b/test/Transforms/InstSimplify/gep.ll
+@@ -4,66 +4,54 @@ target datalayout = "e-m:o-i64:64-f80:128-n8:16:32:64-S128"
+ 
+ %struct.A = type { [7 x i8] }
+ 
+-define %struct.A* @test1(%struct.A* %b, %struct.A* %e) {
+-  %e_ptr = ptrtoint %struct.A* %e to i64
+-  %b_ptr = ptrtoint %struct.A* %b to i64
+-  %sub = sub i64 %e_ptr, %b_ptr
+-  %sdiv = sdiv exact i64 %sub, 7
+-  %gep = getelementptr inbounds %struct.A, %struct.A* %b, i64 %sdiv
+-  ret %struct.A* %gep
+-; CHECK-LABEL: @test1
+-; CHECK-NEXT: ret %struct.A* %e
+-}
+-
+-define i8* @test2(i8* %b, i8* %e) {
+-  %e_ptr = ptrtoint i8* %e to i64
+-  %b_ptr = ptrtoint i8* %b to i64
+-  %sub = sub i64 %e_ptr, %b_ptr
+-  %gep = getelementptr inbounds i8, i8* %b, i64 %sub
+-  ret i8* %gep
+-; CHECK-LABEL: @test2
+-; CHECK-NEXT: ret i8* %e
+-}
+-
+-define i64* @test3(i64* %b, i64* %e) {
+-  %e_ptr = ptrtoint i64* %e to i64
+-  %b_ptr = ptrtoint i64* %b to i64
+-  %sub = sub i64 %e_ptr, %b_ptr
+-  %ashr = ashr exact i64 %sub, 3
+-  %gep = getelementptr inbounds i64, i64* %b, i64 %ashr
+-  ret i64* %gep
+-; CHECK-LABEL: @test3
+-; CHECK-NEXT: ret i64* %e
+-}
+-
+-define %struct.A* @test4(%struct.A* %b) {
+-  %b_ptr = ptrtoint %struct.A* %b to i64
+-  %sub = sub i64 0, %b_ptr
+-  %sdiv = sdiv exact i64 %sub, 7
+-  %gep = getelementptr inbounds %struct.A, %struct.A* %b, i64 %sdiv
+-  ret %struct.A* %gep
+-; CHECK-LABEL: @test4
+-; CHECK-NEXT: ret %struct.A* null
+-}
+-
+-define i8* @test5(i8* %b) {
+-  %b_ptr = ptrtoint i8* %b to i64
+-  %sub = sub i64 0, %b_ptr
+-  %gep = getelementptr inbounds i8, i8* %b, i64 %sub
+-  ret i8* %gep
+-; CHECK-LABEL: @test5
+-; CHECK-NEXT: ret i8* null
+-}
+-
+-define i64* @test6(i64* %b) {
+-  %b_ptr = ptrtoint i64* %b to i64
+-  %sub = sub i64 0, %b_ptr
+-  %ashr = ashr exact i64 %sub, 3
+-  %gep = getelementptr inbounds i64, i64* %b, i64 %ashr
+-  ret i64* %gep
+-; CHECK-LABEL: @test6
+-; CHECK-NEXT: ret i64* null
+-}
++;define %struct.A* @test1(%struct.A* %b, %struct.A* %e) {
++;  %e_ptr = ptrtoint %struct.A* %e to i64
++;  %b_ptr = ptrtoint %struct.A* %b to i64
++;  %sub = sub i64 %e_ptr, %b_ptr
++;  %sdiv = sdiv exact i64 %sub, 7
++;  %gep = getelementptr inbounds %struct.A, %struct.A* %b, i64 %sdiv
++;  ret %struct.A* %gep
++;}
++;
++;define i8* @test2(i8* %b, i8* %e) {
++;  %e_ptr = ptrtoint i8* %e to i64
++;  %b_ptr = ptrtoint i8* %b to i64
++;  %sub = sub i64 %e_ptr, %b_ptr
++;  %gep = getelementptr inbounds i8, i8* %b, i64 %sub
++;  ret i8* %gep
++;}
++;
++;define i64* @test3(i64* %b, i64* %e) {
++;  %e_ptr = ptrtoint i64* %e to i64
++;  %b_ptr = ptrtoint i64* %b to i64
++;  %sub = sub i64 %e_ptr, %b_ptr
++;  %ashr = ashr exact i64 %sub, 3
++;  %gep = getelementptr inbounds i64, i64* %b, i64 %ashr
++;  ret i64* %gep
++;}
++;
++;define %struct.A* @test4(%struct.A* %b) {
++;  %b_ptr = ptrtoint %struct.A* %b to i64
++;  %sub = sub i64 0, %b_ptr
++;  %sdiv = sdiv exact i64 %sub, 7
++;  %gep = getelementptr inbounds %struct.A, %struct.A* %b, i64 %sdiv
++;  ret %struct.A* %gep
++;}
++;
++;define i8* @test5(i8* %b) {
++;  %b_ptr = ptrtoint i8* %b to i64
++;  %sub = sub i64 0, %b_ptr
++;  %gep = getelementptr inbounds i8, i8* %b, i64 %sub
++;  ret i8* %gep
++;}
++;
++;define i64* @test6(i64* %b) {
++;  %b_ptr = ptrtoint i64* %b to i64
++;  %sub = sub i64 0, %b_ptr
++;  %ashr = ashr exact i64 %sub, 3
++;  %gep = getelementptr inbounds i64, i64* %b, i64 %ashr
++;  ret i64* %gep
++;}
+ 
+ define i8* @test7(i8* %b, i8** %e) {
+   %e_ptr = ptrtoint i8** %e to i64
+-- 
+2.17.0
+

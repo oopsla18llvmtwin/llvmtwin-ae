@@ -1,0 +1,33 @@
+From 4c61e7d94696e3346da34031080891f5b176cbe3 Mon Sep 17 00:00:00 2001
+From: aqjune <aqjune@gmail.com>
+Date: Wed, 4 Oct 2017 01:21:45 +0900
+Subject: [PATCH] Use psub in pointer subtraction
+
+---
+ lib/CodeGen/CGExprScalar.cpp | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/lib/CodeGen/CGExprScalar.cpp b/lib/CodeGen/CGExprScalar.cpp
+index a488c80979..3d3a17a460 100644
+--- a/lib/CodeGen/CGExprScalar.cpp
++++ b/lib/CodeGen/CGExprScalar.cpp
+@@ -2917,11 +2917,11 @@ Value *ScalarExprEmitter::EmitSub(const BinOpInfo &op) {
+   // Otherwise, this is a pointer subtraction.
+ 
+   // Do the raw subtraction part.
+-  llvm::Value *LHS
+-    = Builder.CreatePtrToInt(op.LHS, CGF.PtrDiffTy, "sub.ptr.lhs.cast");
+-  llvm::Value *RHS
+-    = Builder.CreatePtrToInt(op.RHS, CGF.PtrDiffTy, "sub.ptr.rhs.cast");
+-  Value *diffInChars = Builder.CreateSub(LHS, RHS, "sub.ptr.sub");
++  llvm::Type *psubTys[] = { CGF.PtrDiffTy, op.LHS->getType(), op.RHS->getType() };
++  Value *psubArgs[] = { op.LHS, op.RHS };
++  Value *diffInChars = Builder.CreateCall(
++             CGF.CGM.getIntrinsic(llvm::Intrinsic::psub, ArrayRef<llvm::Type *>(psubTys, 3)),
++             psubArgs, "sub.ptr.sub");
+ 
+   // Okay, figure out the element size.
+   const BinaryOperator *expr = cast<BinaryOperator>(op.E);
+-- 
+2.17.0
+

@@ -1,0 +1,690 @@
+runcpu v5825 started at 2017-11-01 21:27:00 on "freeze4"
+runcpu is: /mnt/freezedisk/speccpu2017-intptr/bin/harness/runcpu
+runcpu: runcpu --config linux64-amd64-clang-base-5.0-o3-release.cfg --noreportable --rebuild --iterations 3 519.lbm_r
+toolset: linux-x86_64
+
+Locating benchmarks...found 47 benchmarks in 53 benchsets.
+Reading config file '/mnt/freezedisk/speccpu2017-intptr/config/linux64-amd64-clang-base-5.0-o3-release.cfg'
+
+1 configuration selected:
+
+ Action    Run Mode   Workload     Report Type     Benchmarks
+--------   --------   --------   ---------------   ----------------------------
+validate   rate       refrate    SPECrate2017_fp   519.lbm_r                   
+-------------------------------------------------------------------------------
+
+Setting up environment for running 519.lbm_r...
+Starting runcpu for 519.lbm_r...
+Running "specperl /mnt/freezedisk/speccpu2017-intptr/bin/sysinfo" to gather system information.
+sysinfo: r5797 of 2017-06-14 (96c45e4568ad54c135fd618bcc091c0f)
+sysinfo: Getting system information for Linux...
+sysinfo: ...getting CPU info
+sysinfo: ...getting info from numactl
+sysinfo: ...getting memory info
+sysinfo: ...getting OS info
+sysinfo: ...getting disk info
+sysinfo: ...trying to get DIMM info from dmidecode
+Retrieving flags file (/mnt/freezedisk/speccpu2017-intptr/config/flags/gcc.xml)...
+Retrieving flags file (/mnt/freezedisk/speccpu2017-intptr/config/flags/clang.xml)...
+Verbosity = 5
+Action    = validate
+Tune      = base
+Label     = mytest-m64
+Size      = refrate
+benchmarks= 519.lbm_r
+outputs   = txt,html,cfg,pdf,csv
+username  = sflab
+Environment settings:
+LD_LIBRARY_PATH = "/mnt/freezedisk/llvm-intptr-base-5.0-release/lib"
+LIBRARY_PATH = "/mnt/freezedisk/llvm-intptr-base-5.0-release/lib"
+PATH = "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin:%{ENV_PATH}"
+
+Benchmarks selected: 519.lbm_r
+When checking executables (/mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/519.lbm_r/exe/lbm_r_base.mytest-m64), no checksums were
+  found in the config file.  They will be installed after build.
+When checking executables (/mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/519.lbm_r/exe/lbm_r_base.mytest-m64), no checksums were
+  found in the config file.  They will be installed after build.
+Compiling Binaries
+------------------------------------------------------------------------
+  Building 519.lbm_r base mytest-m64: (build_base_mytest-m64.0000) [2017-11-01 21:27:02]
+Wrote to makefile '/mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/519.lbm_r/build/build_base_mytest-m64.0000/Makefile.deps':
+# End dependencies
+# These are the build dependencies
+Wrote to makefile '/mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/519.lbm_r/build/build_base_mytest-m64.0000/Makefile.spec':
+TUNE=base
+LABEL=mytest-m64
+NUMBER=519
+NAME=lbm_r
+SOURCES= lbm.c main.c
+EXEBASE=lbm_r
+NEED_MATH=yes
+BENCHLANG=C
+BASE_DIR         = /mnt/freezedisk
+BENCH_FLAGS      = -DSPEC_AUTO_SUPPRESS_OPENMP
+CC               = $(LLVM_BIN_PATH)/clang -m64
+CC_VERSION_OPTION = -v
+CLD              = $(LLVM_BIN_PATH)/clang -m64
+COPTIMIZE        = -O3 -mavx
+CXX              = $(LLVM_BIN_PATH)/clang++ -m64
+CXXOPTIMIZE      = -O3 -mavx
+CXX_VERSION_OPTION = -v
+DRAGONEGG_PATH   = /mnt/freezedisk/llvm-intptr-base-5.0-release/dragonegg
+DRAGONEGG_SPECS  = /mnt/freezedisk/llvm-intptr-base-5.0-release/dragonegg/integrated-as.specs
+EXTRA_FFLAGS     = 
+EXTRA_FLIBS      = -lgfortran -lm
+EXTRA_PORTABILITY = -DSPEC_LP64
+FC               = $(FORTRAN_COMP) -m64
+FC_VERSION_OPTION = -v
+FLD              = $(LLVM_BIN_PATH)/clang -m64
+FOPTIMIZE        = -O3 -mavx -funroll-loops
+FORTRAN_COMP     = $(GFORTRAN_DIR)/gfortran
+GFORTRAN_DIR     = /usr/bin
+LDOPTIMIZE       = -z muldefs
+LLVM_BIN_PATH    = /mnt/freezedisk/llvm-intptr-base-5.0-release/bin
+LLVM_GCC_DIR     = /mnt/freezedisk/llvm-intptr-base-5.0-release/gcc-4.8.2
+LLVM_INCLUDE_PATH = /mnt/freezedisk/llvm-intptr-base-5.0-release/include
+LLVM_LIB_PATH    = /mnt/freezedisk/llvm-intptr-base-5.0-release/lib
+LLVM_PATH        = /mnt/freezedisk/llvm-intptr-base-5.0-release
+LLVM_ROOT_PATH   = /mnt/freezedisk/llvm-intptr-base-5.0-release
+OPENMP_DIR       = /mnt/freezedisk/lib/libomp_oss/exports
+OS               = unix
+absolutely_no_locking = 0
+abstol           = 1e-07
+action           = validate
+allow_label_override = 0
+backup_config    = 1
+baseexe          = lbm_r
+basepeak         = 0
+benchdir         = benchspec
+benchmark        = 519.lbm_r
+binary           = 
+bindir           = exe
+builddir         = build
+bundleaction     = 
+bundlename       = 
+calctol          = 1
+changedhash      = 0
+check_version    = 0
+clean_between_builds = no
+command_add_redirect = 0
+commanderrfile   = speccmds.err
+commandexe       = lbm_r_base.mytest-m64
+commandfile      = speccmds.cmd
+commandoutfile   = speccmds.out
+commandstdoutfile = speccmds.stdout
+comparedir       = compare
+compareerrfile   = compare.err
+comparefile      = compare.cmd
+compareoutfile   = compare.out
+comparestdoutfile = compare.stdout
+compile_error    = 0
+compwhite        = 
+configdir        = config
+configfile       = linux64-amd64-clang-base-5.0-o3-release.cfg
+configpath       = /mnt/freezedisk/speccpu2017-intptr/config/linux64-amd64-clang-base-5.0-o3-release.cfg
+copies           = 1
+current_range    = 
+datadir          = data
+default_size     = ref
+default_submit   = $command
+delay            = 0
+deletebinaries   = 0
+deletework       = 0
+dependent_workloads = 0
+device           = 
+difflines        = 10
+dirprot          = 511
+discard_power_samples = 0
+enable_monitor   = 1
+endian           = 12345678
+env_vars         = 0
+expand_notes     = 0
+expid            = 
+exthash_bits     = 256
+failflags        = 0
+fake             = 0
+feedback         = 1
+flag_url_base    = https://www.spec.org/auto/cpu2017/Docs/benchmarks/flags/
+floatcompare     = 
+force_monitor    = 0
+from_runcpu      = 2
+fw_bios          = 
+hostname         = freeze4
+http_proxy       = 
+http_timeout     = 30
+hw_avail         = 
+hw_cpu_max_mhz   = 
+hw_cpu_name      = Intel Core i3-6100
+hw_cpu_nominal_mhz = 
+hw_disk          = 230 GB  add more disk info here
+hw_memory001     = 7.497 GB fixme: If using DDR3, format is:
+hw_memory002     = 'N GB (M x N GB nRxn PCn-nnnnnR-n, ECC)'
+hw_model         = 
+hw_nchips        = 1
+hw_ncores        = 
+hw_ncpuorder     = 
+hw_nthreadspercore = 
+hw_ocache        = 
+hw_other         = 
+hw_pcache        = 
+hw_scache        = 
+hw_tcache        = 
+hw_vendor        = My Corporation
+idle_current_range = 
+idledelay        = 10
+idleduration     = 60
+ignore_errors    = 1
+ignore_sigint    = 0
+ignorecase       = 
+info_wrap_columns = 50
+inputdir         = input
+inputgenerrfile  = inputgen.err
+inputgenfile     = inputgen.cmd
+inputgenoutfile  = inputgen.out
+inputgenstdoutfile = inputgen.stdout
+iteration        = -1
+iterations       = 3
+keeptmp          = 0
+label            = mytest-m64
+license_num      = nnn (Your SPEC license number)
+line_width       = 1020
+link_input_files = 1
+locking          = 1
+log              = CPU2017
+log_line_width   = 1020
+log_timestamp    = 0
+logfile          = /mnt/freezedisk/speccpu2017-intptr/tmp/CPU2017.013/templogs/preenv.fprate.013.0
+logname          = /mnt/freezedisk/speccpu2017-intptr/tmp/CPU2017.013/templogs/preenv.fprate.013.0
+lognum           = 013.0
+mail_reports     = all
+mailcompress     = 0
+mailmethod       = smtp
+mailport         = 25
+mailserver       = 127.0.0.1
+mailto           = 
+make             = specmake
+make_no_clobber  = 0
+makefile_template = Makefile.YYYtArGeTYYYspec
+makeflags        = --jobs=8
+max_average_uncertainty = 1
+max_hum_limit    = 0
+max_report_runs  = 3
+max_unknown_uncertainty = 1
+mean_anyway      = 1
+meter_connect_timeout = 30
+meter_errors_default = 5
+meter_errors_percentage = 5
+min_report_runs  = 2
+min_temp_limit   = 20
+minimize_builddirs = 0
+minimize_rundirs = 0
+name             = lbm_r
+nansupport       = 
+need_math        = yes
+no_input_handler = close
+no_monitor       = 
+noratios         = 0
+note_preenv      = 1
+notes_plat_sysinfo_000 =  Sysinfo program /mnt/freezedisk/speccpu2017-intptr/bin/sysinfo
+notes_plat_sysinfo_005 =  Rev: r5797 of 2017-06-14 96c45e4568ad54c135fd618bcc091c0f
+notes_plat_sysinfo_010 =  running on freeze4 Wed Nov  1 21:27:02 2017
+notes_plat_sysinfo_015 = 
+notes_plat_sysinfo_020 =  SUT (System Under Test) info as seen by some common utilities.
+notes_plat_sysinfo_025 =  For more information on this section, see
+notes_plat_sysinfo_030 =     https://www.spec.org/cpu2017/Docs/config.html\#sysinfo
+notes_plat_sysinfo_035 = 
+notes_plat_sysinfo_040 =  From /proc/cpuinfo
+notes_plat_sysinfo_045 =     model name : Intel(R) Core(TM) i3-6100 CPU @ 3.70GHz
+notes_plat_sysinfo_050 =        1  "physical id"s (chips)
+notes_plat_sysinfo_055 =        2 "processors"
+notes_plat_sysinfo_060 =     cores, siblings (Caution: counting these is hw and system dependent. The following
+notes_plat_sysinfo_065 =     excerpts from /proc/cpuinfo might not be reliable.  Use with caution.)
+notes_plat_sysinfo_070 =        cpu cores : 2
+notes_plat_sysinfo_075 =        siblings  : 2
+notes_plat_sysinfo_080 =        physical 0: cores 0 1
+notes_plat_sysinfo_085 = 
+notes_plat_sysinfo_090 =  From lscpu:
+notes_plat_sysinfo_095 =       Architecture:          x86_64
+notes_plat_sysinfo_100 =       CPU op-mode(s):        32-bit, 64-bit
+notes_plat_sysinfo_105 =       Byte Order:            Little Endian
+notes_plat_sysinfo_110 =       CPU(s):                2
+notes_plat_sysinfo_115 =       On-line CPU(s) list:   0,1
+notes_plat_sysinfo_120 =       Thread(s) per core:    1
+notes_plat_sysinfo_125 =       Core(s) per socket:    2
+notes_plat_sysinfo_130 =       Socket(s):             1
+notes_plat_sysinfo_135 =       NUMA node(s):          1
+notes_plat_sysinfo_140 =       Vendor ID:             GenuineIntel
+notes_plat_sysinfo_145 =       CPU family:            6
+notes_plat_sysinfo_150 =       Model:                 94
+notes_plat_sysinfo_155 =       Model name:            Intel(R) Core(TM) i3-6100 CPU @ 3.70GHz
+notes_plat_sysinfo_160 =       Stepping:              3
+notes_plat_sysinfo_165 =       CPU MHz:               3700.000
+notes_plat_sysinfo_170 =       CPU max MHz:           3700.0000
+notes_plat_sysinfo_175 =       CPU min MHz:           800.0000
+notes_plat_sysinfo_180 =       BogoMIPS:              7392.16
+notes_plat_sysinfo_185 =       Virtualization:        VT-x
+notes_plat_sysinfo_190 =       L1d cache:             32K
+notes_plat_sysinfo_195 =       L1i cache:             32K
+notes_plat_sysinfo_200 =       L2 cache:              256K
+notes_plat_sysinfo_205 =       L3 cache:              3072K
+notes_plat_sysinfo_210 =       NUMA node0 CPU(s):     0,1
+notes_plat_sysinfo_215 =       Flags:                 fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov
+notes_plat_sysinfo_220 =       pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp
+notes_plat_sysinfo_225 =       lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc
+notes_plat_sysinfo_230 =       aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma
+notes_plat_sysinfo_235 =       cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave
+notes_plat_sysinfo_240 =       avx f16c rdrand lahf_lm abm 3dnowprefetch epb intel_pt tpr_shadow vnmi flexpriority
+notes_plat_sysinfo_245 =       ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx rdseed adx smap
+notes_plat_sysinfo_250 =       clflushopt xsaveopt xsavec xgetbv1 dtherm arat pln pts hwp hwp_notify hwp_act_window
+notes_plat_sysinfo_255 =       hwp_epp
+notes_plat_sysinfo_260 = 
+notes_plat_sysinfo_265 =  /proc/cpuinfo cache data
+notes_plat_sysinfo_270 =     cache size : 3072 KB
+notes_plat_sysinfo_275 = 
+notes_plat_sysinfo_280 =  From numactl --hardware  WARNING: a numactl 'node' might or might not correspond to a
+notes_plat_sysinfo_285 =  physical chip.
+notes_plat_sysinfo_290 =    available: 1 nodes (0)
+notes_plat_sysinfo_295 =    node 0 cpus: 0 1
+notes_plat_sysinfo_300 =    node 0 size: 7676 MB
+notes_plat_sysinfo_305 =    node 0 free: 7238 MB
+notes_plat_sysinfo_310 =    node distances:
+notes_plat_sysinfo_315 =    node   0
+notes_plat_sysinfo_320 =      0:  10
+notes_plat_sysinfo_325 = 
+notes_plat_sysinfo_330 =  From /proc/meminfo
+notes_plat_sysinfo_335 =     MemTotal:        7860684 kB
+notes_plat_sysinfo_340 =     HugePages_Total:       0
+notes_plat_sysinfo_345 =     Hugepagesize:       2048 kB
+notes_plat_sysinfo_350 = 
+notes_plat_sysinfo_355 =  /usr/bin/lsb_release -d
+notes_plat_sysinfo_360 =     Ubuntu 16.04.3 LTS
+notes_plat_sysinfo_365 = 
+notes_plat_sysinfo_370 =  From /etc/*release* /etc/*version*
+notes_plat_sysinfo_375 =     debian_version: stretch/sid
+notes_plat_sysinfo_380 =     os-release:
+notes_plat_sysinfo_385 =        NAME="Ubuntu"
+notes_plat_sysinfo_390 =        VERSION="16.04.3 LTS (Xenial Xerus)"
+notes_plat_sysinfo_395 =        ID=ubuntu
+notes_plat_sysinfo_400 =        ID_LIKE=debian
+notes_plat_sysinfo_405 =        PRETTY_NAME="Ubuntu 16.04.3 LTS"
+notes_plat_sysinfo_410 =        VERSION_ID="16.04"
+notes_plat_sysinfo_415 =        HOME_URL="http://www.ubuntu.com/"
+notes_plat_sysinfo_420 =        SUPPORT_URL="http://help.ubuntu.com/"
+notes_plat_sysinfo_425 = 
+notes_plat_sysinfo_430 =  uname -a:
+notes_plat_sysinfo_435 =     Linux freeze4 4.4.0-97-generic \#120-Ubuntu SMP Tue Sep 19 17:28:18 UTC 2017 x86_64
+notes_plat_sysinfo_440 =     x86_64 x86_64 GNU/Linux
+notes_plat_sysinfo_445 = 
+notes_plat_sysinfo_450 =  run-level 3 Oct 30 07:30
+notes_plat_sysinfo_455 = 
+notes_plat_sysinfo_460 =  SPEC is set to: /mnt/freezedisk/speccpu2017-intptr
+notes_plat_sysinfo_465 =     Filesystem     Type  Size  Used Avail Use% Mounted on
+notes_plat_sysinfo_470 =     /dev/sda1      ext4  230G   56G  162G  26% /mnt/freezedisk
+notes_plat_sysinfo_475 = 
+notes_plat_sysinfo_480 =  Additional information from dmidecode follows.  WARNING: Use caution when you interpret
+notes_plat_sysinfo_485 =  this section. The 'dmidecode' program reads system data which is "intended to allow
+notes_plat_sysinfo_490 =  hardware to be accurately determined", but the intent may not be met, as there are
+notes_plat_sysinfo_495 =  frequent changes to hardware, firmware, and the "DMTF SMBIOS" standard.
+notes_plat_sysinfo_500 = 
+notes_plat_sysinfo_505 =  (End of data from sysinfo program)
+notes_wrap_columns = 0
+notes_wrap_indent =   
+num              = 519
+obiwan           = 
+os_exe_ext       = 
+output_format    = txt,html,cfg,pdf,csv
+output_root      = 
+outputdir        = output
+parallel_test    = 0
+parallel_test_submit = 0
+parallel_test_workloads = 
+path             = /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/519.lbm_r
+plain_train      = 1
+platform         = 
+power            = 0
+preENV_LD_LIBRARY_PATH = /mnt/freezedisk/llvm-intptr-base-5.0-release/lib
+preENV_LIBRARY_PATH = /mnt/freezedisk/llvm-intptr-base-5.0-release/lib
+preENV_PATH      = /mnt/freezedisk/llvm-intptr-base-5.0-release/bin:%{ENV_PATH}
+preenv           = 0
+prefix           = 
+prepared_by      = sflab  (is never output, only tags rawfile)
+ranks            = 1
+rawhash_bits     = 256
+rebuild          = 1
+reftime          = reftime
+reltol           = 
+reportable       = 0
+resultdir        = result
+review           = 0
+run              = all
+runcpu           = /mnt/freezedisk/speccpu2017-intptr/bin/harness/runcpu --configfile linux64-amd64-clang-base-5.0-o3-release.cfg --noreportable --rebuild --iterations 3 --noreportable --nopower --runmode rate --tune base --size refrate 519.lbm_r --nopreenv --note-preenv --logfile /mnt/freezedisk/speccpu2017-intptr/tmp/CPU2017.013/templogs/preenv.fprate.013.0 --lognum 013.0 --from_runcpu 2
+rundir           = run
+runmode          = rate
+safe_eval        = 1
+save_build_files = 
+section_specifier_fatal = 1
+setprocgroup     = 1
+setup_error      = 0
+sigint           = 2
+size             = refrate
+size_class       = ref
+skipabstol       = 
+skipobiwan       = 
+skipreltol       = 
+skiptol          = 
+smarttune        = base
+specdiff         = specdiff
+specrun          = specinvoke
+srcalt           = 
+srcdir           = src
+srcsource        = /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/519.lbm_r/src
+stagger          = 10
+strict_rundir_verify = 1
+submit_default   = echo "$command" > run.sh ; $BIND bash run.sh
+sw_avail         = 
+sw_base_ptrsize  = 64-bit
+sw_compiler001   = C/C++: Version 3.9.0 of Clang, the
+sw_compiler002   = LLVM Compiler Infrastructure
+sw_compiler003   = Fortran: Version 4.8.2 of GCC, the
+sw_compiler004   = GNU Compiler Collection
+sw_compiler005   = DragonEgg: Version 3.5.2, the
+sw_compiler006   = LLVM Compiler Infrastructure
+sw_file          = ext4
+sw_os001         = Ubuntu 16.04.3 LTS
+sw_os002         = 4.4.0-97-generic
+sw_other         = 
+sw_peak_ptrsize  = 64-bit
+sw_state         = Run level 3 (add definition here)
+sysinfo_hash_bits = 256
+sysinfo_program  = specperl /mnt/freezedisk/speccpu2017-intptr/bin/sysinfo
+sysinfo_program_hash = sysinfo:SHA:ecd2bef08f316af97f5a7768b641e2a3307c1b4b68efb5a57fa76367d790d233
+table            = 1
+teeout           = 0
+test_date        = Nov-2017
+test_sponsor     = My Corporation
+tester           = My Corporation
+threads          = 1
+top              = /mnt/freezedisk/speccpu2017-intptr
+train_single_thread = 0
+train_with       = train
+tune             = base
+uid              = 1000
+unbuffer         = 1
+uncertainty_exception = 5
+update           = 0
+update_url       = http://www.spec.org/auto/cpu2017/updates/
+use_submit_for_compare = 0
+use_submit_for_speed = 0
+username         = sflab
+verbose          = 5
+verify_binaries  = 1
+version          = 0.905000
+version_url      = http://www.spec.org/auto/cpu2017/current_version
+voltage_range    = 
+worklist         = list
+OUTPUT_RMFILES   = lbm.out
+  Compile for '519.lbm_r' started at: 2017-11-01 21:27:02 (1509539222)
+Issuing make.clean command 'specmake --output-sync --jobs=8 clean'
+Start make.clean command: 2017-11-01 21:27:02 (1509539222.59517)
+rm -rf *.o  lbm.out
+find . \( -name \*.o -o -name '*.fppized.f*' -o -name '*.i' -o -name '*.mod' \) -print | xargs rm -rf
+rm -rf lbm_r
+rm -rf lbm_r.exe
+rm -rf core
+Stop make.clean command: 2017-11-01 21:27:02 (1509539222.75659)
+Elapsed time for make.clean command: 00:00:00 (0.161424875259399)
+Issuing make command 'specmake --output-sync --jobs=8 build'
+Start make command: 2017-11-01 21:27:02 (1509539222.75725)
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o main.o -DSPEC -DNDEBUG -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  main.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o lbm.o -DSPEC -DNDEBUG -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  lbm.c
+/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64       -O3 -mavx   -z muldefs      lbm.o main.o             -lm         -o lbm_r  
+Stop make command: 2017-11-01 21:27:03 (1509539223.27219)
+Elapsed time for make command: 00:00:00 (0.514940977096558)
+Issuing options command 'specmake --output-sync --jobs=8 options'
+Start options command: 2017-11-01 21:27:03 (1509539223.27283)
+COMP: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o options.o -DSPEC -DNDEBUG -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  <source>"
+C: CC="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64"
+C: COBJOPT="-c -o options"
+P: CPUFLAGS="-DSPEC -DNDEBUG"
+P: BENCH_FLAGS="-DSPEC_AUTO_SUPPRESS_OPENMP"
+P: BENCH_CFLAGS=""
+O: OPTIMIZE=""
+O: COPTIMIZE="-O3 -mavx"
+P: PORTABILITY=""
+P: CPORTABILITY=""
+O: EXTRA_CFLAGS=""
+O: EXTRA_OPTIMIZE=""
+O: EXTRA_COPTIMIZE=""
+P: EXTRA_PORTABILITY="-DSPEC_LP64"
+P: EXTRA_CPORTABILITY=""
+LINK: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64       -O3 -mavx   -z muldefs      <objects>   -lm         -o options  "
+C: LD="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64"
+O: COPTIMIZE="-O3 -mavx"
+O: LDOPTIMIZE="-z muldefs"
+C: MATH_LIBS="-lm"
+C: LDOUT="-o options"
+Stop options command: 2017-11-01 21:27:03 (1509539223.43057)
+Elapsed time for options command: 00:00:00 (0.157738924026489)
+Issuing compiler-version command 'specmake --output-sync --jobs=8 compiler-version'
+Start compiler-version command: 2017-11-01 21:27:03 (1509539223.43143)
+ CC_VERSION_OPTION:
+clang version 6.0.0 (https://github.com/aqjune/clang-intptr.git b099f9b86954800bcbdee427fc703eb8a30389da) (https://github.com/aqjune/llvm-intptr.git d3762c4675cbe5178acef79f01c813bcbfc58cf5)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: /mnt/freezedisk/llvm-intptr-base-5.0-release/bin
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6.0.0
+Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Candidate multilib: .;@m64
+Selected multilib: .;@m64
+clang-6.0: warning: argument unused during compilation: '-D SPEC' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D NDEBUG' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_AUTO_SUPPRESS_OPENMP' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-O3' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-mavx' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_LP64' [-Wunused-command-line-argument]
+Stop compiler-version command: 2017-11-01 21:27:03 (1509539223.59437)
+Elapsed time for compiler-version command: 00:00:00 (0.162941932678223)
+  Compile for '519.lbm_r' ended at: 2017-11-01 21:27:03 (1509539223)
+  Elapsed compile for '519.lbm_r': 00:00:01 (1)
+COMP: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64 -c -o options.o -DSPEC -DNDEBUG -DSPEC_AUTO_SUPPRESS_OPENMP   -O3 -mavx              -DSPEC_LP64  <source>"
+C: CC="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64"
+C: COBJOPT="-c -o options"
+P: CPUFLAGS="-DSPEC -DNDEBUG"
+P: BENCH_FLAGS="-DSPEC_AUTO_SUPPRESS_OPENMP"
+P: BENCH_CFLAGS=""
+O: OPTIMIZE=""
+O: COPTIMIZE="-O3 -mavx"
+P: PORTABILITY=""
+P: CPORTABILITY=""
+O: EXTRA_CFLAGS=""
+O: EXTRA_OPTIMIZE=""
+O: EXTRA_COPTIMIZE=""
+P: EXTRA_PORTABILITY="-DSPEC_LP64"
+P: EXTRA_CPORTABILITY=""
+LINK: "/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64       -O3 -mavx   -z muldefs      <objects>   -lm         -o options  "
+C: LD="/mnt/freezedisk/llvm-intptr-base-5.0-release/bin/clang -m64"
+O: COPTIMIZE="-O3 -mavx"
+O: LDOPTIMIZE="-z muldefs"
+C: MATH_LIBS="-lm"
+C: LDOUT="-o options"
+ CC_VERSION_OPTION:
+clang version 6.0.0 (https://github.com/aqjune/clang-intptr.git b099f9b86954800bcbdee427fc703eb8a30389da) (https://github.com/aqjune/llvm-intptr.git d3762c4675cbe5178acef79f01c813bcbfc58cf5)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: /mnt/freezedisk/llvm-intptr-base-5.0-release/bin
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/6.0.0
+Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.0
+Candidate multilib: .;@m64
+Selected multilib: .;@m64
+clang-6.0: warning: argument unused during compilation: '-D SPEC' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D NDEBUG' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_AUTO_SUPPRESS_OPENMP' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-O3' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-mavx' [-Wunused-command-line-argument]
+clang-6.0: warning: argument unused during compilation: '-D SPEC_LP64' [-Wunused-command-line-argument]
+
+Build successes for fprate: 519.lbm_r(base)
+Build errors for fprate: None
+
+Setting Up Run Directories
+  Setting up 519.lbm_r refrate (ref) base mytest-m64 (1 copy): run_base_refrate_mytest-m64.0000
+-----------------------------------
+Running Benchmarks
+-----------------------------------
+  Running (#1) 519.lbm_r refrate (ref) base mytest-m64 (1 copy) [2017-11-01 21:27:03]
+OpenMP environment variables removed: None
+OpenMP environment variables in effect:
+	OMP_NUM_THREADS	=> '1'
+	OMP_THREAD_LIMIT	=> '1'
+Pre-run environment changes:
+	'OMP_NUM_THREADS' added: (value now '1')
+	'OMP_THREAD_LIMIT' added: (value now '1')
+Commands to run (specinvoke command file):
+    -N C
+    -b numactl -m 0 --physcpubind=0
+    -C /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/519.lbm_r/run/run_base_refrate_mytest-m64.0000
+    -o lbm.out -e lbm.err echo "../run_base_refrate_mytest-m64.0000/lbm_r_base.mytest-m64 3000 reference.dat 0 0 100_100_130_ldc.of" > run.sh ; $BIND bash run.sh (timed)
+Specinvoke: /mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/519.lbm_r/run/run_base_refrate_mytest-m64.0000 -f speccmds.cmd -q -e speccmds.err -o speccmds.stdout
+Issuing command '/mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/519.lbm_r/run/run_base_refrate_mytest-m64.0000 -f speccmds.cmd -q -e speccmds.err -o speccmds.stdout'
+Start command: 2017-11-01 21:27:04 (1509539224.02746)
+Stop command: 2017-11-01 21:31:50 (1509539510.39033)
+Elapsed time for command: 00:04:46 (286.36286687851)
+Workload elapsed time (copy 0 workload 1) = 286.208378 seconds
+Copy 0 of 519.lbm_r (base refrate) run 1 finished at 2017-11-01 21:31:50.  Total elapsed time: 286.208378
+OpenMP environment variables removed: None
+OpenMP environment variables in effect:
+	OMP_NUM_THREADS	=> '1'
+	OMP_THREAD_LIMIT	=> '1'
+Pre-run environment changes:
+	'OMP_NUM_THREADS' added: (value now '1')
+	'OMP_THREAD_LIMIT' added: (value now '1')
+comparing 'lbm.out' with abstol=1e-07
+Specinvoke: /mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/519.lbm_r/run/run_base_refrate_mytest-m64.0000 -f compare.cmd -E -e compare.err -o compare.stdout
+Issuing command '/mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/519.lbm_r/run/run_base_refrate_mytest-m64.0000 -f compare.cmd -E -e compare.err -o compare.stdout'
+Start command: 2017-11-01 21:31:50 (1509539510.42081)
+Stop command: 2017-11-01 21:31:50 (1509539510.67955)
+Elapsed time for command: 00:00:00 (0.258739948272705)
+Benchmark Times:
+  Run Start:    2017-11-01 21:27:04 (1509539224)
+  Rate Start:   2017-11-01 21:27:04 (1509539224.03026)
+  Rate End:     2017-11-01 21:31:50 (1509539510.23863)
+  Run Stop:     2017-11-01 21:31:50 (1509539510)
+  Run Elapsed:  00:04:46 (286)
+  Run Reported: 00:04:46 (286 208378076 286.208378)
+ Success 519.lbm_r base refrate ratio=3.68, runtime=286.208378, copies=1, threads=1, power=0.00W, temp=0.00 degC, humidity=0.00%
+-----------------------------------
+  Running (#2) 519.lbm_r refrate (ref) base mytest-m64 (1 copy) [2017-11-01 21:31:50]
+OpenMP environment variables removed: None
+OpenMP environment variables in effect:
+	OMP_NUM_THREADS	=> '1'
+	OMP_THREAD_LIMIT	=> '1'
+Pre-run environment changes:
+	'OMP_NUM_THREADS' added: (value now '1')
+	'OMP_THREAD_LIMIT' added: (value now '1')
+Commands to run (specinvoke command file):
+    -N C
+    -b numactl -m 0 --physcpubind=0
+    -C /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/519.lbm_r/run/run_base_refrate_mytest-m64.0000
+    -o lbm.out -e lbm.err echo "../run_base_refrate_mytest-m64.0000/lbm_r_base.mytest-m64 3000 reference.dat 0 0 100_100_130_ldc.of" > run.sh ; $BIND bash run.sh (timed)
+Specinvoke: /mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/519.lbm_r/run/run_base_refrate_mytest-m64.0000 -f speccmds.cmd -q -e speccmds.err -o speccmds.stdout
+Issuing command '/mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/519.lbm_r/run/run_base_refrate_mytest-m64.0000 -f speccmds.cmd -q -e speccmds.err -o speccmds.stdout'
+Start command: 2017-11-01 21:31:50 (1509539510.73126)
+Stop command: 2017-11-01 21:36:37 (1509539797.24054)
+Elapsed time for command: 00:04:46 (286.509284973145)
+Workload elapsed time (copy 0 workload 1) = 286.354833 seconds
+Copy 0 of 519.lbm_r (base refrate) run 2 finished at 2017-11-01 21:36:37.  Total elapsed time: 286.354833
+OpenMP environment variables removed: None
+OpenMP environment variables in effect:
+	OMP_NUM_THREADS	=> '1'
+	OMP_THREAD_LIMIT	=> '1'
+Pre-run environment changes:
+	'OMP_NUM_THREADS' added: (value now '1')
+	'OMP_THREAD_LIMIT' added: (value now '1')
+comparing 'lbm.out' with abstol=1e-07
+Specinvoke: /mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/519.lbm_r/run/run_base_refrate_mytest-m64.0000 -f compare.cmd -E -e compare.err -o compare.stdout
+Issuing command '/mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/519.lbm_r/run/run_base_refrate_mytest-m64.0000 -f compare.cmd -E -e compare.err -o compare.stdout'
+Start command: 2017-11-01 21:36:37 (1509539797.2693)
+Stop command: 2017-11-01 21:36:37 (1509539797.52625)
+Elapsed time for command: 00:00:00 (0.256949901580811)
+Benchmark Times:
+  Run Start:    2017-11-01 21:31:50 (1509539510)
+  Rate Start:   2017-11-01 21:31:50 (1509539510.73402)
+  Rate End:     2017-11-01 21:36:37 (1509539797.08885)
+  Run Stop:     2017-11-01 21:36:37 (1509539797)
+  Run Elapsed:  00:04:47 (287)
+  Run Reported: 00:04:46 (286 354833126 286.354833)
+ Success 519.lbm_r base refrate ratio=3.68, runtime=286.354833, copies=1, threads=1, power=0.00W, temp=0.00 degC, humidity=0.00%
+-----------------------------------
+  Running (#3) 519.lbm_r refrate (ref) base mytest-m64 (1 copy) [2017-11-01 21:36:37]
+OpenMP environment variables removed: None
+OpenMP environment variables in effect:
+	OMP_NUM_THREADS	=> '1'
+	OMP_THREAD_LIMIT	=> '1'
+Pre-run environment changes:
+	'OMP_NUM_THREADS' added: (value now '1')
+	'OMP_THREAD_LIMIT' added: (value now '1')
+Commands to run (specinvoke command file):
+    -N C
+    -b numactl -m 0 --physcpubind=0
+    -C /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/519.lbm_r/run/run_base_refrate_mytest-m64.0000
+    -o lbm.out -e lbm.err echo "../run_base_refrate_mytest-m64.0000/lbm_r_base.mytest-m64 3000 reference.dat 0 0 100_100_130_ldc.of" > run.sh ; $BIND bash run.sh (timed)
+Specinvoke: /mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/519.lbm_r/run/run_base_refrate_mytest-m64.0000 -f speccmds.cmd -q -e speccmds.err -o speccmds.stdout
+Issuing command '/mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/519.lbm_r/run/run_base_refrate_mytest-m64.0000 -f speccmds.cmd -q -e speccmds.err -o speccmds.stdout'
+Start command: 2017-11-01 21:36:37 (1509539797.578)
+Stop command: 2017-11-01 21:41:23 (1509540083.82928)
+Elapsed time for command: 00:04:46 (286.251279115677)
+Workload elapsed time (copy 0 workload 1) = 286.096846 seconds
+Copy 0 of 519.lbm_r (base refrate) run 3 finished at 2017-11-01 21:41:23.  Total elapsed time: 286.096846
+OpenMP environment variables removed: None
+OpenMP environment variables in effect:
+	OMP_NUM_THREADS	=> '1'
+	OMP_THREAD_LIMIT	=> '1'
+Pre-run environment changes:
+	'OMP_NUM_THREADS' added: (value now '1')
+	'OMP_THREAD_LIMIT' added: (value now '1')
+comparing 'lbm.out' with abstol=1e-07
+Specinvoke: /mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/519.lbm_r/run/run_base_refrate_mytest-m64.0000 -f compare.cmd -E -e compare.err -o compare.stdout
+Issuing command '/mnt/freezedisk/speccpu2017-intptr/bin/specinvoke -d /mnt/freezedisk/speccpu2017-intptr/benchspec/CPU/519.lbm_r/run/run_base_refrate_mytest-m64.0000 -f compare.cmd -E -e compare.err -o compare.stdout'
+Start command: 2017-11-01 21:41:23 (1509540083.85798)
+Stop command: 2017-11-01 21:41:24 (1509540084.11481)
+Elapsed time for command: 00:00:00 (0.256839990615845)
+Benchmark Times:
+  Run Start:    2017-11-01 21:36:37 (1509539797)
+  Rate Start:   2017-11-01 21:36:37 (1509539797.58076)
+  Rate End:     2017-11-01 21:41:23 (1509540083.6776)
+  Run Stop:     2017-11-01 21:41:23 (1509540083)
+  Run Elapsed:  00:04:46 (286)
+  Run Reported: 00:04:46 (286 96846103 286.096846)
+ Success 519.lbm_r base refrate ratio=3.68, runtime=286.096846, copies=1, threads=1, power=0.00W, temp=0.00 degC, humidity=0.00%
+Success: 3x519.lbm_r
+Producing Raw Reports
+ label: mytest-m64
+  workload: refrate (ref)
+   benchset: intspeed
+   benchset: intrate
+   benchset: fpspeed
+   benchset: fprate
+   metric: SPECrate2017_fp_base
+    format: raw -> /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.013.fprate.refrate.rsf
+Parsing flags for 519.lbm_r base: done
+Doing flag reduction: done
+    format: flags -> /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.013.fprate.refrate.flags.html
+    format: cfg -> /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.013.fprate.refrate.cfg, /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.013.fprate.refrate.orig.cfg
+    format: CSV -> /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.013.fprate.refrate.csv
+    format: PDF -> 
+A line in your General Notes section is too long!
+
+/mnt/freezedisk/speccpu2017-intptr/result/CPU2017.013.fprate.refrate.pdf
+    format: HTML -> /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.013.fprate.refrate.html
+    format: Text -> /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.013.fprate.refrate.txt
+runcpu finished at 2017-11-01 21:41:26; 865 total seconds elapsed
+Info: file_tail(4589): file '/mnt/freezedisk/speccpu2017-intptr/tmp/CPU2017.013/templogs/preenv.fprate.013.0.debug' was removed and will no longer be followed.  No action is required.
+The log for this run is in /mnt/freezedisk/speccpu2017-intptr/result/CPU2017.013.log
+
+runcpu finished at 2017-11-01 21:41:27; 866 total seconds elapsed
