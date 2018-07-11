@@ -4,6 +4,8 @@
 
 # Getting Started
 
+- 11/July 00:51 AM AOE : The IP address of a sample machine is 147.46.219.145:8126, but it's compiling LLVM/Rust yet
+
 ## Prerequisite
 
 - Ubuntu 16.04 (recommended)
