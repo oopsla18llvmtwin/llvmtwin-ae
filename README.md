@@ -4,8 +4,11 @@
 
 # Getting Started
 
+Updates:
+
 - 11/July 00:51 AM AOE : The IP address of a sample machine is 147.46.219.145:8126, but it's compiling LLVM/Rust yet
 - 11/July 11:35 AM AOE : Having a problem in compiling Rust, finding out the reason..
+- 12/July 05:26 AM AOE : Compiled & Copied Rust from another machine due to unknown compilation error. It will work in the virtual machine anyway. Minor updates in scripts. SPEC CPU 2017 isn't included in the VM.
 
 ## Prerequisite
 
@@ -64,11 +67,11 @@ There are two subdirectories:
 
 2. `rustbug`, which is equivalent to the one in Appendix B.
 
-Each subdirectory contains `run.sh` - it will show what the correct answer should be, and what the execution of the source files compiled by baseline compiler as well as our sound LLVM prints.
+Each subdirectory contains `run.sh` (or `run-xx.sh` - it will show what the correct answer should be, and what the execution of the source files compiled by baseline compiler as well as our sound LLVM prints.
 
 In case of `cbug`, your gcc may not raise miscompilation, unlike our paper's claim. You can check that gcc indeed raises miscompilation from [here](https://wandbox.org/permlink/kpaCpMzCDopuI0NY) as well.
 
-Before running `rustbug/run.sh`, please update PATH so `cargo` (which is Rust's package manager) can be correctly executed. Please check that baseline Rust raises miscompilation, and Rust with our patch applied produces correct output. If baseline Rust does not raise miscompilation, sometimes it is enough to reorder definition of variables x and y in foo/src/lib.rs. Or, you can see `rustbug` from [here](https://play.rust-lang.org/?gist=4af37285ff8f602a06e402d2bed74f8e&version=stable&mode=release) as well.
+Try `rustbug/run-base.sh` as well as `rustbug/run-patched.sh`, and check that baseline Rust raises miscompilation, and Rust with our patch applied produces correct output. (If you have your own Rust compiled & installed, please update PATH variable inside the scripts) If baseline Rust does not raise miscompilation, sometimes it is enough to reorder definition of variables x and y in foo/src/lib.rs. Or, you can see `rustbug` from [here](https://play.rust-lang.org/?gist=4af37285ff8f602a06e402d2bed74f8e&version=stable&mode=release) as well.
 
 
 ## Getting Performance Numbers of SPEC CPU 2017 (Section 6.2)
