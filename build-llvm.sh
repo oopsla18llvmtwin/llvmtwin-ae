@@ -5,5 +5,5 @@ fi
 
 mkdir $2
 cd $2
-cmake $1 -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=1
+cmake $1 -DCMAKE_BUILD_TYPE=Release #-DBUILD_SHARED_LIBS=1
 cmake --build . -- -j$3
